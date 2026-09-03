@@ -6,159 +6,246 @@
     <title>Студенческий помощник</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- ОСНОВНЫЕ СТИЛИ --- */
+        /* ===== RESET & БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color);
-            color: var(--tg-theme-text-color);
-            padding: 16px;
-            padding-bottom: 80px;
+        :root {
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .header {
-            text-align: center;
-            padding: 20px 0 30px;
-            border-bottom: 2px solid var(--tg-theme-secondary-bg-color);
-            margin-bottom: 20px;
-            position: relative;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            padding: 0 16px 80px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+
+        /* ===== ШАПКА ===== */
+        .header {
+            padding: 24px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--tg-theme-secondary-bg-color);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header-left h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
             background: linear-gradient(135deg, #0088cc, #00aaff);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .header p {
+        .header-left p {
+            font-size: 13px;
             color: var(--tg-theme-hint-color);
-            font-size: 14px;
+            font-weight: 400;
         }
-        .header .user-info {
-            position: absolute;
-            right: 0;
-            top: 20px;
-            font-size: 12px;
-            color: var(--tg-theme-hint-color);
+        .header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             background: var(--tg-theme-secondary-bg-color);
-            padding: 4px 12px;
-            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--tg-theme-text-color);
+            flex-shrink: 0;
         }
 
-        /* Вкладки */
+        /* ===== ВКЛАДКИ ===== */
         .tabs {
             display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 4px;
+            margin-bottom: 24px;
             background: var(--tg-theme-secondary-bg-color);
             padding: 4px;
-            border-radius: 12px;
-            flex-wrap: wrap;
+            border-radius: 14px;
+            overflow-x: auto;
+        }
+        .tabs::-webkit-scrollbar {
+            display: none;
         }
         .tab-btn {
             flex: 1;
             min-width: 60px;
-            padding: 10px 8px;
+            padding: 10px 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             background: transparent;
             color: var(--tg-theme-text-color);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            font-weight: 500;
             font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
         }
         .tab-btn.active {
             background: var(--tg-theme-button-color);
             color: var(--tg-theme-button-text-color);
+            box-shadow: var(--shadow);
         }
         .tab-btn:not(.active):hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
         }
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.3s;
+            animation: fadeUp 0.3s ease;
         }
         .tab-content.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Карточки расписания */
+        /* ===== ИНФОГРАФИКА ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: var(--tg-theme-secondary-bg-color);
+            padding: 16px 12px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        .stat-card .number {
+            font-size: 28px;
+            font-weight: 700;
+            display: block;
+            line-height: 1.2;
+        }
+        .stat-card .label {
+            font-size: 11px;
+            color: var(--tg-theme-hint-color);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 500;
+        }
+        .stat-card .number.blue { color: #0088cc; }
+        .stat-card .number.green { color: #4CAF50; }
+        .stat-card .number.orange { color: #FF9800; }
+        .stat-card .number.purple { color: #9C27B0; }
+        .stat-card .number.red { color: #f44336; }
+
+        /* ===== КАРТОЧКИ РАСПИСАНИЯ ===== */
         .schedule-card {
             background: var(--tg-theme-secondary-bg-color);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: var(--radius);
+            padding: 16px 18px;
             margin-bottom: 12px;
+            transition: var(--transition);
+        }
+        .schedule-card:hover {
+            transform: translateY(-1px);
         }
         .schedule-card .day {
-            font-weight: 700;
-            font-size: 16px;
+            font-weight: 600;
+            font-size: 15px;
             margin-bottom: 10px;
             color: #0088cc;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+        .schedule-card .day .badge {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--tg-theme-hint-color);
+            background: rgba(255,255,255,0.06);
+            padding: 2px 12px;
+            border-radius: 20px;
         }
         .schedule-item {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            align-items: center;
             padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            gap: 8px;
         }
         .schedule-item:last-child {
             border-bottom: none;
         }
-        .schedule-time {
-            color: var(--tg-theme-hint-color);
-            font-size: 13px;
-            min-width: 60px;
+        .schedule-item .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #0088cc;
+            flex-shrink: 0;
         }
-        .schedule-subject {
-            flex: 1;
-            margin: 0 10px;
+        .schedule-item .time {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color);
+            min-width: 58px;
             font-weight: 500;
         }
-        .schedule-teacher {
-            color: var(--tg-theme-hint-color);
-            font-size: 13px;
+        .schedule-item .subject {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
         }
-        .schedule-group {
+        .schedule-item .teacher {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color);
+        }
+        .schedule-item .group-tag {
+            font-size: 10px;
             background: #0088cc20;
+            color: #0088cc;
             padding: 2px 8px;
             border-radius: 12px;
-            font-size: 11px;
-            color: #0088cc;
             font-weight: 600;
         }
 
-        /* Фильтр */
-        .filter-container {
-            margin-bottom: 16px;
+        /* ===== ФИЛЬТРЫ ===== */
+        .filter-wrap {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            margin-bottom: 16px;
+        }
+        .filter-wrap::-webkit-scrollbar {
+            display: none;
         }
         .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid var(--tg-theme-secondary-bg-color);
+            padding: 6px 16px;
+            border: 1px solid var(--tg-theme-secondary-bg-color);
             border-radius: 20px;
             background: transparent;
             color: var(--tg-theme-text-color);
+            font-size: 12px;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
+            transition: var(--transition);
+            white-space: nowrap;
         }
         .filter-btn.active {
             background: var(--tg-theme-button-color);
@@ -169,130 +256,134 @@
             border-color: var(--tg-theme-button-color);
         }
 
-        /* Кнопки тем докладов */
+        /* ===== ТЕМЫ ДОКЛАДОВ ===== */
         .topic-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
         .topic-btn {
-            padding: 16px 12px;
+            padding: 14px 12px;
             border: 2px solid var(--tg-theme-secondary-bg-color);
-            border-radius: 12px;
+            border-radius: var(--radius-sm);
             background: var(--tg-theme-secondary-bg-color);
             color: var(--tg-theme-text-color);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            transition: all 0.3s;
+            transition: var(--transition);
             text-align: center;
         }
         .topic-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
         .topic-btn .icon {
             display: block;
-            font-size: 28px;
-            margin-bottom: 6px;
+            font-size: 26px;
+            margin-bottom: 4px;
         }
         .topic-btn.booked {
             opacity: 0.5;
-            border-color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.1);
+            border-color: #f44366;
+            background: rgba(244, 67, 54, 0.08);
         }
         .topic-btn.booked::after {
-            content: " ❌ Занято";
+            content: " занято";
             display: block;
-            font-size: 11px;
-            color: #ff6b6b;
-            margin-top: 4px;
+            font-size: 10px;
+            color: #f44366;
+            font-weight: 600;
+            margin-top: 2px;
         }
         .topic-btn:not(.booked):hover {
             border-color: var(--tg-theme-button-color);
             transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
-        /* Личный кабинет - брони */
+        /* ===== ЛИЧНЫЙ КАБИНЕТ ===== */
         .booking-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 12px 16px;
             background: var(--tg-theme-secondary-bg-color);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             margin-bottom: 8px;
+            transition: var(--transition);
         }
         .booking-item .topic {
             font-weight: 500;
+            font-size: 14px;
         }
         .booking-item .user {
-            color: var(--tg-theme-hint-color);
             font-size: 13px;
+            color: var(--tg-theme-hint-color);
         }
         .booking-item .status {
             background: #4CAF50;
             color: white;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
         .booking-item .cancel-btn {
-            background: #ff6b6b;
-            color: white;
+            background: transparent;
             border: none;
-            padding: 4px 12px;
-            border-radius: 12px;
+            color: #f44366;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 13px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: var(--transition);
         }
         .booking-item .cancel-btn:hover {
-            opacity: 0.8;
+            background: rgba(244, 67, 54, 0.1);
         }
 
-        .info-block {
-            background: var(--tg-theme-secondary-bg-color);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-            border-left: 4px solid #0088cc;
-        }
-        .info-block strong {
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        /* Уведомления */
-        .notification-item {
+        /* ===== УВЕДОМЛЕНИЯ ===== */
+        .notif-item {
             display: flex;
             align-items: center;
             padding: 12px 16px;
             background: var(--tg-theme-secondary-bg-color);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             margin-bottom: 8px;
-            border-left: 4px solid #0088cc;
+            gap: 12px;
+            transition: var(--transition);
         }
-        .notification-item .time {
-            min-width: 80px;
+        .notif-item .time {
             font-weight: 600;
+            font-size: 13px;
             color: #0088cc;
+            min-width: 62px;
         }
-        .notification-item .text {
+        .notif-item .text {
             flex: 1;
-            margin: 0 10px;
+            font-size: 14px;
         }
-        .notification-item .toggle {
-            position: relative;
-            width: 48px;
+        .notif-item .text small {
+            display: block;
+            font-size: 11px;
+            color: var(--tg-theme-hint-color);
+            font-weight: 400;
+        }
+        .notif-item .toggle {
+            width: 44px;
             height: 24px;
-            background: #ccc;
             border-radius: 12px;
+            background: #ccc;
             cursor: pointer;
-            transition: 0.3s;
+            position: relative;
+            transition: var(--transition);
+            flex-shrink: 0;
         }
-        .notification-item .toggle.active {
+        .notif-item .toggle.active {
             background: #4CAF50;
         }
-        .notification-item .toggle::after {
+        .notif-item .toggle::after {
             content: '';
             position: absolute;
             top: 2px;
@@ -301,176 +392,292 @@
             height: 20px;
             background: white;
             border-radius: 50%;
-            transition: 0.3s;
+            transition: var(--transition);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
         }
-        .notification-item .toggle.active::after {
-            left: 26px;
+        .notif-item .toggle.active::after {
+            left: 22px;
         }
 
-        /* Кнопка скачивания */
-        .download-btn {
+        /* ===== КНОПКИ ===== */
+        .btn-primary {
             width: 100%;
             padding: 14px;
             background: var(--tg-theme-button-color);
             color: var(--tg-theme-button-text-color);
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
+            transition: var(--transition);
+            margin-top: 12px;
+            font-family: inherit;
         }
-        .download-btn:hover {
-            opacity: 0.8;
+        .btn-primary:hover {
+            opacity: 0.85;
             transform: scale(1.01);
         }
+        .btn-outline {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--tg-theme-text-color);
+            border: 1.5px solid var(--tg-theme-secondary-bg-color);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            margin-top: 8px;
+        }
+        .btn-outline:hover {
+            border-color: var(--tg-theme-button-color);
+        }
 
+        /* ===== ИНФО-БЛОК ===== */
+        .info-block {
+            background: var(--tg-theme-secondary-bg-color);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-top: 16px;
+            border-left: 4px solid #0088cc;
+        }
+        .info-block strong {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .info-block p {
+            font-size: 13px;
+            color: var(--tg-theme-hint-color);
+        }
+
+        /* ===== СТАТУС ===== */
         #status {
             margin-top: 16px;
             padding: 12px 16px;
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             display: none;
+            font-weight: 500;
+            font-size: 14px;
         }
         #status.show {
             display: block;
+            animation: fadeUp 0.25s ease;
         }
-        #status.success {
-            background: #4CAF50;
-            color: white;
+        #status.success { background: #4CAF50; color: white; }
+        #status.error { background: #f44366; color: white; }
+        #status.info { background: #0088cc; color: white; }
+
+        /* ===== ПРОГРЕСС-БАР ===== */
+        .progress-wrap {
+            background: var(--tg-theme-secondary-bg-color);
+            border-radius: 20px;
+            height: 8px;
+            overflow: hidden;
+            margin: 12px 0;
         }
-        #status.error {
-            background: #ff6b6b;
-            color: white;
-        }
-        #status.info {
-            background: #0088cc;
-            color: white;
+        .progress-wrap .bar {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #0088cc, #00aaff);
+            transition: width 0.6s ease;
+            width: 0%;
         }
 
-        @media (max-width: 400px) {
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 420px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
             .topic-grid {
                 grid-template-columns: 1fr;
             }
-            .header .user-info {
-                position: static;
-                text-align: center;
-                margin-top: 10px;
+            .header-left h1 {
+                font-size: 19px;
             }
-            .tabs {
-                gap: 4px;
-            }
-            .tab-btn {
-                font-size: 11px;
-                padding: 8px 4px;
-                min-width: 45px;
+            .header-avatar {
+                width: 34px;
+                height: 34px;
+                font-size: 15px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ШАПКА -->
+    <!-- ===== ШАПКА ===== -->
     <div class="header">
-        <h1>🎓 Студенческий помощник</h1>
-        <p>Расписание и бронирование докладов</p>
-        <div class="user-info" id="userInfo">👤 Загрузка...</div>
+        <div class="header-left">
+            <h1>🎓 Учебный центр</h1>
+            <p>Группа МН-4-25-01 · Сентябрь 2026</p>
+        </div>
+        <div class="header-avatar" id="userAvatar">👤</div>
     </div>
 
-    <!-- ВКЛАДКИ -->
+    <!-- ===== ВКЛАДКИ ===== -->
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('schedule')">📅 Расписание</button>
-        <button class="tab-btn" onclick="switchTab('topics')">🎤 Доклады</button>
+        <button class="tab-btn" onclick="switchTab('topics')">📖 Доклады</button>
         <button class="tab-btn" onclick="switchTab('cabinet')">👤 Кабинет</button>
         <button class="tab-btn" onclick="switchTab('notifications')">🔔 Уведомления</button>
     </div>
 
-    <!-- ==================== ВКЛАДКА 1: РАСПИСАНИЕ ==================== -->
+    <!-- ============================================================ -->
+    <!-- ===== ВКЛАДКА 1: РАСПИСАНИЕ ===== -->
+    <!-- ============================================================ -->
     <div id="tab-schedule" class="tab-content active">
-        <!-- Фильтр -->
-        <div class="filter-container" id="filterContainer">
+
+        <!-- ИНФОГРАФИКА -->
+        <div class="stats-grid" id="scheduleStats">
+            <div class="stat-card">
+                <span class="number blue" id="totalClasses">0</span>
+                <span class="label">Всего пар</span>
+            </div>
+            <div class="stat-card">
+                <span class="number green" id="doneClasses">0</span>
+                <span class="label">Пройдено</span>
+            </div>
+            <div class="stat-card">
+                <span class="number orange" id="remainingClasses">0</span>
+                <span class="label">Осталось</span>
+            </div>
+        </div>
+
+        <!-- ФИЛЬТРЫ -->
+        <div class="filter-wrap" id="filterWrap">
             <button class="filter-btn active" data-filter="all">Все</button>
-            <button class="filter-btn" data-filter="Управление программами и портфелями проектов">📊 Управление проектами</button>
-            <button class="filter-btn" data-filter="Проектное управление устойчивым развитием организаций">🌱 Устойчивое развитие</button>
-            <button class="filter-btn" data-filter="Управление бизнес-процессами">🔄 Бизнес-процессы</button>
-            <button class="filter-btn" data-filter="Иностранный язык профессиональных коммуникаций">🌍 Иностранный язык</button>
+            <button class="filter-btn" data-filter="Управление программами и портфелями проектов">📊 Проекты</button>
+            <button class="filter-btn" data-filter="Проектное управление устойчивым развитием организаций">🌱 Устойчивое</button>
+            <button class="filter-btn" data-filter="Управление бизнес-процессами">🔄 Бизнес</button>
+            <button class="filter-btn" data-filter="Иностранный язык профессиональных коммуникаций">🌍 Язык</button>
         </div>
 
+        <!-- РАСПИСАНИЕ -->
         <div id="scheduleContainer"></div>
-        
+
+        <!-- ПРОГРЕСС -->
         <div class="info-block">
-            <strong>ℹ️ Информация</strong>
-            <p>Все пары проходят в дистанционном формате (СДО РАНХиГС).<br>
-            Группа: <strong>МН-4-25-01</strong> (с частичным включением МН-4-25-02 для языка).</p>
+            <strong>📊 Прогресс семестра</strong>
+            <div class="progress-wrap">
+                <div class="bar" id="progressBar" style="width: 0%;"></div>
+            </div>
+            <p id="progressText">0% семестра пройдено</p>
         </div>
 
-        <!-- Кнопка скачивания -->
-        <button class="download-btn" onclick="downloadSchedule()">📥 Скачать расписание (PDF)</button>
+        <button class="btn-primary" onclick="downloadSchedule()">📥 Скачать PDF</button>
     </div>
 
-    <!-- ==================== ВКЛАДКА 2: ДОКЛАДЫ ==================== -->
+    <!-- ============================================================ -->
+    <!-- ===== ВКЛАДКА 2: ДОКЛАДЫ ===== -->
+    <!-- ============================================================ -->
     <div id="tab-topics" class="tab-content">
-        <p style="margin-bottom: 16px; color: var(--tg-theme-hint-color);">
-            Выберите тему для доклада по предмету <strong>«Управление программами и портфелями проектов»</strong>.<br>
-            Срок сдачи: <strong>15 сентября</strong>. Каждая тема доступна только одному студенту!
+
+        <!-- ИНФОГРАФИКА -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="number purple" id="totalTopics">10</span>
+                <span class="label">Всего тем</span>
+            </div>
+            <div class="stat-card">
+                <span class="number green" id="bookedTopics">0</span>
+                <span class="label">Забронировано</span>
+            </div>
+            <div class="stat-card">
+                <span class="number red" id="freeTopics">0</span>
+                <span class="label">Свободно</span>
+            </div>
+        </div>
+
+        <p style="font-size:14px;color:var(--tg-theme-hint-color);margin-bottom:14px;">
+            📌 Срок сдачи — <strong>15 сентября</strong>. Каждая тема уникальна.
         </p>
 
         <div class="topic-grid" id="topicsGrid"></div>
         <div id="status"></div>
     </div>
 
-    <!-- ==================== ВКЛАДКА 3: ЛИЧНЫЙ КАБИНЕТ ==================== -->
+    <!-- ============================================================ -->
+    <!-- ===== ВКЛАДКА 3: КАБИНЕТ ===== -->
+    <!-- ============================================================ -->
     <div id="tab-cabinet" class="tab-content">
-        <h3>👤 Мои бронирования</h3>
-        <p style="margin-bottom: 16px; color: var(--tg-theme-hint-color);">
-            Здесь отображаются доклады, которые вы забронировали.
-        </p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="number blue" id="myBookingsCount">0</span>
+                <span class="label">Мои брони</span>
+            </div>
+            <div class="stat-card">
+                <span class="number green" id="myTopicsTotal">10</span>
+                <span class="label">Всего тем</span>
+            </div>
+            <div class="stat-card">
+                <span class="number orange" id="myProgress">0%</span>
+                <span class="label">Прогресс</span>
+            </div>
+        </div>
+
+        <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">📋 Мои бронирования</h3>
         <div id="myBookingsList">
-            <div class="booking-item" style="opacity: 0.6;">У вас пока нет бронирований.</div>
+            <div class="booking-item" style="opacity:0.5;font-size:14px;">У вас пока нет бронирований</div>
         </div>
 
-        <div class="info-block">
-            <strong>📊 Статистика</strong>
-            <p id="myStats">Вы забронировали: 0 докладов</p>
-        </div>
-
-        <button class="download-btn" onclick="exportBookings()">📤 Экспортировать мои брони</button>
+        <button class="btn-outline" onclick="exportBookings()">📤 Экспорт броней</button>
     </div>
 
-    <!-- ==================== ВКЛАДКА 4: УВЕДОМЛЕНИЯ ==================== -->
+    <!-- ============================================================ -->
+    <!-- ===== ВКЛАДКА 4: УВЕДОМЛЕНИЯ ===== -->
+    <!-- ============================================================ -->
     <div id="tab-notifications" class="tab-content">
-        <h3>🔔 Настройка уведомлений</h3>
-        <p style="margin-bottom: 16px; color: var(--tg-theme-hint-color);">
-            Включите напоминания о предстоящих парах. Уведомления придут за 1 час до начала.
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="number blue" id="notifTotal">0</span>
+                <span class="label">Всего предметов</span>
+            </div>
+            <div class="stat-card">
+                <span class="number green" id="notifOn">0</span>
+                <span class="label">Уведомления вкл</span>
+            </div>
+            <div class="stat-card">
+                <span class="number red" id="notifOff">0</span>
+                <span class="label">Уведомления выкл</span>
+            </div>
+        </div>
+
+        <p style="font-size:14px;color:var(--tg-theme-hint-color);margin-bottom:14px;">
+            🔔 Включите напоминания — они придут за 1 час до пары.
         </p>
 
-        <div id="notificationsList">
-            <!-- Уведомления будут сгенерированы из расписания -->
-        </div>
+        <div id="notificationsList"></div>
 
         <div class="info-block">
-            <strong>⏰ Время уведомлений</strong>
-            <p>Уведомления будут отправляться за 60 минут до начала пары.<br>
-            Чтобы получать уведомления, бот должен быть запущен.</p>
+            <strong>⏰ Как это работает</strong>
+            <p>Бот проверит расписание и отправит вам уведомление за 60 минут до начала занятия. Чтобы получать уведомления, бот должен быть запущен.</p>
         </div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- ===== SCRIPT ===== -->
+    <!-- ============================================================ -->
     <script>
-        // --- ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP ---
+        // --- TELEGRAM ---
         let tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
         let user = tg.initDataUnsafe.user;
+        if (user) {
+            document.getElementById('userAvatar').textContent = user.first_name ? user.first_name[0] : '👤';
+        }
+
         let statusDiv = document.getElementById('status');
         let currentFilter = 'all';
 
-        // --- ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ ---
-        if (user) {
-            document.getElementById('userInfo').textContent = `👤 ${user.first_name || 'Студент'} ${user.last_name || ''}`;
-        }
-
-        // --- ДАННЫЕ ДЛЯ РАСПИСАНИЯ ---
+        // --- ДАННЫЕ ---
         const scheduleData = [
             { date: '01.09', day: 'Вт', groups: 'МН-4-25-01', time: '20:00-21:20', subject: 'Научно-исследовательская работа (П)', teacher: 'доц. Суслов Е.Ю.', type: 'ПЗ' },
             { date: '01.09', day: 'Вт', groups: 'МН-4-25-02', time: '20:00-21:20', subject: 'Научно-исследовательская работа (П)', teacher: 'доц. Кучина О.В.', type: 'ПЗ' },
@@ -495,33 +702,31 @@
             { date: '30.09', day: 'Ср', groups: 'МН-4-25-02', time: '18:30-21:20', subject: 'Иностранный язык профессиональных коммуникаций', teacher: 'доц. Санжарова О.Н.', type: 'ПЗ' },
         ];
 
-        // --- ТЕМЫ ДОКЛАДОВ ---
         const topicsData = [
-            { id: 1, title: 'Основные этапы стратегического менеджмента (Глава 2)', icon: '📊' },
-            { id: 2, title: 'Процесс разработки современных стратегий (Глава 3)', icon: '📈' },
-            { id: 3, title: 'Аналитические инструменты оценки внешней среды бизнеса (Глава 5)', icon: '🔍' },
-            { id: 4, title: 'Диагностика внутренней среды бизнеса (Глава 6)', icon: '🏢' },
-            { id: 5, title: 'Методы комплексного анализа внешней и внутренней среды бизнеса (Глава 7)', icon: '⚖️' },
-            { id: 6, title: 'Конкурентные позиции компании на рынке (Глава 8)', icon: '🥇' },
-            { id: 7, title: 'Принятие стратегических управленческих решений в современных компаниях (Глава 9)', icon: '🧠' },
-            { id: 8, title: 'Цифровая трансформация современного менеджмента (Глава 10)', icon: '💻' },
-            { id: 9, title: 'Принятие стратегических управленческих решений в условиях цифровизации бизнеса (Глава 11)', icon: '📱' },
-            { id: 10, title: 'Роль человеческого фактора в реализации стратегии в современных условиях (Глава 12)', icon: '👥' }
+            { id: 1, title: 'Основные этапы стратегического менеджмента', icon: '📊' },
+            { id: 2, title: 'Процесс разработки современных стратегий', icon: '📈' },
+            { id: 3, title: 'Аналитические инструменты оценки внешней среды', icon: '🔍' },
+            { id: 4, title: 'Диагностика внутренней среды бизнеса', icon: '🏢' },
+            { id: 5, title: 'Методы комплексного анализа среды', icon: '⚖️' },
+            { id: 6, title: 'Конкурентные позиции компании', icon: '🥇' },
+            { id: 7, title: 'Принятие стратегических решений', icon: '🧠' },
+            { id: 8, title: 'Цифровая трансформация менеджмента', icon: '💻' },
+            { id: 9, title: 'Стратегии в условиях цифровизации', icon: '📱' },
+            { id: 10, title: 'Человеческий фактор в стратегии', icon: '👥' }
         ];
 
-        // --- СОСТОЯНИЕ БРОНИРОВАНИЙ (в памяти) ---
+        // --- СОСТОЯНИЕ ---
         let bookings = [];
         let myBookings = [];
-
-        // --- СОСТОЯНИЕ УВЕДОМЛЕНИЙ ---
         let notificationSettings = {};
 
-        // --- ФУНКЦИЯ ДЛЯ РАСПИСАНИЯ ---
+        // ============================================================
+        // РАСПИСАНИЕ
+        // ============================================================
         function renderSchedule(filter = 'all') {
             const container = document.getElementById('scheduleContainer');
             container.innerHTML = '';
 
-            // Фильтруем
             let filtered = scheduleData.filter(item => {
                 const isForGroup = item.groups.includes('МН-4-25-01') || item.groups.includes('МН-4-25-01/02');
                 const isLanguage = item.subject === 'Иностранный язык профессиональных коммуникаций';
@@ -530,7 +735,6 @@
                 return isForGroup;
             });
 
-            // Группируем по дате
             const grouped = {};
             filtered.forEach(item => {
                 if (!grouped[item.date]) grouped[item.date] = [];
@@ -540,7 +744,7 @@
             const sortedDates = Object.keys(grouped).sort();
 
             if (sortedDates.length === 0) {
-                container.innerHTML = '<div class="schedule-card"><p>Нет занятий по выбранному фильтру.</p></div>';
+                container.innerHTML = '<div class="schedule-card"><p style="color:var(--tg-theme-hint-color);">Нет занятий по выбранному фильтру.</p></div>';
                 return;
             }
 
@@ -548,32 +752,54 @@
                 const items = grouped[date];
                 const card = document.createElement('div');
                 card.className = 'schedule-card';
-                card.id = `schedule-${date}`;
 
                 const dayHeader = document.createElement('div');
                 dayHeader.className = 'day';
-                dayHeader.innerHTML = `${date} (${items[0].day}) <span style="font-size:12px;color:var(--tg-theme-hint-color);">${items.length} пар</span>`;
+                dayHeader.innerHTML = `${date} (${items[0].day}) <span class="badge">${items.length} пары</span>`;
                 card.appendChild(dayHeader);
 
                 items.forEach(item => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'schedule-item';
-                    
-                    const groupBadge = item.groups !== 'МН-4-25-01/02' ? 
-                        `<span class="schedule-group">${item.groups}</span>` : '';
-                    itemDiv.innerHTML = `
-                        <span class="schedule-time">${item.time}</span>
-                        <span class="schedule-subject">${item.subject} ${groupBadge}</span>
-                        <span class="schedule-teacher">${item.teacher}</span>
+                    const div = document.createElement('div');
+                    div.className = 'schedule-item';
+                    const tag = item.groups !== 'МН-4-25-01/02' ? `<span class="group-tag">${item.groups}</span>` : '';
+                    div.innerHTML = `
+                        <span class="dot"></span>
+                        <span class="time">${item.time}</span>
+                        <span class="subject">${item.subject}</span>
+                        <span class="teacher">${item.teacher}</span>
+                        ${tag}
                     `;
-                    card.appendChild(itemDiv);
+                    card.appendChild(div);
                 });
 
                 container.appendChild(card);
             });
+
+            updateScheduleStats(filtered);
         }
 
-        // --- ФУНКЦИЯ ДЛЯ ФИЛЬТРОВ ---
+        function updateScheduleStats(filtered) {
+            const total = filtered.length;
+            const today = new Date();
+            const done = filtered.filter(item => {
+                const d = item.date.split('.');
+                const dt = new Date(2026, parseInt(d[1]) - 1, parseInt(d[0]));
+                return dt < today;
+            }).length;
+            const remaining = total - done;
+
+            document.getElementById('totalClasses').textContent = total;
+            document.getElementById('doneClasses').textContent = done;
+            document.getElementById('remainingClasses').textContent = remaining;
+
+            const progress = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = progress + '% семестра пройдено';
+        }
+
+        // ============================================================
+        // ФИЛЬТРЫ
+        // ============================================================
         function setupFilters() {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -585,7 +811,9 @@
             });
         }
 
-        // --- ФУНКЦИЯ ДЛЯ ТЕМ ДОКЛАДОВ ---
+        // ============================================================
+        // ТЕМЫ ДОКЛАДОВ
+        // ============================================================
         function renderTopics() {
             const grid = document.getElementById('topicsGrid');
             grid.innerHTML = '';
@@ -597,162 +825,153 @@
                 btn.className = `topic-btn${isBooked ? ' booked' : ''}`;
                 btn.setAttribute('data-topic', topic.title);
                 btn.innerHTML = `<span class="icon">${topic.icon}</span>${topic.title}`;
-                
+
                 if (!isBooked) {
-                    btn.addEventListener('click', function() {
-                        handleTopicBooking(topic.title);
-                    });
+                    btn.addEventListener('click', () => handleTopicBooking(topic.title));
                 } else if (isMy) {
                     btn.style.borderColor = '#4CAF50';
-                    btn.style.opacity = '0.8';
-                    btn.innerHTML += ' ✅ Моё';
+                    btn.style.opacity = '0.85';
+                    btn.innerHTML += ' ✅';
                 }
                 grid.appendChild(btn);
             });
+
+            const booked = bookings.length;
+            const free = topicsData.length - booked;
+            document.getElementById('bookedTopics').textContent = booked;
+            document.getElementById('freeTopics').textContent = free;
         }
 
-        // --- БРОНИРОВАНИЕ ---
-        function handleTopicBooking(topicTitle) {
-            if (bookings.some(b => b.topic === topicTitle)) {
-                showStatus('error', '❌ Эта тема уже занята!');
+        function handleTopicBooking(topic) {
+            if (bookings.some(b => b.topic === topic)) {
+                showStatus('error', '❌ Эта тема уже занята');
                 return;
             }
 
             const userName = user ? user.first_name : 'Студент';
-
             const data = {
                 action: 'book_topic',
-                topic: topicTitle,
+                topic: topic,
                 user_name: userName,
                 user_id: user ? user.id : 0
             };
 
-            tg.MainButton.text = `✅ Подтвердить: ${topicTitle.substring(0, 30)}...`;
+            tg.MainButton.text = `✅ Подтвердить: ${topic.substring(0, 28)}...`;
             tg.MainButton.show();
-            tg.MainButton.onClick(function() {
+            tg.MainButton.onClick(() => {
                 tg.sendData(JSON.stringify(data));
                 tg.MainButton.hide();
 
-                // Добавляем в брони
-                bookings.push({ topic: topicTitle, user: userName });
-                myBookings.push({ topic: topicTitle, user: userName });
-                
+                bookings.push({ topic, user: userName });
+                myBookings.push({ topic, user: userName });
+
                 renderTopics();
                 renderMyBookings();
                 renderNotifications();
-                
-                showStatus('success', `✅ Доклад "${topicTitle}" успешно забронирован!`);
+                showStatus('success', `✅ Доклад "${topic}" забронирован!`);
             });
         }
 
-        // --- ЛИЧНЫЙ КАБИНЕТ ---
+        // ============================================================
+        // ЛИЧНЫЙ КАБИНЕТ
+        // ============================================================
         function renderMyBookings() {
             const list = document.getElementById('myBookingsList');
             list.innerHTML = '';
 
             if (myBookings.length === 0) {
-                list.innerHTML = `<div class="booking-item" style="opacity: 0.6;">У вас пока нет бронирований.</div>`;
+                list.innerHTML = `<div class="booking-item" style="opacity:0.5;">У вас пока нет бронирований</div>`;
             } else {
-                myBookings.forEach((booking, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'booking-item';
-                    item.innerHTML = `
-                        <span class="topic">${booking.topic}</span>
-                        <span class="user">👤 ${booking.user}</span>
+                myBookings.forEach((b, i) => {
+                    const div = document.createElement('div');
+                    div.className = 'booking-item';
+                    div.innerHTML = `
+                        <span class="topic">${b.topic}</span>
+                        <span class="user">👤 ${b.user}</span>
                         <span class="status">Забронировано</span>
-                        <button class="cancel-btn" onclick="cancelBooking(${index})">Отменить</button>
+                        <button class="cancel-btn" onclick="cancelBooking(${i})">✕</button>
                     `;
-                    list.appendChild(item);
+                    list.appendChild(div);
                 });
             }
 
-            document.getElementById('myStats').textContent = 
-                `Вы забронировали: ${myBookings.length} докладов из ${topicsData.length}`;
+            document.getElementById('myBookingsCount').textContent = myBookings.length;
+            const progress = topicsData.length > 0 ? Math.round((myBookings.length / topicsData.length) * 100) : 0;
+            document.getElementById('myProgress').textContent = progress + '%';
         }
 
         function cancelBooking(index) {
-            if (confirm('Вы уверены, что хотите отменить бронирование?')) {
-                const topic = myBookings[index].topic;
-                myBookings.splice(index, 1);
-                bookings = bookings.filter(b => b.topic !== topic);
-                renderMyBookings();
-                renderTopics();
-                renderNotifications();
-                showStatus('info', `❌ Бронирование отменено.`);
-            }
+            if (!confirm('Отменить бронирование?')) return;
+            const topic = myBookings[index].topic;
+            myBookings.splice(index, 1);
+            bookings = bookings.filter(b => b.topic !== topic);
+            renderMyBookings();
+            renderTopics();
+            renderNotifications();
+            showStatus('info', '❌ Бронирование отменено');
         }
 
         function exportBookings() {
             if (myBookings.length === 0) {
-                showStatus('error', '❌ У вас нет бронирований для экспорта.');
+                showStatus('error', '❌ Нет броней для экспорта');
                 return;
             }
-
-            let text = '=== МОИ БРОНИРОВАНИЯ ===\n\n';
+            let text = 'МОИ БРОНИРОВАНИЯ\n\n';
             text += `Студент: ${user ? user.first_name : 'Студент'}\n`;
             text += `Дата: ${new Date().toLocaleDateString()}\n\n`;
-            myBookings.forEach((b, i) => {
-                text += `${i+1}. ${b.topic}\n`;
-            });
-            text += `\nВсего: ${myBookings.length} докладов`;
-
-            // Создаём и скачиваем файл
+            myBookings.forEach((b, i) => text += `${i+1}. ${b.topic}\n`);
             const blob = new Blob([text], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Мои_брони_${new Date().toISOString().split('T')[0]}.txt`;
+            a.download = `Брони_${new Date().toISOString().split('T')[0]}.txt`;
             a.click();
             URL.revokeObjectURL(url);
-
-            showStatus('success', '✅ Файл экспортирован!');
+            showStatus('success', '✅ Файл скачан');
         }
 
-        // --- УВЕДОМЛЕНИЯ ---
+        // ============================================================
+        // УВЕДОМЛЕНИЯ
+        // ============================================================
         function renderNotifications() {
             const container = document.getElementById('notificationsList');
             container.innerHTML = '';
 
-            // Берем уникальные предметы из расписания
-            const subjects = [...new Set(scheduleData.map(item => item.subject))].filter(s => s !== 'Научно-исследовательская работа (П)');
+            const subjects = [...new Set(scheduleData
+                .filter(item => item.subject !== 'Научно-исследовательская работа (П)')
+                .map(item => item.subject)
+            )];
 
             subjects.forEach(subject => {
-                // Находим ближайшее занятие
                 const nextClass = scheduleData
                     .filter(item => item.subject === subject && (item.groups.includes('МН-4-25-01') || item.groups.includes('МН-4-25-01/02')))
-                    .sort((a, b) => {
-                        const dateA = new Date(`2026-${a.date.split('.')[1]}-${a.date.split('.')[0]}`);
-                        const dateB = new Date(`2026-${b.date.split('.')[1]}-${b.date.split('.')[0]}`);
-                        return dateA - dateB;
-                    })[0];
+                    .sort((a, b) => a.date.localeCompare(b.date))[0];
 
                 if (!nextClass) return;
 
                 const isEnabled = notificationSettings[subject] !== undefined ? notificationSettings[subject] : true;
 
-                const item = document.createElement('div');
-                item.className = 'notification-item';
-                item.innerHTML = `
+                const div = document.createElement('div');
+                div.className = 'notif-item';
+                div.innerHTML = `
                     <span class="time">${nextClass.time}</span>
-                    <span class="text">${subject}<br><small style="color:var(--tg-theme-hint-color);">${nextClass.date} | ${nextClass.teacher}</small></span>
-                    <div class="toggle${isEnabled ? ' active' : ''}" onclick="toggleNotification('${subject}')"></div>
+                    <span class="text">${subject}<small>${nextClass.date} · ${nextClass.teacher}</small></span>
+                    <div class="toggle${isEnabled ? ' active' : ''}" onclick="toggleNotif('${subject}')"></div>
                 `;
-                container.appendChild(item);
+                container.appendChild(div);
             });
 
-            if (subjects.length === 0) {
-                container.innerHTML = '<div class="booking-item" style="opacity: 0.6;">Нет занятий для уведомлений.</div>';
-            }
+            document.getElementById('notifTotal').textContent = subjects.length;
+            const on = Object.values(notificationSettings).filter(v => v === true).length;
+            const off = Object.values(notificationSettings).filter(v => v === false).length;
+            document.getElementById('notifOn').textContent = on;
+            document.getElementById('notifOff').textContent = off;
         }
 
-        function toggleNotification(subject) {
+        function toggleNotif(subject) {
             notificationSettings[subject] = !notificationSettings[subject];
             renderNotifications();
-            
-            const status = notificationSettings[subject] ? 'включены' : 'выключены';
-            showStatus('info', `🔔 Уведомления для "${subject}" ${status}`);
-            
-            // Отправляем настройки боту
+
             const data = {
                 action: 'update_notifications',
                 subject: subject,
@@ -760,96 +979,88 @@
                 user_id: user ? user.id : 0
             };
             tg.sendData(JSON.stringify(data));
+
+            const status = notificationSettings[subject] ? 'включены ✅' : 'выключены ❌';
+            showStatus('info', `🔔 Уведомления для "${subject}" ${status}`);
         }
 
-        // --- СКАЧИВАНИЕ РАСПИСАНИЯ ---
+        // ============================================================
+        // СКАЧИВАНИЕ PDF
+        // ============================================================
         function downloadSchedule() {
-            const element = document.getElementById('scheduleContainer');
-            
-            // Показываем статус
+            const el = document.getElementById('scheduleContainer');
             const status = document.getElementById('status');
             status.className = 'show info';
             status.textContent = '⏳ Генерация PDF...';
 
-            // Используем html2pdf
-            const opt = {
-                margin: 10,
-                filename: `Расписание_сентябрь_${new Date().toISOString().split('T')[0]}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            // Создаём временный контейнер для PDF
-            const tempDiv = document.createElement('div');
-            tempDiv.style.padding = '20px';
-            tempDiv.style.backgroundColor = 'white';
-            tempDiv.style.color = 'black';
-            tempDiv.style.fontFamily = 'Arial, sans-serif';
-            tempDiv.innerHTML = `
+            const temp = document.createElement('div');
+            temp.style.padding = '20px';
+            temp.style.backgroundColor = 'white';
+            temp.style.color = 'black';
+            temp.style.fontFamily = 'Inter, Arial, sans-serif';
+            temp.innerHTML = `
                 <h1 style="text-align:center;color:#0088cc;">Расписание занятий</h1>
-                <p style="text-align:center;color:#666;">Группа МН-4-25-01, Сентябрь 2026</p>
-                <hr style="margin:20px 0;">
-                ${element.innerHTML}
-                <hr style="margin:20px 0;">
-                <p style="text-align:center;color:#666;font-size:12px;">
-                    Создано в Студенческом помощнике | ${new Date().toLocaleString()}
-                </p>
+                <p style="text-align:center;color:#666;">Группа МН-4-25-01 · Сентябрь 2026</p>
+                <hr style="margin:16px 0;">
+                ${el.innerHTML}
+                <hr style="margin:16px 0;">
+                <p style="text-align:center;color:#999;font-size:12px;">Создано в Студенческом помощнике</p>
             `;
-
-            document.body.appendChild(tempDiv);
+            document.body.appendChild(temp);
 
             html2pdf()
-                .set(opt)
-                .from(tempDiv)
+                .set({
+                    margin: 10,
+                    filename: `Расписание_сентябрь_2026.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                })
+                .from(temp)
                 .save()
                 .then(() => {
-                    document.body.removeChild(tempDiv);
+                    document.body.removeChild(temp);
                     status.className = 'show success';
                     status.textContent = '✅ PDF скачан!';
                     setTimeout(() => status.classList.remove('show'), 3000);
                 })
-                .catch(err => {
-                    document.body.removeChild(tempDiv);
+                .catch(() => {
+                    document.body.removeChild(temp);
                     status.className = 'show error';
                     status.textContent = '❌ Ошибка при создании PDF';
-                    console.error(err);
                 });
         }
 
-        // --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
+        // ============================================================
+        // ВСПОМОГАТЕЛЬНЫЕ
+        // ============================================================
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
             document.getElementById('tab-' + tab).classList.add('active');
             document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
-            
             statusDiv.classList.remove('show');
         }
 
-        function showStatus(type, message) {
+        function showStatus(type, msg) {
             statusDiv.className = 'show ' + type;
-            statusDiv.textContent = message;
-            setTimeout(() => {
-                statusDiv.classList.remove('show');
-            }, 5000);
+            statusDiv.textContent = msg;
+            setTimeout(() => statusDiv.classList.remove('show'), 4000);
         }
 
-        // --- ИНИЦИАЛИЗАЦИЯ ---
+        // ============================================================
+        // ЗАПУСК
+        // ============================================================
         renderSchedule();
         setupFilters();
         renderTopics();
         renderMyBookings();
         renderNotifications();
 
-        // Кнопка "Назад"
         tg.BackButton.show();
-        tg.BackButton.onClick(function() {
-            tg.close();
-        });
+        tg.BackButton.onClick(() => tg.close());
 
-        console.log('✅ Приложение загружено. Пользователь:', user);
+        console.log('✅ Приложение загружено', user);
     </script>
 </body>
 </html>
