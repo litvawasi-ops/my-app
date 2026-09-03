@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мое Приложение</title>
+    <!-- Подключаем скрипт Telegram для работы с мини-приложениями -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .topic-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Расписание на сегодня</h1>
+    <ul id="schedule-list">
+        <!-- Здесь будет список пар -->
+        <li>09:00 - Математика (Ауд. 101)</li>
+        <li>10:30 - Физика (Ауд. 202)</li>
+    </ul>
+
+    <hr>
+
+    <h2>Бронирование докладов</h2>
+    <div id="topics-container">
+        <!-- Кнопки с темами -->
+        <button class="topic-btn" data-topic="Искусственный интеллект">Искусственный интеллект</button>
+        <button class="topic-btn" data-topic="Квантовые вычисления">Квантовые вычисления</button>
+        <button class="topic-btn" data-topic="Кибербезопасность">Кибербезопасность</button>
+    </div>
+    <div id="status"></div>
+
+    <script>
+        // Инициализация приложения
+        let tg = window.Telegram.WebApp;
+        tg.ready(); // Говорим Telegram, что приложение загружено
+        tg.expand(); // Растягиваем на весь экран
+
+        // Получаем данные пользователя
+        let user = tg.initDataUnsafe.user;
+
+        // Обработка кликов по кнопкам тем
+        document.querySelectorAll('.topic-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                let topic = this.getAttribute('data-topic');
+                let statusDiv = document.getElementById('status');
+
+                // Отправляем данные боту
+                // Данные отправляются в формате JSON
+                let data = {
+                    action: 'book_topic',
+                    topic: topic,
+                    user_name: user.first_name || 'Пользователь',
+                    user_id: user.id
+                };
+
+                // Показываем статус в приложении
+                statusDiv.innerText = 'Вы выбрали: ' + topic + '. Отправка...';
+
+                // Отправка данных боту (команда MainButton или sendData)
+                // Способ 1: через MainButton (более правильно)
+                tg.MainButton.text = 'Подтвердить выбор: ' + topic;
+                tg.MainButton.show();
+                tg.MainButton.onClick(function() {
+                    tg.sendData(JSON.stringify(data));
+                    tg.MainButton.hide();
+                    statusDiv.innerText = '✅ Доклад "' + topic + '" успешно забронирован!';
+                });
+
+                // Способ 2: сразу отправить (если не нужно подтверждение)
+                // tg.sendData(JSON.stringify(data));
+                // statusDiv.innerText = '✅ Доклад "' + topic + '" успешно забронирован!';
+            });
+        });
+
+        // Закрытие приложения по нажатию кнопки "Назад" или закрытию
+        tg.BackButton.show();
+        tg.BackButton.onClick(function() {
+            tg.close();
+        });
+
+        // Можно загрузить реальное расписание из бота через WebSocket или второй запрос,
+        // но для демонстрации оставим статичный список.
+        // В реальном проекте тут должен быть fetch('/api/schedule') или подобное.
+    </script>
+</body>
+</html>
