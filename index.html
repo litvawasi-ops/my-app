@@ -2,12 +2,13 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Студенческий помощник</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== RESET & БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -19,51 +20,72 @@
             --radius-sm: 10px;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Адаптивные размеры */
+            --font-base: 16px;
+            --font-small: 13px;
+            --font-large: 22px;
+            --padding-main: 16px;
+            --gap-main: 12px;
+        }
+
+        html {
+            font-size: var(--font-base);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--tg-theme-bg-color);
             color: var(--tg-theme-text-color);
-            padding: 0 16px 80px;
+            padding: 0 var(--padding-main) 80px;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        /* ===== КОНТЕЙНЕР ===== */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         /* ===== ШАПКА ===== */
         .header {
-            padding: 24px 0 20px;
+            padding: 20px 0 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--tg-theme-secondary-bg-color);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
             gap: 8px;
         }
         .header-left h1 {
-            font-size: 22px;
+            font-size: clamp(20px, 4vw, 28px);
             font-weight: 700;
             letter-spacing: -0.5px;
             background: linear-gradient(135deg, #0088cc, #00aaff);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
         }
         .header-left p {
-            font-size: 13px;
+            font-size: clamp(12px, 1.8vw, 15px);
             color: var(--tg-theme-hint-color);
             font-weight: 400;
         }
         .header-avatar {
-            width: 40px;
-            height: 40px;
+            width: clamp(36px, 6vw, 48px);
+            height: clamp(36px, 6vw, 48px);
             border-radius: 50%;
             background: var(--tg-theme-secondary-bg-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: clamp(16px, 2.5vw, 22px);
             font-weight: 600;
             color: var(--tg-theme-text-color);
             flex-shrink: 0;
@@ -73,28 +95,31 @@
         .tabs {
             display: flex;
             gap: 4px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             background: var(--tg-theme-secondary-bg-color);
             padding: 4px;
             border-radius: 14px;
             overflow-x: auto;
+            flex-wrap: nowrap;
+            -webkit-overflow-scrolling: touch;
         }
         .tabs::-webkit-scrollbar {
             display: none;
         }
         .tab-btn {
-            flex: 1;
-            min-width: 60px;
-            padding: 10px 12px;
+            flex: 1 1 auto;
+            min-width: clamp(52px, 12vw, 80px);
+            padding: clamp(8px, 1.5vw, 12px) clamp(8px, 1.5vw, 16px);
             border: none;
             border-radius: 10px;
             background: transparent;
             color: var(--tg-theme-text-color);
             font-weight: 500;
-            font-size: 13px;
+            font-size: clamp(11px, 1.6vw, 14px);
             cursor: pointer;
             transition: var(--transition);
             white-space: nowrap;
+            text-align: center;
         }
         .tab-btn.active {
             background: var(--tg-theme-button-color);
@@ -121,29 +146,30 @@
         /* ===== ИНФОГРАФИКА ===== */
         .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(80px, 20vw, 140px), 1fr));
+            gap: clamp(8px, 1.5vw, 14px);
+            margin-bottom: 16px;
         }
         .stat-card {
             background: var(--tg-theme-secondary-bg-color);
-            padding: 16px 12px;
+            padding: clamp(12px, 2vw, 20px) clamp(8px, 1.5vw, 16px);
             border-radius: var(--radius-sm);
             text-align: center;
             transition: var(--transition);
         }
         .stat-card .number {
-            font-size: 28px;
+            font-size: clamp(22px, 4vw, 34px);
             font-weight: 700;
             display: block;
             line-height: 1.2;
         }
         .stat-card .label {
-            font-size: 11px;
+            font-size: clamp(9px, 1.2vw, 12px);
             color: var(--tg-theme-hint-color);
             text-transform: uppercase;
             letter-spacing: 0.3px;
             font-weight: 500;
+            margin-top: 2px;
         }
         .stat-card .number.blue { color: #0088cc; }
         .stat-card .number.green { color: #4CAF50; }
@@ -155,20 +181,22 @@
         .schedule-card {
             background: var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius);
-            padding: 16px 18px;
-            margin-bottom: 12px;
+            padding: clamp(12px, 2vw, 20px);
+            margin-bottom: clamp(10px, 1.5vw, 16px);
         }
         .schedule-card .day {
             font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 10px;
+            font-size: clamp(14px, 2vw, 18px);
+            margin-bottom: 8px;
             color: #0088cc;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
         }
         .schedule-card .day .badge {
-            font-size: 11px;
+            font-size: clamp(10px, 1.2vw, 12px);
             font-weight: 500;
             color: var(--tg-theme-hint-color);
             background: rgba(255,255,255,0.06);
@@ -178,100 +206,107 @@
         .schedule-item {
             display: flex;
             align-items: center;
-            padding: 8px 0;
+            padding: clamp(6px, 1vw, 10px) 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            gap: 8px;
+            gap: clamp(6px, 1vw, 12px);
+            flex-wrap: wrap;
         }
         .schedule-item:last-child {
             border-bottom: none;
         }
         .schedule-item .dot {
-            width: 6px;
-            height: 6px;
+            width: clamp(5px, 0.8vw, 8px);
+            height: clamp(5px, 0.8vw, 8px);
             border-radius: 50%;
             background: #0088cc;
             flex-shrink: 0;
         }
         .schedule-item .time {
-            font-size: 12px;
+            font-size: clamp(11px, 1.4vw, 14px);
             color: var(--tg-theme-hint-color);
-            min-width: 58px;
+            min-width: clamp(48px, 10vw, 70px);
             font-weight: 500;
+            flex-shrink: 0;
         }
         .schedule-item .subject {
             flex: 1;
-            font-size: 14px;
+            font-size: clamp(13px, 1.6vw, 16px);
             font-weight: 500;
+            word-break: break-word;
         }
         .schedule-item .teacher {
-            font-size: 12px;
+            font-size: clamp(11px, 1.2vw, 13px);
             color: var(--tg-theme-hint-color);
+            flex-shrink: 0;
         }
         .schedule-item .group-tag {
-            font-size: 10px;
+            font-size: clamp(9px, 1vw, 11px);
             background: #0088cc20;
             color: #0088cc;
             padding: 2px 8px;
             border-radius: 12px;
             font-weight: 600;
+            flex-shrink: 0;
         }
 
         /* ===== ФИЛЬТРЫ ===== */
         .filter-wrap {
             display: flex;
-            gap: 6px;
+            gap: clamp(4px, 1vw, 8px);
             overflow-x: auto;
             padding-bottom: 4px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            -webkit-overflow-scrolling: touch;
+            flex-wrap: nowrap;
         }
         .filter-wrap::-webkit-scrollbar {
             display: none;
         }
         .filter-btn {
-            padding: 6px 16px;
+            padding: clamp(5px, 1vw, 10px) clamp(12px, 2vw, 20px);
             border: 1px solid var(--tg-theme-secondary-bg-color);
             border-radius: 20px;
             background: transparent;
             color: var(--tg-theme-text-color);
-            font-size: 12px;
+            font-size: clamp(11px, 1.4vw, 14px);
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
             white-space: nowrap;
+            flex-shrink: 0;
         }
         .filter-btn.active {
             background: var(--tg-theme-button-color);
             color: var(--tg-theme-button-text-color);
             border-color: var(--tg-theme-button-color);
         }
-        .filter-btn:hover:not(.active) {
-            border-color: var(--tg-theme-button-color);
-        }
 
         /* ===== ТЕМЫ ДОКЛАДОВ ===== */
         .topic-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 25vw, 260px), 1fr));
+            gap: clamp(8px, 1.5vw, 14px);
         }
         .topic-btn {
-            padding: 14px 12px;
+            padding: clamp(12px, 2vw, 18px) clamp(10px, 1.5vw, 16px);
             border: 2px solid var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius-sm);
             background: var(--tg-theme-secondary-bg-color);
             color: var(--tg-theme-text-color);
             cursor: pointer;
-            font-size: 13px;
+            font-size: clamp(12px, 1.5vw, 15px);
             font-weight: 500;
             transition: var(--transition);
             text-align: center;
-        }
-        .topic-btn:active {
-            transform: scale(0.96);
+            min-height: clamp(60px, 10vw, 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .topic-btn .icon {
+            font-size: clamp(24px, 4vw, 36px);
             display: block;
-            font-size: 26px;
             margin-bottom: 4px;
         }
         .topic-btn.booked {
@@ -282,15 +317,9 @@
         .topic-btn.booked::after {
             content: " занято";
             display: block;
-            font-size: 10px;
+            font-size: clamp(9px, 1vw, 11px);
             color: #f44366;
             font-weight: 600;
-            margin-top: 2px;
-        }
-        .topic-btn:not(.booked):hover {
-            border-color: var(--tg-theme-button-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
         }
         .topic-btn.my-booking {
             border-color: #4CAF50;
@@ -299,54 +328,61 @@
         .topic-btn.my-booking::after {
             content: " ✅ Моё";
             display: block;
-            font-size: 10px;
+            font-size: clamp(9px, 1vw, 11px);
             color: #4CAF50;
             font-weight: 600;
-            margin-top: 2px;
+        }
+        .topic-btn:not(.booked):hover {
+            border-color: var(--tg-theme-button-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         /* ===== ОЧЕРЕДЬ ===== */
         .student-queue {
             background: var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius);
-            padding: 16px 18px;
-            margin-top: 16px;
+            padding: clamp(12px, 2vw, 20px);
+            margin-top: 12px;
         }
         .student-queue h4 {
             font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: clamp(13px, 1.6vw, 16px);
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
         }
         .student-queue .queue-item {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
+            padding: clamp(5px, 0.8vw, 8px) 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            font-size: 13px;
-        }
-        .student-queue .queue-item:last-child {
-            border-bottom: none;
+            font-size: clamp(12px, 1.4vw, 15px);
+            flex-wrap: wrap;
+            gap: 4px;
         }
         .student-queue .queue-item .num {
             color: var(--tg-theme-hint-color);
             font-weight: 500;
-            min-width: 28px;
+            min-width: 24px;
         }
         .student-queue .queue-item .name {
             flex: 1;
+            word-break: break-word;
         }
         .student-queue .queue-item .topic-name {
             color: var(--tg-theme-hint-color);
-            font-size: 12px;
+            font-size: clamp(11px, 1.2vw, 13px);
+            text-align: right;
         }
         .student-queue .empty-queue {
             color: var(--tg-theme-hint-color);
-            font-size: 13px;
+            font-size: clamp(12px, 1.4vw, 14px);
             text-align: center;
-            padding: 12px 0;
+            padding: 16px 0;
         }
 
         /* ===== ЛИЧНЫЙ КАБИНЕТ ===== */
@@ -354,17 +390,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: clamp(10px, 1.5vw, 16px);
             background: var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius-sm);
             margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
         .booking-item .topic {
             font-weight: 500;
-            font-size: 14px;
+            font-size: clamp(13px, 1.5vw, 15px);
+            flex: 1;
+            word-break: break-word;
         }
         .booking-item .user {
-            font-size: 13px;
+            font-size: clamp(12px, 1.3vw, 14px);
             color: var(--tg-theme-hint-color);
         }
         .booking-item .status {
@@ -372,18 +412,20 @@
             color: white;
             padding: 2px 12px;
             border-radius: 20px;
-            font-size: 10px;
+            font-size: clamp(9px, 1vw, 11px);
             font-weight: 600;
             letter-spacing: 0.3px;
+            white-space: nowrap;
         }
         .booking-item .cancel-btn {
             background: transparent;
             border: none;
             color: #f44366;
             cursor: pointer;
-            font-size: 13px;
+            font-size: clamp(14px, 1.8vw, 18px);
             padding: 4px 8px;
             border-radius: 6px;
+            line-height: 1;
         }
         .booking-item .cancel-btn:hover {
             background: rgba(244, 67, 54, 0.1);
@@ -393,30 +435,32 @@
         .notif-item {
             display: flex;
             align-items: center;
-            padding: 12px 16px;
+            padding: clamp(10px, 1.5vw, 16px);
             background: var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius-sm);
             margin-bottom: 8px;
-            gap: 12px;
+            gap: clamp(8px, 1.5vw, 16px);
+            flex-wrap: wrap;
         }
         .notif-item .icon {
-            font-size: 20px;
+            font-size: clamp(18px, 2.5vw, 26px);
             flex-shrink: 0;
         }
         .notif-item .text {
             flex: 1;
-            font-size: 14px;
+            font-size: clamp(13px, 1.5vw, 15px);
+            min-width: 120px;
         }
         .notif-item .text small {
             display: block;
-            font-size: 11px;
+            font-size: clamp(10px, 1.1vw, 12px);
             color: var(--tg-theme-hint-color);
             font-weight: 400;
         }
         .notif-item .toggle {
-            width: 44px;
-            height: 24px;
-            border-radius: 12px;
+            width: clamp(40px, 6vw, 52px);
+            height: clamp(22px, 3vw, 28px);
+            border-radius: 14px;
             background: #ccc;
             cursor: pointer;
             position: relative;
@@ -431,31 +475,34 @@
             position: absolute;
             top: 2px;
             left: 2px;
-            width: 20px;
-            height: 20px;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+            max-width: 22px;
+            max-height: 22px;
             background: white;
             border-radius: 50%;
             transition: var(--transition);
             box-shadow: 0 1px 4px rgba(0,0,0,0.15);
         }
         .notif-item .toggle.active::after {
-            left: 22px;
+            left: calc(100% - 24px);
         }
 
         /* ===== КНОПКИ ===== */
         .btn-primary {
             width: 100%;
-            padding: 14px;
+            padding: clamp(12px, 2vw, 18px);
             background: var(--tg-theme-button-color);
             color: var(--tg-theme-button-text-color);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 15px;
+            font-size: clamp(14px, 1.8vw, 18px);
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             margin-top: 12px;
             font-family: inherit;
+            min-height: clamp(44px, 6vw, 56px);
         }
         .btn-primary:hover {
             opacity: 0.85;
@@ -463,17 +510,18 @@
         }
         .btn-outline {
             width: 100%;
-            padding: 12px;
+            padding: clamp(10px, 1.5vw, 16px);
             background: transparent;
             color: var(--tg-theme-text-color);
             border: 1.5px solid var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius-sm);
-            font-size: 14px;
+            font-size: clamp(13px, 1.6vw, 16px);
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
             font-family: inherit;
             margin-top: 8px;
+            min-height: clamp(40px, 5vw, 50px);
         }
         .btn-outline:hover {
             border-color: var(--tg-theme-button-color);
@@ -483,29 +531,29 @@
         .info-block {
             background: var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius);
-            padding: 16px 18px;
-            margin-top: 16px;
+            padding: clamp(12px, 2vw, 20px);
+            margin-top: 12px;
             border-left: 4px solid #0088cc;
         }
         .info-block strong {
             display: block;
             font-weight: 600;
-            font-size: 14px;
+            font-size: clamp(13px, 1.5vw, 15px);
             margin-bottom: 4px;
         }
         .info-block p {
-            font-size: 13px;
+            font-size: clamp(12px, 1.3vw, 14px);
             color: var(--tg-theme-hint-color);
         }
 
         /* ===== СТАТУС ===== */
         #status {
-            margin-top: 16px;
-            padding: 12px 16px;
+            margin-top: 12px;
+            padding: clamp(10px, 1.5vw, 16px);
             border-radius: var(--radius-sm);
             display: none;
             font-weight: 500;
-            font-size: 14px;
+            font-size: clamp(13px, 1.5vw, 15px);
         }
         #status.show {
             display: block;
@@ -519,9 +567,9 @@
         .progress-wrap {
             background: var(--tg-theme-secondary-bg-color);
             border-radius: 20px;
-            height: 8px;
+            height: clamp(6px, 1vw, 10px);
             overflow: hidden;
-            margin: 12px 0;
+            margin: 10px 0;
         }
         .progress-wrap .bar {
             height: 100%;
@@ -534,13 +582,14 @@
         /* ===== ФОРМА РЕГИСТРАЦИИ ===== */
         .reg-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: clamp(10px, 1.5vw, 16px);
             border-radius: var(--radius-sm);
             border: 2px solid var(--tg-theme-secondary-bg-color);
             background: var(--tg-theme-secondary-bg-color);
             color: var(--tg-theme-text-color);
-            font-size: 16px;
+            font-size: clamp(14px, 1.6vw, 18px);
             font-family: inherit;
+            min-height: clamp(40px, 5vw, 52px);
         }
         .reg-input:focus {
             outline: none;
@@ -548,257 +597,344 @@
         }
         .reg-label {
             display: block;
-            font-size: 13px;
+            font-size: clamp(12px, 1.3vw, 14px);
             color: var(--tg-theme-hint-color);
             margin-bottom: 4px;
         }
         .reg-select {
             width: 100%;
-            padding: 12px 16px;
+            padding: clamp(10px, 1.5vw, 16px);
             border-radius: var(--radius-sm);
             border: 2px solid var(--tg-theme-secondary-bg-color);
             background: var(--tg-theme-secondary-bg-color);
             color: var(--tg-theme-text-color);
-            font-size: 16px;
+            font-size: clamp(14px, 1.6vw, 18px);
             font-family: inherit;
+            min-height: clamp(40px, 5vw, 52px);
         }
         .reg-select:focus {
             outline: none;
             border-color: var(--tg-theme-button-color);
         }
 
-        @media (max-width: 420px) {
+        /* ===== УТИЛИТЫ ===== */
+        .text-center { text-align: center; }
+        .mt-8 { margin-top: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .mt-16 { margin-top: 16px; }
+        .mb-8 { margin-bottom: 8px; }
+        .mb-12 { margin-bottom: 12px; }
+        .mb-16 { margin-bottom: 16px; }
+        .gap-8 { gap: 8px; }
+
+        /* ===== АДАПТИВ ДЛЯ ПЛАНШЕТОВ И ДЕСКТОПА ===== */
+        @media (min-width: 768px) {
+            body {
+                padding: 0 40px 80px;
+            }
+            .container {
+                max-width: 900px;
+            }
             .stats-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(3, 1fr);
             }
             .topic-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .header {
+                padding: 30px 0 24px;
+            }
+            .tabs {
+                padding: 6px;
+                border-radius: 16px;
+                gap: 6px;
+            }
+            .tab-btn {
+                padding: 12px 20px;
+                border-radius: 12px;
+                font-size: 15px;
+                min-width: 80px;
+            }
+        }
+
+        /* ===== ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ (до 360px) ===== */
+        @media (max-width: 360px) {
+            :root {
+                --padding-main: 10px;
+            }
+            .schedule-item {
+                flex-wrap: wrap;
+            }
+            .schedule-item .time {
+                min-width: 40px;
+            }
+            .schedule-item .teacher {
+                width: 100%;
+                padding-left: 14px;
+            }
+            .booking-item {
+                flex-wrap: wrap;
+            }
+            .booking-item .status {
+                order: 10;
+                width: 100%;
+                text-align: center;
+            }
+            .notif-item {
+                flex-wrap: wrap;
+            }
+            .notif-item .toggle {
+                margin-left: auto;
+            }
+        }
+
+        /* ===== ДЛЯ БОЛЬШИХ ЭКРАНОВ (от 1024px) ===== */
+        @media (min-width: 1024px) {
+            body {
+                padding: 0 60px 80px;
+            }
+            .container {
+                max-width: 1000px;
+            }
+            .topic-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             .header-left h1 {
-                font-size: 19px;
+                font-size: 32px;
             }
-            .header-avatar {
-                width: 34px;
-                height: 34px;
-                font-size: 15px;
+            .schedule-item {
+                padding: 12px 0;
+            }
+        }
+
+        /* ===== ДЛЯ ТЕМНОЙ/СВЕТЛОЙ ТЕМЫ TELEGRAM ===== */
+        @media (prefers-color-scheme: dark) {
+            .notif-item .toggle {
+                background: #555;
+            }
+            .notif-item .toggle.active {
+                background: #4CAF50;
             }
         }
     </style>
 </head>
 <body>
+    <div class="container">
 
-    <!-- ===== ШАПКА ===== -->
-    <div class="header">
-        <div class="header-left">
-            <h1>🎓 Учебный центр</h1>
-            <p>Группа МН-4-25-01 · Сентябрь 2026</p>
-        </div>
-        <div class="header-avatar" id="userAvatar">👤</div>
-    </div>
-
-    <!-- ===== ВКЛАДКИ ===== -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('schedule')">📅 Расписание</button>
-        <button class="tab-btn" onclick="switchTab('topics')">📖 Доклады</button>
-        <button class="tab-btn" onclick="switchTab('cabinet')">👤 Кабинет</button>
-        <button class="tab-btn" onclick="switchTab('notifications')">🔔 Уведомления</button>
-        <button class="tab-btn" onclick="switchTab('queue')">📋 Очередь</button>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- ===== ВКЛАДКА 1: РАСПИСАНИЕ ===== -->
-    <!-- ============================================================ -->
-    <div id="tab-schedule" class="tab-content active">
-
-        <div class="stats-grid" id="scheduleStats">
-            <div class="stat-card">
-                <span class="number blue" id="totalClasses">0</span>
-                <span class="label">Всего пар</span>
+        <!-- ===== ШАПКА ===== -->
+        <div class="header">
+            <div class="header-left">
+                <h1>🎓 Учебный центр</h1>
+                <p>Группа МН-4-25-01 · Сентябрь 2026</p>
             </div>
-            <div class="stat-card">
-                <span class="number green" id="doneClasses">0</span>
-                <span class="label">Пройдено</span>
-            </div>
-            <div class="stat-card">
-                <span class="number orange" id="remainingClasses">0</span>
-                <span class="label">Осталось</span>
-            </div>
+            <div class="header-avatar" id="userAvatar">👤</div>
         </div>
 
-        <div class="filter-wrap" id="filterWrap">
-            <button class="filter-btn active" data-filter="all">Все</button>
-            <button class="filter-btn" data-filter="Управление программами и портфелями проектов">📊 Проекты</button>
-            <button class="filter-btn" data-filter="Проектное управление устойчивым развитием организаций">🌱 Устойчивое</button>
-            <button class="filter-btn" data-filter="Управление бизнес-процессами">🔄 Бизнес</button>
-            <button class="filter-btn" data-filter="Иностранный язык профессиональных коммуникаций">🌍 Язык</button>
+        <!-- ===== ВКЛАДКИ ===== -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('schedule')">📅 Расписание</button>
+            <button class="tab-btn" onclick="switchTab('topics')">📖 Доклады</button>
+            <button class="tab-btn" onclick="switchTab('cabinet')">👤 Кабинет</button>
+            <button class="tab-btn" onclick="switchTab('notifications')">🔔 Уведомления</button>
+            <button class="tab-btn" onclick="switchTab('queue')">📋 Очередь</button>
         </div>
 
-        <div id="scheduleContainer"></div>
+        <!-- ============================================================ -->
+        <!-- ===== ВКЛАДКА 1: РАСПИСАНИЕ ===== -->
+        <!-- ============================================================ -->
+        <div id="tab-schedule" class="tab-content active">
 
-        <div class="info-block">
-            <strong>📊 Прогресс семестра</strong>
-            <div class="progress-wrap">
-                <div class="bar" id="progressBar" style="width: 0%;"></div>
+            <div class="stats-grid" id="scheduleStats">
+                <div class="stat-card">
+                    <span class="number blue" id="totalClasses">0</span>
+                    <span class="label">Всего пар</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number green" id="doneClasses">0</span>
+                    <span class="label">Пройдено</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number orange" id="remainingClasses">0</span>
+                    <span class="label">Осталось</span>
+                </div>
             </div>
-            <p id="progressText">0% семестра пройдено</p>
+
+            <div class="filter-wrap" id="filterWrap">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="Управление программами и портфелями проектов">📊 Проекты</button>
+                <button class="filter-btn" data-filter="Проектное управление устойчивым развитием организаций">🌱 Устойчивое</button>
+                <button class="filter-btn" data-filter="Управление бизнес-процессами">🔄 Бизнес</button>
+                <button class="filter-btn" data-filter="Иностранный язык профессиональных коммуникаций">🌍 Язык</button>
+            </div>
+
+            <div id="scheduleContainer"></div>
+
+            <div class="info-block">
+                <strong>📊 Прогресс семестра</strong>
+                <div class="progress-wrap">
+                    <div class="bar" id="progressBar" style="width: 0%;"></div>
+                </div>
+                <p id="progressText">0% семестра пройдено</p>
+            </div>
+
+            <button class="btn-primary" onclick="downloadSchedule()">📥 Скачать PDF</button>
         </div>
 
-        <button class="btn-primary" onclick="downloadSchedule()">📥 Скачать PDF</button>
-    </div>
+        <!-- ============================================================ -->
+        <!-- ===== ВКЛАДКА 2: ДОКЛАДЫ ===== -->
+        <!-- ============================================================ -->
+        <div id="tab-topics" class="tab-content">
 
-    <!-- ============================================================ -->
-    <!-- ===== ВКЛАДКА 2: ДОКЛАДЫ ===== -->
-    <!-- ============================================================ -->
-    <div id="tab-topics" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="number purple" id="totalTopics">10</span>
+                    <span class="label">Всего тем</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number green" id="bookedTopics">0</span>
+                    <span class="label">Забронировано</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number red" id="freeTopics">0</span>
+                    <span class="label">Свободно</span>
+                </div>
+            </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="number purple" id="totalTopics">10</span>
-                <span class="label">Всего тем</span>
-            </div>
-            <div class="stat-card">
-                <span class="number green" id="bookedTopics">0</span>
-                <span class="label">Забронировано</span>
-            </div>
-            <div class="stat-card">
-                <span class="number red" id="freeTopics">0</span>
-                <span class="label">Свободно</span>
-            </div>
+            <p class="text-center" style="font-size:clamp(13px,1.5vw,15px);color:var(--tg-theme-hint-color);margin-bottom:14px;">
+                📌 Срок сдачи — <strong>15 сентября</strong>. Каждая тема уникальна.
+            </p>
+
+            <div class="topic-grid" id="topicsGrid"></div>
+            <div id="status"></div>
         </div>
 
-        <p style="font-size:14px;color:var(--tg-theme-hint-color);margin-bottom:14px;">
-            📌 Срок сдачи — <strong>15 сентября</strong>. Каждая тема уникальна.
-        </p>
+        <!-- ============================================================ -->
+        <!-- ===== ВКЛАДКА 3: КАБИНЕТ ===== -->
+        <!-- ============================================================ -->
+        <div id="tab-cabinet" class="tab-content">
 
-        <div class="topic-grid" id="topicsGrid"></div>
-        <div id="status"></div>
-    </div>
+            <div id="registrationStatus" class="info-block" style="border-left-color: #FF9800; margin-bottom: 16px;">
+                <strong id="regStatusTitle">🔑 Статус регистрации</strong>
+                <p id="regStatusText">Загрузка...</p>
+            </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== ВКЛАДКА 3: КАБИНЕТ ===== -->
-    <!-- ============================================================ -->
-    <div id="tab-cabinet" class="tab-content">
+            <div id="registrationForm" style="display: none;">
+                <h3 style="font-weight:600;font-size:clamp(15px,1.8vw,18px);margin-bottom:12px;">📝 Заполните данные для регистрации</h3>
+                
+                <div style="margin-bottom: 12px;">
+                    <label class="reg-label">Имя *</label>
+                    <input type="text" id="regFirstName" placeholder="Введите ваше имя" class="reg-input">
+                </div>
+                
+                <div style="margin-bottom: 12px;">
+                    <label class="reg-label">Фамилия *</label>
+                    <input type="text" id="regLastName" placeholder="Введите вашу фамилию" class="reg-input">
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <label class="reg-label">Группа *</label>
+                    <select id="regGroup" class="reg-select">
+                        <option value="МН-4-25-01">МН-4-25-01</option>
+                        <option value="МН-4-25-02">МН-4-25-02</option>
+                    </select>
+                </div>
+                
+                <button class="btn-primary" onclick="registerUser()">📝 Зарегистрироваться</button>
+            </div>
 
-        <div id="registrationStatus" class="info-block" style="border-left-color: #FF9800; margin-bottom: 16px;">
-            <strong id="regStatusTitle">🔑 Статус регистрации</strong>
-            <p id="regStatusText">Загрузка...</p>
+            <div id="userInfoCard" style="display: none;">
+                <div class="info-block" style="border-left-color: #4CAF50;">
+                    <strong>👤 Мои данные</strong>
+                    <p id="userInfoText">Загрузка...</p>
+                </div>
+                <button class="btn-outline" onclick="editProfile()">✏️ Редактировать профиль</button>
+            </div>
+
+            <hr style="border:1px solid var(--tg-theme-secondary-bg-color);margin:20px 0;">
+
+            <h3 style="font-weight:600;font-size:clamp(15px,1.8vw,18px);margin-bottom:12px;">📋 Мои бронирования</h3>
+            <div id="myBookingsList">
+                <div class="booking-item" style="opacity:0.5;font-size:clamp(13px,1.5vw,15px);">У вас пока нет бронирований</div>
+            </div>
+
+            <hr style="border:1px solid var(--tg-theme-secondary-bg-color);margin:20px 0;">
+
+            <h3 style="font-weight:600;font-size:clamp(15px,1.8vw,18px);margin-bottom:12px;">👥 Участники группы</h3>
+            <div id="usersList">
+                <div class="booking-item" style="opacity:0.5;font-size:clamp(13px,1.5vw,15px);">Загрузка...</div>
+            </div>
+
+            <button class="btn-outline" onclick="exportBookings()">📤 Экспорт броней</button>
         </div>
 
-        <div id="registrationForm" style="display: none;">
-            <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">📝 Заполните данные для регистрации</h3>
-            
-            <div style="margin-bottom: 12px;">
-                <label class="reg-label">Имя *</label>
-                <input type="text" id="regFirstName" placeholder="Введите ваше имя" class="reg-input">
+        <!-- ============================================================ -->
+        <!-- ===== ВКЛАДКА 4: УВЕДОМЛЕНИЯ ===== -->
+        <!-- ============================================================ -->
+        <div id="tab-notifications" class="tab-content">
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="number blue" id="notifTotal">0</span>
+                    <span class="label">Всего заданий</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number green" id="notifOn">0</span>
+                    <span class="label">Уведомления вкл</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number red" id="notifOff">0</span>
+                    <span class="label">Уведомления выкл</span>
+                </div>
             </div>
-            
-            <div style="margin-bottom: 12px;">
-                <label class="reg-label">Фамилия *</label>
-                <input type="text" id="regLastName" placeholder="Введите вашу фамилию" class="reg-input">
-            </div>
-            
-            <div style="margin-bottom: 16px;">
-                <label class="reg-label">Группа *</label>
-                <select id="regGroup" class="reg-select">
-                    <option value="МН-4-25-01">МН-4-25-01</option>
-                    <option value="МН-4-25-02">МН-4-25-02</option>
-                </select>
-            </div>
-            
-            <button class="btn-primary" onclick="registerUser()">📝 Зарегистрироваться</button>
-        </div>
 
-        <div id="userInfoCard" style="display: none;">
-            <div class="info-block" style="border-left-color: #4CAF50;">
-                <strong>👤 Мои данные</strong>
-                <p id="userInfoText">Загрузка...</p>
-            </div>
-            <button class="btn-outline" onclick="editProfile()">✏️ Редактировать профиль</button>
-        </div>
+            <p class="text-center" style="font-size:clamp(13px,1.5vw,15px);color:var(--tg-theme-hint-color);margin-bottom:14px;">
+                📌 Включите уведомления о сроках сдачи заданий по предметам.
+            </p>
 
-        <hr style="border:1px solid var(--tg-theme-secondary-bg-color);margin:20px 0;">
+            <div id="notificationsList"></div>
 
-        <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">📋 Мои бронирования</h3>
-        <div id="myBookingsList">
-            <div class="booking-item" style="opacity:0.5;font-size:14px;">У вас пока нет бронирований</div>
-        </div>
-
-        <hr style="border:1px solid var(--tg-theme-secondary-bg-color);margin:20px 0;">
-
-        <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">👥 Участники группы</h3>
-        <div id="usersList">
-            <div class="booking-item" style="opacity:0.5;font-size:14px;">Загрузка...</div>
-        </div>
-
-        <button class="btn-outline" onclick="exportBookings()">📤 Экспорт броней</button>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- ===== ВКЛАДКА 4: УВЕДОМЛЕНИЯ ===== -->
-    <!-- ============================================================ -->
-    <div id="tab-notifications" class="tab-content">
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="number blue" id="notifTotal">0</span>
-                <span class="label">Всего заданий</span>
-            </div>
-            <div class="stat-card">
-                <span class="number green" id="notifOn">0</span>
-                <span class="label">Уведомления вкл</span>
-            </div>
-            <div class="stat-card">
-                <span class="number red" id="notifOff">0</span>
-                <span class="label">Уведомления выкл</span>
-            </div>
-        </div>
-
-        <p style="font-size:14px;color:var(--tg-theme-hint-color);margin-bottom:14px;">
-            📌 Включите уведомления о сроках сдачи заданий по предметам.
-        </p>
-
-        <div id="notificationsList"></div>
-
-        <div class="info-block">
-            <strong>⏰ Как это работает</strong>
-            <p>Бот проверит задания и отправит вам уведомление за 1 день до дедлайна.</p>
-        </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- ===== ВКЛАДКА 5: ОЧЕРЕДЬ ===== -->
-    <!-- ============================================================ -->
-    <div id="tab-queue" class="tab-content">
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="number blue" id="queueTotal">0</span>
-                <span class="label">Всего студентов</span>
-            </div>
-            <div class="stat-card">
-                <span class="number green" id="queueBooked">0</span>
-                <span class="label">С темами</span>
-            </div>
-            <div class="stat-card">
-                <span class="number orange" id="queueFree">0</span>
-                <span class="label">Свободно тем</span>
+            <div class="info-block">
+                <strong>⏰ Как это работает</strong>
+                <p>Бот проверит задания и отправит вам уведомление за 1 день до дедлайна.</p>
             </div>
         </div>
 
-        <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">📋 Очередь на доклады</h3>
-        <p style="font-size:14px;color:var(--tg-theme-hint-color);margin-bottom:14px;">
-            Список студентов, забронировавших темы. Помогает отслеживать очередь во время пары.
-        </p>
+        <!-- ============================================================ -->
+        <!-- ===== ВКЛАДКА 5: ОЧЕРЕДЬ ===== -->
+        <!-- ============================================================ -->
+        <div id="tab-queue" class="tab-content">
 
-        <div id="queueContainer">
-            <div class="student-queue">
-                <h4>👥 Список студентов <span id="queueCount">0 чел.</span></h4>
-                <div id="queueList">
-                    <div class="empty-queue">Пока никто не забронировал тему</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="number blue" id="queueTotal">0</span>
+                    <span class="label">Всего студентов</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number green" id="queueBooked">0</span>
+                    <span class="label">С темами</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number orange" id="queueFree">0</span>
+                    <span class="label">Свободно тем</span>
+                </div>
+            </div>
+
+            <h3 style="font-weight:600;font-size:clamp(15px,1.8vw,18px);margin-bottom:12px;">📋 Очередь на доклады</h3>
+            <p class="text-center" style="font-size:clamp(13px,1.5vw,15px);color:var(--tg-theme-hint-color);margin-bottom:14px;">
+                Список студентов, забронировавших темы. Помогает отслеживать очередь во время пары.
+            </p>
+
+            <div id="queueContainer">
+                <div class="student-queue">
+                    <h4>👥 Список студентов <span id="queueCount">0 чел.</span></h4>
+                    <div id="queueList">
+                        <div class="empty-queue">Пока никто не забронировал тему</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+    </div><!-- /container -->
 
     <!-- ============================================================ -->
     <!-- ===== SCRIPT ===== -->
@@ -867,71 +1003,121 @@
         let isRegistered = false;
         let userData = null;
 
-        // ===== РЕГИСТРАЦИЯ =====
-function getUrlParams() {
-    // Получаем параметры из URL
-    const urlParams = new URLSearchParams(window.location.search);
-    return {
-        first_name: urlParams.get('first_name') || '',
-        last_name: urlParams.get('last_name') || '',
-        group_name: urlParams.get('group_name') || ''
-    };
-}
-
-function checkRegistrationStatus() {
-    // Проверяем, есть ли данные в URL
-    const params = getUrlParams();
-    
-    if (params.first_name && params.last_name) {
-        // Данные пришли от бота — автоматически заполняем и регистрируем
-        document.getElementById('regFirstName').value = params.first_name;
-        document.getElementById('regLastName').value = params.last_name;
-        document.getElementById('regGroup').value = params.group_name || 'МН-4-25-01';
-        
-        // Автоматически регистрируем
-        autoRegisterUser(params.first_name, params.last_name, params.group_name || 'МН-4-25-01');
-        return;
-    }
-    
-    // Проверяем localStorage
-    const saved = localStorage.getItem('userRegistered');
-    if (saved === 'true') {
-        const savedData = JSON.parse(localStorage.getItem('userData') || '{}');
-        if (savedData.first_name) {
-            isRegistered = true;
-            userData = savedData;
-            showUserInfo();
-            return;
+        // ===== ФУНКЦИЯ ДЛЯ ПОЛУЧЕНИЯ ПАРАМЕТРОВ URL =====
+        function getUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                first_name: urlParams.get('first_name') || '',
+                last_name: urlParams.get('last_name') || '',
+                group_name: urlParams.get('group_name') || ''
+            };
         }
-    }
-    showRegistrationForm();
-}
 
-function autoRegisterUser(firstName, lastName, groupName) {
-    // Автоматическая регистрация с данными от бота
-    const data = {
-        action: 'register_user',
-        first_name: firstName,
-        last_name: lastName,
-        group_name: groupName,
-        user_id: user ? user.id : 0
-    };
-    
-    tg.sendData(JSON.stringify(data));
-    
-    localStorage.setItem('userRegistered', 'true');
-    localStorage.setItem('userData', JSON.stringify({
-        first_name: firstName,
-        last_name: lastName,
-        group_name: groupName
-    }));
-    
-    isRegistered = true;
-    userData = { first_name: firstName, last_name: lastName, group_name: groupName };
-    showUserInfo();
-    showStatus('success', '✅ Вы успешно зарегистрированы!');
-    loadUsersList();
-}
+        // ===== РЕГИСТРАЦИЯ =====
+        function checkRegistrationStatus() {
+            const params = getUrlParams();
+            
+            if (params.first_name && params.last_name) {
+                document.getElementById('regFirstName').value = params.first_name;
+                document.getElementById('regLastName').value = params.last_name;
+                document.getElementById('regGroup').value = params.group_name || 'МН-4-25-01';
+                autoRegisterUser(params.first_name, params.last_name, params.group_name || 'МН-4-25-01');
+                return;
+            }
+            
+            const saved = localStorage.getItem('userRegistered');
+            if (saved === 'true') {
+                const savedData = JSON.parse(localStorage.getItem('userData') || '{}');
+                if (savedData.first_name) {
+                    isRegistered = true;
+                    userData = savedData;
+                    showUserInfo();
+                    return;
+                }
+            }
+            showRegistrationForm();
+        }
+
+        function autoRegisterUser(firstName, lastName, groupName) {
+            const data = {
+                action: 'register_user',
+                first_name: firstName,
+                last_name: lastName,
+                group_name: groupName,
+                user_id: user ? user.id : 0
+            };
+            tg.sendData(JSON.stringify(data));
+            
+            localStorage.setItem('userRegistered', 'true');
+            localStorage.setItem('userData', JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                group_name: groupName
+            }));
+            
+            isRegistered = true;
+            userData = { first_name: firstName, last_name: lastName, group_name: groupName };
+            showUserInfo();
+            showStatus('success', '✅ Вы успешно зарегистрированы!');
+            loadUsersList();
+        }
+
+        function showRegistrationForm() {
+            document.getElementById('registrationStatus').style.display = 'block';
+            document.getElementById('regStatusTitle').textContent = '🔑 Требуется регистрация';
+            document.getElementById('regStatusText').textContent = 'Заполните форму ниже, чтобы зарегистрироваться в системе.';
+            document.getElementById('registrationForm').style.display = 'block';
+            document.getElementById('userInfoCard').style.display = 'none';
+        }
+
+        function showUserInfo() {
+            document.getElementById('registrationStatus').style.display = 'block';
+            document.getElementById('regStatusTitle').textContent = '✅ Вы зарегистрированы';
+            document.getElementById('regStatusText').textContent = `Добро пожаловать, ${userData.first_name} ${userData.last_name}!`;
+            document.getElementById('registrationForm').style.display = 'none';
+            document.getElementById('userInfoCard').style.display = 'block';
+            document.getElementById('userInfoText').textContent = 
+                `👤 ${userData.first_name} ${userData.last_name}\n👥 Группа: ${userData.group_name}`;
+        }
+
+        function registerUser() {
+            const firstName = document.getElementById('regFirstName').value.trim();
+            const lastName = document.getElementById('regLastName').value.trim();
+            const groupName = document.getElementById('regGroup').value;
+
+            if (!firstName || !lastName) {
+                showStatus('error', '❌ Пожалуйста, заполните все поля');
+                return;
+            }
+
+            const data = {
+                action: 'register_user',
+                first_name: firstName,
+                last_name: lastName,
+                group_name: groupName,
+                user_id: user ? user.id : 0
+            };
+
+            tg.MainButton.text = '✅ Подтвердить регистрацию';
+            tg.MainButton.show();
+            tg.MainButton.onClick(() => {
+                tg.sendData(JSON.stringify(data));
+                tg.MainButton.hide();
+
+                localStorage.setItem('userRegistered', 'true');
+                localStorage.setItem('userData', JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    group_name: groupName
+                }));
+
+                isRegistered = true;
+                userData = { first_name: firstName, last_name: lastName, group_name: groupName };
+                showUserInfo();
+                showStatus('success', '✅ Регистрация успешно завершена!');
+                loadUsersList();
+            });
+        }
 
         function editProfile() {
             document.getElementById('registrationForm').style.display = 'block';
