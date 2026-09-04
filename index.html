@@ -2,16 +2,33 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
     <title>Студенческий помощник</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
         :root {
@@ -21,7 +38,6 @@
             --hint: var(--tg-theme-hint-color, #7d8797);
             --button: var(--tg-theme-button-color, #2481cc);
             --button-text: var(--tg-theme-button-text-color, #ffffff);
-            --section-bg: var(--tg-theme-secondary-bg-color, #ffffff);
 
             --blue: #2481cc;
             --green: #2eaa67;
@@ -30,8 +46,12 @@
             --purple: #8b5cf6;
 
             --border: rgba(120, 135, 155, 0.16);
-            --shadow: 0 8px 30px rgba(20, 35, 55, 0.07);
-            --shadow-hover: 0 12px 34px rgba(20, 35, 55, 0.11);
+
+            --shadow:
+                0 8px 30px rgba(20, 35, 55, 0.07);
+
+            --shadow-hover:
+                0 12px 34px rgba(20, 35, 55, 0.11);
 
             --radius: 18px;
             --radius-sm: 12px;
@@ -50,24 +70,51 @@
         body {
             margin: 0;
             min-height: 100vh;
-            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
             color: var(--text);
+
             background:
-                radial-gradient(circle at 0% 0%, rgba(36, 129, 204, 0.08), transparent 28%),
-                radial-gradient(circle at 100% 10%, rgba(139, 92, 246, 0.07), transparent 25%),
+                radial-gradient(
+                    circle at 0% 0%,
+                    rgba(36, 129, 204, 0.08),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 100% 10%,
+                    rgba(139, 92, 246, 0.07),
+                    transparent 25%
+                ),
                 var(--page-bg);
+
             line-height: 1.45;
             overflow-x: hidden;
         }
 
         body::before {
             content: "";
+
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+
             height: 3px;
-            background: linear-gradient(90deg, var(--blue), #6c63ff, var(--purple));
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    #6c63ff,
+                    var(--purple)
+                );
+
             z-index: 9999;
         }
 
@@ -84,7 +131,9 @@
 
         .container {
             width: min(1040px, calc(100% - 32px));
+
             margin: 0 auto;
+
             padding-bottom: 40px;
         }
 
@@ -94,51 +143,79 @@
 
         header {
             position: relative;
+
             margin: 18px 0 14px;
             padding: 22px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
             border-radius: 24px;
+
             box-shadow: var(--shadow);
+
             overflow: hidden;
         }
 
         header::after {
             content: "";
+
             position: absolute;
+
             width: 180px;
             height: 180px;
+
             right: -70px;
             top: -100px;
+
             border-radius: 50%;
-            background: rgba(36, 129, 204, 0.08);
+
+            background:
+                rgba(36, 129, 204, 0.08);
+
             pointer-events: none;
         }
 
         .header-content {
             position: relative;
             z-index: 1;
+
             display: flex;
+
             align-items: center;
             justify-content: space-between;
+
             gap: 20px;
         }
 
         .brand {
             display: flex;
+
             align-items: center;
+
             gap: 14px;
+
             min-width: 0;
         }
 
         .brand-icon {
             width: 52px;
             height: 52px;
+
             flex: 0 0 52px;
+
             display: grid;
             place-items: center;
+
             border-radius: 16px;
-            background: linear-gradient(135deg, rgba(36, 129, 204, 0.14), rgba(139, 92, 246, 0.13));
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(36, 129, 204, 0.14),
+                    rgba(139, 92, 246, 0.13)
+                );
+
             font-size: 26px;
         }
 
@@ -148,35 +225,23 @@
 
         .brand-text h1 {
             margin: 0 0 3px;
-            font-size: clamp(19px, 2.5vw, 25px);
+
+            font-size:
+                clamp(19px, 2.5vw, 25px);
+
             line-height: 1.15;
+
             font-weight: 700;
+
             letter-spacing: -0.03em;
         }
 
         .brand-text p {
             margin: 0;
+
             color: var(--hint);
+
             font-size: 13px;
-        }
-
-        .header-info {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            padding: 8px 11px;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            background: rgba(127, 127, 127, 0.06);
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
         }
 
         /* =========================
@@ -185,19 +250,33 @@
 
         .tabs {
             position: sticky;
+
             top: 8px;
+
             z-index: 100;
+
             display: flex;
+
             gap: 6px;
+
             padding: 7px;
+
             margin-bottom: 18px;
-            background: color-mix(in srgb, var(--card-bg) 90%, transparent);
+
+            background:
+                var(--card-bg);
+
             border: 1px solid var(--border);
             border-radius: 17px;
-            box-shadow: 0 8px 24px rgba(20, 35, 55, 0.07);
+
+            box-shadow:
+                0 8px 24px rgba(20, 35, 55, 0.07);
+
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
+
             overflow-x: auto;
+
             scrollbar-width: none;
         }
 
@@ -207,27 +286,42 @@
 
         .tab {
             flex: 1 0 auto;
+
             min-width: 112px;
+
             border: 0;
+
             border-radius: 12px;
+
             padding: 11px 14px;
+
             background: transparent;
+
             color: var(--hint);
+
             font-size: 13px;
+
             font-weight: 600;
+
             white-space: nowrap;
+
             transition: 0.2s ease;
         }
 
         .tab:hover {
             color: var(--text);
-            background: rgba(127, 127, 127, 0.06);
+
+            background:
+                rgba(127, 127, 127, 0.06);
         }
 
         .tab.active {
             color: var(--button-text);
+
             background: var(--button);
-            box-shadow: 0 5px 15px rgba(36, 129, 204, 0.22);
+
+            box-shadow:
+                0 5px 15px rgba(36, 129, 204, 0.22);
         }
 
         /* =========================
@@ -236,7 +330,9 @@
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.22s ease;
+
+            animation:
+                fadeIn 0.22s ease;
         }
 
         .tab-content.active {
@@ -261,22 +357,29 @@
 
         .section-title {
             display: flex;
+
             align-items: center;
             justify-content: space-between;
+
             gap: 12px;
+
             margin: 0 0 12px;
         }
 
         .section-title h2,
         .section-title h3 {
             margin: 0;
+
             font-size: 17px;
+
             font-weight: 700;
+
             letter-spacing: -0.02em;
         }
 
         .section-title span {
             color: var(--hint);
+
             font-size: 12px;
         }
 
@@ -286,29 +389,44 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
             gap: 12px;
+
             margin-bottom: 16px;
         }
 
         .stat-card {
             position: relative;
+
             min-width: 0;
+
             padding: 17px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             box-shadow: var(--shadow);
+
             overflow: hidden;
         }
 
         .stat-card::before {
             content: "";
+
             position: absolute;
+
             left: 0;
             top: 0;
             bottom: 0;
+
             width: 4px;
+
             background: var(--blue);
         }
 
@@ -322,17 +440,26 @@
 
         .stat-card .number {
             display: block;
+
             margin-bottom: 4px;
-            font-size: clamp(22px, 3vw, 30px);
+
+            font-size:
+                clamp(22px, 3vw, 30px);
+
             line-height: 1;
+
             font-weight: 700;
+
             letter-spacing: -0.04em;
         }
 
         .stat-card .label {
             display: block;
+
             color: var(--hint);
+
             font-size: 12px;
+
             font-weight: 500;
         }
 
@@ -358,10 +485,15 @@
 
         .filters {
             display: flex;
+
             gap: 8px;
+
             margin-bottom: 14px;
+
             overflow-x: auto;
+
             padding-bottom: 2px;
+
             scrollbar-width: none;
         }
 
@@ -371,24 +503,35 @@
 
         .filter-btn {
             flex: 0 0 auto;
+
             border: 1px solid var(--border);
+
             background: var(--card-bg);
+
             color: var(--hint);
+
             padding: 9px 13px;
+
             border-radius: 999px;
+
             font-size: 12px;
+
             font-weight: 600;
+
             transition: 0.2s ease;
         }
 
         .filter-btn:hover {
             color: var(--text);
+
             transform: translateY(-1px);
         }
 
         .filter-btn.active {
             color: var(--button-text);
+
             background: var(--button);
+
             border-color: var(--button);
         }
 
@@ -398,32 +541,47 @@
 
         .schedule-list {
             display: grid;
+
             gap: 12px;
         }
 
         .schedule-card {
             position: relative;
+
             padding: 17px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             box-shadow: var(--shadow);
+
             overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
         .schedule-card:hover {
             transform: translateY(-2px);
+
             box-shadow: var(--shadow-hover);
         }
 
         .schedule-card::before {
             content: "";
+
             position: absolute;
+
             top: 0;
             bottom: 0;
             left: 0;
+
             width: 4px;
+
             background: var(--blue);
         }
 
@@ -437,9 +595,13 @@
 
         .schedule-header {
             display: flex;
+
             align-items: flex-start;
+
             justify-content: space-between;
+
             gap: 12px;
+
             margin-bottom: 13px;
         }
 
@@ -449,57 +611,82 @@
 
         .schedule-date .date {
             font-size: 15px;
+
             font-weight: 700;
         }
 
         .schedule-date .weekday {
             margin-top: 2px;
+
             color: var(--hint);
+
             font-size: 12px;
         }
 
         .status {
             flex: 0 0 auto;
+
             padding: 6px 9px;
+
             border-radius: 999px;
+
             font-size: 10px;
+
             font-weight: 700;
+
             white-space: nowrap;
         }
 
         .status.completed {
             color: var(--green);
-            background: rgba(46, 170, 103, 0.11);
+
+            background:
+                rgba(46, 170, 103, 0.11);
         }
 
         .status.upcoming {
             color: var(--blue);
-            background: rgba(36, 129, 204, 0.11);
+
+            background:
+                rgba(36, 129, 204, 0.11);
         }
 
         .status.today {
             color: var(--orange);
-            background: rgba(245, 158, 11, 0.12);
+
+            background:
+                rgba(245, 158, 11, 0.12);
         }
 
         .schedule-item {
             display: grid;
-            grid-template-columns: 76px minmax(0, 1fr) auto;
+
+            grid-template-columns:
+                76px minmax(0, 1fr) auto;
+
             align-items: center;
+
             gap: 12px;
+
             padding: 12px 0;
-            border-top: 1px solid var(--border);
+
+            border-top:
+                1px solid var(--border);
         }
 
         .schedule-item:first-child {
             border-top: 0;
+
             padding-top: 0;
         }
 
         .schedule-time {
             color: var(--blue);
+
             font-size: 13px;
+
             font-weight: 700;
+
             white-space: nowrap;
         }
 
@@ -509,22 +696,31 @@
 
         .schedule-main strong {
             display: block;
+
             margin-bottom: 3px;
+
             font-size: 13px;
+
             line-height: 1.35;
         }
 
         .schedule-main span {
             display: block;
+
             color: var(--hint);
+
             font-size: 11px;
+
             line-height: 1.4;
         }
 
         .schedule-teacher {
             color: var(--hint);
+
             font-size: 11px;
+
             text-align: right;
+
             white-space: nowrap;
         }
 
@@ -534,31 +730,51 @@
 
         .info-card {
             padding: 16px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             box-shadow: var(--shadow);
         }
 
         .info-card p {
             margin: 0;
+
             color: var(--hint);
+
             font-size: 13px;
         }
 
         .progress {
             height: 9px;
+
             margin-top: 10px;
-            background: rgba(127, 127, 127, 0.13);
+
+            background:
+                rgba(127, 127, 127, 0.13);
+
             border-radius: 999px;
+
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
+
             width: 0;
+
             border-radius: inherit;
-            background: linear-gradient(90deg, var(--blue), #6c63ff);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    #6c63ff
+                );
+
             transition: width 0.4s ease;
         }
 
@@ -568,18 +784,27 @@
 
         .actions {
             display: flex;
+
             flex-wrap: wrap;
+
             gap: 9px;
+
             margin-top: 13px;
         }
 
         .btn {
             min-height: 42px;
+
             border: 0;
+
             border-radius: 12px;
+
             padding: 10px 15px;
+
             font-size: 12px;
+
             font-weight: 650;
+
             transition: 0.2s ease;
         }
 
@@ -593,24 +818,34 @@
 
         .btn-primary {
             color: var(--button-text);
+
             background: var(--button);
-            box-shadow: 0 6px 16px rgba(36, 129, 204, 0.18);
+
+            box-shadow:
+                0 6px 16px rgba(36, 129, 204, 0.18);
         }
 
         .btn-secondary {
             color: var(--text);
-            background: rgba(127, 127, 127, 0.08);
-            border: 1px solid var(--border);
+
+            background:
+                rgba(127, 127, 127, 0.08);
+
+            border:
+                1px solid var(--border);
         }
 
         .btn-danger {
             color: #fff;
+
             background: var(--red);
         }
 
         .btn:disabled {
             opacity: 0.5;
+
             cursor: not-allowed;
+
             transform: none;
         }
 
@@ -620,45 +855,67 @@
 
         .topics-list {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 12px;
         }
 
         .topic-card {
             display: flex;
+
             flex-direction: column;
+
             padding: 16px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             box-shadow: var(--shadow);
         }
 
         .topic-card h3 {
             margin: 0 0 8px;
+
             font-size: 14px;
+
             line-height: 1.4;
         }
 
         .topic-card p {
             margin: 0 0 12px;
+
             color: var(--hint);
+
             font-size: 11px;
+
             line-height: 1.45;
         }
 
         .topic-meta {
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             gap: 8px;
+
             margin-top: auto;
+
             padding-top: 12px;
-            border-top: 1px solid var(--border);
+
+            border-top:
+                1px solid var(--border);
         }
 
         .topic-meta span {
             color: var(--hint);
+
             font-size: 10px;
         }
 
@@ -668,18 +925,27 @@
 
         .bookings-list {
             display: grid;
+
             gap: 10px;
         }
 
         .booking-item {
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             gap: 12px;
+
             padding: 14px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius-sm);
+
             box-shadow: var(--shadow);
         }
 
@@ -689,13 +955,17 @@
 
         .booking-info strong {
             display: block;
+
             margin-bottom: 3px;
+
             font-size: 13px;
         }
 
         .booking-info span {
             display: block;
+
             color: var(--hint);
+
             font-size: 11px;
         }
 
@@ -709,80 +979,118 @@
 
         .notifications-list {
             display: grid;
+
             gap: 10px;
         }
 
         .notification-item {
             display: flex;
+
             align-items: center;
+
             gap: 13px;
+
             padding: 15px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             box-shadow: var(--shadow);
         }
 
         .notification-icon {
             width: 40px;
             height: 40px;
+
             flex: 0 0 40px;
+
             display: grid;
+
             place-items: center;
+
             border-radius: 12px;
-            background: rgba(36, 129, 204, 0.1);
+
+            background:
+                rgba(36, 129, 204, 0.1);
+
             font-size: 18px;
         }
 
         .notification-info {
             flex: 1;
+
             min-width: 0;
         }
 
         .notification-info strong {
             display: block;
+
             margin-bottom: 3px;
+
             font-size: 13px;
         }
 
         .notification-info span {
             display: block;
+
             color: var(--hint);
+
             font-size: 11px;
         }
 
         .switch {
             position: relative;
+
             width: 46px;
             height: 27px;
+
             flex: 0 0 46px;
         }
 
         .switch input {
             position: absolute;
+
             opacity: 0;
+
             pointer-events: none;
         }
 
         .slider {
             position: absolute;
+
             inset: 0;
+
             cursor: pointer;
+
             border-radius: 999px;
-            background: rgba(127, 127, 127, 0.2);
+
+            background:
+                rgba(127, 127, 127, 0.2);
+
             transition: 0.2s ease;
         }
 
         .slider::before {
             content: "";
+
             position: absolute;
+
             width: 21px;
             height: 21px;
+
             left: 3px;
             top: 3px;
+
             border-radius: 50%;
+
             background: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+
+            box-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.16);
+
             transition: 0.2s ease;
         }
 
@@ -800,97 +1108,146 @@
 
         .queue-card {
             padding: 20px;
+
             background:
-                linear-gradient(135deg, rgba(36, 129, 204, 0.08), transparent 60%),
+                linear-gradient(
+                    135deg,
+                    rgba(36, 129, 204, 0.08),
+                    transparent 60%
+                ),
                 var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             box-shadow: var(--shadow);
         }
 
         .queue-main {
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             gap: 20px;
         }
 
         .queue-number {
-            font-size: clamp(38px, 7vw, 58px);
+            font-size:
+                clamp(38px, 7vw, 58px);
+
             line-height: 1;
+
             font-weight: 700;
+
             letter-spacing: -0.06em;
+
             color: var(--blue);
         }
 
         .queue-label {
             color: var(--hint);
+
             font-size: 12px;
         }
 
         .queue-stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 8px;
+
             margin-top: 18px;
         }
 
         .queue-stat {
             padding: 11px;
+
             border-radius: 12px;
-            background: rgba(127, 127, 127, 0.06);
+
+            background:
+                rgba(127, 127, 127, 0.06);
+
             text-align: center;
         }
 
         .queue-stat strong {
             display: block;
+
             margin-bottom: 2px;
+
             font-size: 16px;
         }
 
         .queue-stat span {
             color: var(--hint);
+
             font-size: 10px;
         }
 
         /* =========================
-           CABINET / FORMS
+           CABINET
         ========================= */
 
         .profile-card {
             padding: 20px;
+
             background: var(--card-bg);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             box-shadow: var(--shadow);
         }
 
         .profile-header {
             display: flex;
+
             align-items: center;
+
             gap: 14px;
+
             margin-bottom: 18px;
         }
 
         .avatar {
             width: 56px;
             height: 56px;
+
             flex: 0 0 56px;
+
             display: grid;
+
             place-items: center;
+
             border-radius: 18px;
-            background: linear-gradient(135deg, rgba(36, 129, 204, 0.14), rgba(139, 92, 246, 0.15));
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(36, 129, 204, 0.14),
+                    rgba(139, 92, 246, 0.15)
+                );
+
             font-size: 25px;
         }
 
         .profile-header h2 {
             margin: 0 0 3px;
+
             font-size: 17px;
         }
 
         .profile-header p {
             margin: 0;
+
             color: var(--hint);
+
             font-size: 12px;
         }
 
@@ -900,31 +1257,43 @@
 
         .form-group label {
             display: block;
+
             margin-bottom: 6px;
+
             color: var(--hint);
+
             font-size: 11px;
+
             font-weight: 600;
         }
 
         .form-control {
             width: 100%;
+
             min-height: 43px;
+
             padding: 10px 12px;
+
             color: var(--text);
-            background: rgba(127, 127, 127, 0.055);
-            border: 1px solid var(--border);
+
+            background:
+                rgba(127, 127, 127, 0.055);
+
+            border:
+                1px solid var(--border);
+
             border-radius: 11px;
+
             outline: none;
+
             transition: 0.2s ease;
         }
 
         .form-control:focus {
             border-color: var(--button);
-            box-shadow: 0 0 0 3px rgba(36, 129, 204, 0.1);
-        }
 
-        select.form-control {
-            appearance: auto;
+            box-shadow:
+                0 0 0 3px rgba(36, 129, 204, 0.1);
         }
 
         /* =========================
@@ -933,67 +1302,101 @@
 
         #status {
             position: fixed;
+
             left: 50%;
             bottom: 18px;
+
             z-index: 1000;
-            width: min(500px, calc(100% - 28px));
+
+            width:
+                min(500px, calc(100% - 28px));
+
             transform: translateX(-50%);
+
             padding: 12px 15px;
-            border: 1px solid var(--border);
+
+            border:
+                1px solid var(--border);
+
             border-radius: 13px;
+
             background: var(--card-bg);
-            box-shadow: 0 14px 40px rgba(20, 35, 55, 0.16);
+
+            box-shadow:
+                0 14px 40px rgba(20, 35, 55, 0.16);
+
             color: var(--text);
+
             font-size: 12px;
+
             text-align: center;
+
             display: none;
         }
 
         #status.show {
             display: block;
-            animation: statusIn 0.2s ease;
+
+            animation:
+                statusIn 0.2s ease;
         }
 
         @keyframes statusIn {
             from {
                 opacity: 0;
-                transform: translate(-50%, 8px);
+
+                transform:
+                    translate(-50%, 8px);
             }
 
             to {
                 opacity: 1;
-                transform: translate(-50%, 0);
+
+                transform:
+                    translate(-50%, 0);
             }
         }
 
         .empty-state {
             padding: 34px 18px;
+
             background: var(--card-bg);
-            border: 1px dashed var(--border);
+
+            border:
+                1px dashed var(--border);
+
             border-radius: var(--radius);
+
             text-align: center;
         }
 
         .empty-state .icon {
             margin-bottom: 8px;
+
             font-size: 28px;
         }
 
         .empty-state strong {
             display: block;
+
             margin-bottom: 4px;
+
             font-size: 13px;
         }
 
         .empty-state span {
             color: var(--hint);
+
             font-size: 11px;
         }
 
         hr {
             height: 1px;
+
             margin: 20px 0;
+
             border: 0;
+
             background: var(--border);
         }
 
@@ -1002,26 +1405,32 @@
         ========================= */
 
         @media (min-width: 601px) and (max-width: 900px) {
+
             .container {
-                width: min(100% - 28px, 820px);
+                width:
+                    min(100% - 28px, 820px);
             }
 
             .topics-list {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
             }
         }
 
         /* =========================
-           LAPTOP / DESKTOP
+           LAPTOP
         ========================= */
 
         @media (min-width: 901px) {
+
             .container {
-                width: min(1040px, calc(100% - 48px));
+                width:
+                    min(1040px, calc(100% - 48px));
             }
 
             .schedule-list {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
             }
 
             .schedule-card:first-child {
@@ -1029,11 +1438,13 @@
             }
 
             .topics-list {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
             }
         }
 
         @media (min-width: 1200px) {
+
             .container {
                 width: 1080px;
             }
@@ -1052,20 +1463,27 @@
         ========================= */
 
         @media (max-width: 600px) {
+
             .container {
-                width: calc(100% - 20px);
+                width:
+                    calc(100% - 20px);
+
                 padding-bottom: 28px;
             }
 
             header {
                 margin-top: 10px;
+
                 padding: 16px;
+
                 border-radius: 19px;
             }
 
             .header-content {
                 align-items: flex-start;
+
                 flex-direction: column;
+
                 gap: 13px;
             }
 
@@ -1076,38 +1494,38 @@
             .brand-icon {
                 width: 46px;
                 height: 46px;
+
                 flex-basis: 46px;
+
                 border-radius: 14px;
+
                 font-size: 22px;
-            }
-
-            .header-info {
-                width: 100%;
-                justify-content: flex-start;
-            }
-
-            .badge {
-                padding: 7px 10px;
             }
 
             .tabs {
                 top: 5px;
+
                 margin-bottom: 14px;
+
                 border-radius: 14px;
             }
 
             .tab {
                 min-width: 108px;
+
                 padding: 10px 12px;
             }
 
             .stats-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+
                 gap: 8px;
             }
 
             .stat-card {
                 padding: 13px 10px;
+
                 border-radius: 14px;
             }
 
@@ -1130,18 +1548,24 @@
 
             .schedule-card {
                 padding: 14px;
+
                 border-radius: 15px;
             }
 
             .schedule-item {
-                grid-template-columns: 62px minmax(0, 1fr);
+                grid-template-columns:
+                    62px minmax(0, 1fr);
+
                 gap: 8px;
             }
 
             .schedule-teacher {
                 grid-column: 2;
+
                 text-align: left;
+
                 white-space: normal;
+
                 margin-top: -4px;
             }
 
@@ -1155,6 +1579,7 @@
 
             .booking-item {
                 align-items: flex-start;
+
                 flex-direction: column;
             }
 
@@ -1204,8 +1629,10 @@
         ========================= */
 
         @media (max-width: 360px) {
+
             .container {
-                width: calc(100% - 14px);
+                width:
+                    calc(100% - 14px);
             }
 
             .brand-text h1 {
@@ -1229,7 +1656,8 @@
             }
 
             .schedule-item {
-                grid-template-columns: 56px minmax(0, 1fr);
+                grid-template-columns:
+                    56px minmax(0, 1fr);
             }
 
             .queue-number {
@@ -1238,45 +1666,45 @@
         }
 
         /* =========================
-           ACCESSIBILITY / TOUCH
+           ACCESSIBILITY
         ========================= */
-
-        @media (hover: none) {
-            .schedule-card:hover,
-            .btn:hover,
-            .filter-btn:hover,
-            .tab:hover {
-                transform: none;
-            }
-        }
 
         button:focus-visible,
         input:focus-visible,
         select:focus-visible,
         textarea:focus-visible {
-            outline: 2px solid var(--button);
+            outline:
+                2px solid var(--button);
+
             outline-offset: 2px;
         }
 
         @media (prefers-reduced-motion: reduce) {
+
             *,
             *::before,
             *::after {
                 scroll-behavior: auto !important;
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
+
+                animation-duration:
+                    0.01ms !important;
+
+                transition-duration:
+                    0.01ms !important;
             }
         }
 
-        /* =========================
-           DARK THEME FALLBACK
-        ========================= */
-
         @media (prefers-color-scheme: dark) {
+
             :root {
-                --border: rgba(255, 255, 255, 0.1);
-                --shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
-                --shadow-hover: 0 12px 34px rgba(0, 0, 0, 0.24);
+                --border:
+                    rgba(255, 255, 255, 0.1);
+
+                --shadow:
+                    0 8px 30px rgba(0, 0, 0, 0.18);
+
+                --shadow-hover:
+                    0 12px 34px rgba(0, 0, 0, 0.24);
             }
         }
     </style>
@@ -1291,24 +1719,33 @@
     ========================== -->
 
     <header>
+
         <div class="header-content">
 
             <div class="brand">
-                <div class="brand-icon">🎓</div>
+
+                <div class="brand-icon">
+                    🎓
+                </div>
 
                 <div class="brand-text">
-                    <h1>Учебный центр</h1>
-                    <p>Студенческий помощник</p>
-                </div>
-            </div>
 
-            <div class="header-info">
-                <span class="badge">МН-4-25-01</span>
-                <span class="badge">Сентябрь 2026</span>
+                    <h1>
+                        Учебный центр
+                    </h1>
+
+                    <p>
+                        Студенческий помощник
+                    </p>
+
+                </div>
+
             </div>
 
         </div>
+
     </header>
+
 
     <!-- =========================
          TABS
@@ -1316,93 +1753,176 @@
 
     <div class="tabs">
 
-        <button class="tab active" onclick="switchTab('schedule', this)">
+        <button
+            class="tab active"
+            onclick="switchTab('schedule', this)"
+        >
             📅 Расписание
         </button>
 
-        <button class="tab" onclick="switchTab('topics', this)">
+        <button
+            class="tab"
+            onclick="switchTab('topics', this)"
+        >
             📚 Доклады
         </button>
 
-        <button class="tab" onclick="switchTab('cabinet', this)">
+        <button
+            class="tab"
+            onclick="switchTab('cabinet', this)"
+        >
             👤 Кабинет
         </button>
 
-        <button class="tab" onclick="switchTab('notifications', this)">
+        <button
+            class="tab"
+            onclick="switchTab('notifications', this)"
+        >
             🔔 Уведомления
         </button>
 
-        <button class="tab" onclick="switchTab('queue', this)">
+        <button
+            class="tab"
+            onclick="switchTab('queue', this)"
+        >
             🕐 Очередь
         </button>
 
     </div>
 
+
     <!-- =========================
          SCHEDULE
     ========================== -->
 
-    <section id="schedule" class="tab-content active">
+    <section
+        id="schedule"
+        class="tab-content active"
+    >
 
         <div class="section-title">
-            <h2>📅 Расписание</h2>
-            <span>Сентябрь 2026</span>
+
+            <h2>
+                📅 Расписание
+            </h2>
+
+            <span>
+                Сентябрь — декабрь 2026
+            </span>
+
         </div>
+
 
         <div class="stats-grid">
 
             <div class="stat-card">
-                <span class="number blue" id="scheduleTotal">0</span>
-                <span class="label">Всего занятий</span>
+
+                <span
+                    class="number blue"
+                    id="scheduleTotal"
+                >
+                    0
+                </span>
+
+                <span class="label">
+                    Учебных дней
+                </span>
+
             </div>
 
-            <div class="stat-card">
-                <span class="number green" id="scheduleDone">0</span>
-                <span class="label">Завершено</span>
-            </div>
 
             <div class="stat-card">
-                <span class="number orange" id="scheduleLeft">0</span>
-                <span class="label">Осталось</span>
+
+                <span
+                    class="number green"
+                    id="scheduleDone"
+                >
+                    0
+                </span>
+
+                <span class="label">
+                    Завершено
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span
+                    class="number orange"
+                    id="scheduleLeft"
+                >
+                    0
+                </span>
+
+                <span class="label">
+                    Осталось
+                </span>
+
             </div>
 
         </div>
 
+
         <div class="filters">
 
-            <button class="filter-btn active" data-filter="all">
+            <button
+                class="filter-btn active"
+                data-filter="all"
+            >
                 Все
             </button>
 
-            <button class="filter-btn" data-filter="today">
+            <button
+                class="filter-btn"
+                data-filter="today"
+            >
                 Сегодня
             </button>
 
-            <button class="filter-btn" data-filter="upcoming">
+            <button
+                class="filter-btn"
+                data-filter="upcoming"
+            >
                 Предстоящие
             </button>
 
-            <button class="filter-btn" data-filter="completed">
+            <button
+                class="filter-btn"
+                data-filter="completed"
+            >
                 Завершённые
             </button>
 
         </div>
 
-        <div id="scheduleContainer" class="schedule-list"></div>
 
-        <div class="info-card" style="margin-top: 14px;">
+        <div
+            id="scheduleContainer"
+            class="schedule-list"
+        ></div>
+
+
+        <div
+            class="info-card"
+            style="margin-top: 14px;"
+        >
 
             <p>
-                📊 Прогресс учебного месяца
+                📊 Прогресс учебного периода
             </p>
 
             <div class="progress">
+
                 <div
                     id="scheduleProgress"
                     class="progress-bar"
                     style="width: 0%;"
                 ></div>
+
             </div>
+
 
             <div class="actions">
 
@@ -1419,40 +1939,72 @@
 
     </section>
 
+
     <!-- =========================
          TOPICS
     ========================== -->
 
-    <section id="topics" class="tab-content">
+    <section
+        id="topics"
+        class="tab-content"
+    >
 
         <div class="section-title">
-            <h2>📚 Темы докладов</h2>
-            <span>Выберите тему</span>
+
+            <h2>
+                📚 Темы докладов
+            </h2>
+
+            <span>
+                Выберите тему
+            </span>
+
         </div>
 
-        <div class="info-card" style="margin-bottom: 14px;">
+
+        <div
+            class="info-card"
+            style="margin-bottom: 14px;"
+        >
 
             <p>
-                Выберите интересующую тему доклада и забронируйте её.
-                После бронирования информация появится в разделе
+                Выберите интересующую тему доклада
+                и забронируйте её. После бронирования
+                информация появится в разделе
                 «Мои бронирования».
             </p>
 
         </div>
 
-        <div id="topicsContainer" class="topics-list"></div>
 
-        <div class="section" style="margin-top: 20px;">
+        <div
+            id="topicsContainer"
+            class="topics-list"
+        ></div>
+
+
+        <div
+            class="section"
+            style="margin-top: 20px;"
+        >
 
             <div class="section-title">
-                <h3>📋 Мои бронирования</h3>
-                <span>Ваши темы</span>
+
+                <h3>
+                    📋 Мои бронирования
+                </h3>
+
+                <span>
+                    Ваши темы
+                </span>
+
             </div>
 
-            <!-- Добавлено для корректного отображения статистики -->
+
             <div class="stats-grid">
 
                 <div class="stat-card">
+
                     <span
                         class="number blue"
                         id="myBookingsCount"
@@ -1463,9 +2015,12 @@
                     <span class="label">
                         Мои темы
                     </span>
+
                 </div>
 
+
                 <div class="stat-card">
+
                     <span
                         class="number green"
                         id="myProgress"
@@ -1476,9 +2031,12 @@
                     <span class="label">
                         Прогресс
                     </span>
+
                 </div>
 
+
                 <div class="stat-card">
+
                     <span class="number purple">
                         15.09
                     </span>
@@ -1486,9 +2044,11 @@
                     <span class="label">
                         Дедлайн
                     </span>
+
                 </div>
 
             </div>
+
 
             <div
                 id="myBookingsContainer"
@@ -1499,41 +2059,69 @@
 
     </section>
 
+
     <!-- =========================
          CABINET
     ========================== -->
 
-    <section id="cabinet" class="tab-content">
+    <section
+        id="cabinet"
+        class="tab-content"
+    >
 
         <div class="section-title">
-            <h2>👤 Кабинет</h2>
-            <span>Личные данные</span>
+
+            <h2>
+                👤 Кабинет
+            </h2>
+
+            <span>
+                Личные данные
+            </span>
+
         </div>
+
 
         <div id="cabinetContainer"></div>
 
     </section>
 
+
     <!-- =========================
          NOTIFICATIONS
     ========================== -->
 
-    <section id="notifications" class="tab-content">
+    <section
+        id="notifications"
+        class="tab-content"
+    >
 
         <div class="section-title">
-            <h2>🔔 Уведомления</h2>
-            <span id="notifOn">0 включено</span>
+
+            <h2>
+                🔔 Уведомления
+            </h2>
+
+            <span id="notifOn">
+                0 включено
+            </span>
+
         </div>
 
-        <div class="info-card" style="margin-bottom: 14px;">
+
+        <div
+            class="info-card"
+            style="margin-bottom: 14px;"
+        >
 
             <p>
-                Настройте уведомления, чтобы не пропустить важные
-                изменения в расписании, дедлайны и информацию
-                по докладам.
+                Настройте уведомления, чтобы не пропустить
+                важные изменения в расписании, дедлайны
+                и информацию по докладам.
             </p>
 
         </div>
+
 
         <div
             id="notificationsContainer"
@@ -1542,16 +2130,28 @@
 
     </section>
 
+
     <!-- =========================
          QUEUE
     ========================== -->
 
-    <section id="queue" class="tab-content">
+    <section
+        id="queue"
+        class="tab-content"
+    >
 
         <div class="section-title">
-            <h2>🕐 Очередь</h2>
-            <span>Актуальная информация</span>
+
+            <h2>
+                🕐 Очередь
+            </h2>
+
+            <span>
+                Актуальная информация
+            </span>
+
         </div>
+
 
         <div id="queueContainer"></div>
 
@@ -1559,332 +2159,889 @@
 
 </div>
 
+
 <!-- =========================
      STATUS
 ========================== -->
 
 <div id="status"></div>
 
+
 <script>
+
     /* =========================================================
        TELEGRAM
     ========================================================= */
 
-    const tg = window.Telegram && window.Telegram.WebApp
-        ? window.Telegram.WebApp
-        : null;
+    const tg =
+        window.Telegram &&
+        window.Telegram.WebApp
+            ? window.Telegram.WebApp
+            : null;
+
 
     if (tg) {
+
         tg.ready();
+
         tg.expand();
 
         try {
-            tg.setHeaderColor('secondary_bg_color');
-            tg.setBackgroundColor('bg_color');
-        } catch (e) {
-            console.log('Telegram theme setup skipped');
+
+            tg.setHeaderColor(
+                'secondary_bg_color'
+            );
+
+            tg.setBackgroundColor(
+                'bg_color'
+            );
+
+        } catch (error) {
+
+            console.log(
+                'Telegram theme setup skipped'
+            );
+
         }
     }
 
 
     /* =========================================================
-       DATA
-    ========================================================= */
+       РАСПИСАНИЕ
+       
+       Источник:
+       https://spb.ranepa.ru/raspisanie/mn-4-25-01-02-semestr/
+
+       Правило:
+       - обычные пары -> МН-4-25-01
+       - Иностранный язык профессиональных коммуникаций
+         -> даты и время МН-4-25-02
+       - общие пары МН-4-25-01/02 -> сохраняются
+       - дни самостоятельной работы не отображаются
+       ========================================================= */
+
 
     const scheduleData = [
+
+        /* =========================
+           СЕНТЯБРЬ 2026
+        ========================= */
+
         {
             date: '01.09.2026',
             weekday: 'Вторник',
-            groups: ['МН-4-25-01', 'МН-4-25-02'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Менеджмент',
-                    type: 'Лекция',
-                    room: 'Ауд. 301',
-                    teacher: 'Иванов И.И.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Маркетинг',
-                    type: 'Практика',
-                    room: 'Ауд. 204',
-                    teacher: 'Петрова А.А.'
+                    time: '20:00–21:20',
+                    subject: 'Научно-исследовательская работа (П)',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
                 }
             ]
         },
+
 
         {
             date: '03.09.2026',
             weekday: 'Четверг',
-            groups: ['МН-4-25-01'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Экономика',
-                    type: 'Лекция',
-                    room: 'Ауд. 302',
-                    teacher: 'Смирнов А.С.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Управление персоналом',
-                    type: 'Практика',
-                    room: 'Ауд. 207',
-                    teacher: 'Кузнецова Е.В.'
+                    time: '18:30–21:20',
+                    subject: 'Управление программами и портфелями проектов',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
                 }
             ]
         },
+
+
+        {
+            date: '05.09.2026',
+            weekday: 'Суббота',
+
+            items: [
+                {
+                    time: '15:00–16:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                },
+                {
+                    time: '16:30–19:50',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
 
         {
             date: '08.09.2026',
             weekday: 'Вторник',
-            groups: ['МН-4-25-01', 'МН-4-25-02'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Менеджмент',
-                    type: 'Практика',
-                    room: 'Ауд. 301',
-                    teacher: 'Иванов И.И.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Маркетинг',
-                    type: 'Лекция',
-                    room: 'Ауд. 204',
-                    teacher: 'Петрова А.А.'
+                    time: '18:30–21:20',
+                    subject: 'Управление бизнес-процессами',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Золотухин В.А.'
                 }
             ]
         },
+
+
+        /*
+         * ВАЖНО:
+         * Здесь используется дата и время группы МН-4-25-02
+         * для иностранного языка.
+         */
+        {
+            date: '16.09.2026',
+            weekday: 'Среда',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Иностранный язык профессиональных коммуникаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Санжарова О.Н.'
+                }
+            ]
+        },
+
 
         {
             date: '10.09.2026',
             weekday: 'Четверг',
-            groups: ['МН-4-25-01'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Экономика',
-                    type: 'Практика',
-                    room: 'Ауд. 302',
-                    teacher: 'Смирнов А.С.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Управление персоналом',
-                    type: 'Лекция',
-                    room: 'Ауд. 207',
-                    teacher: 'Кузнецова Е.В.'
+                    time: '18:30–21:20',
+                    subject: 'Методы реализации научно-исследовательских проектов',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Золотухин В.А.'
                 }
             ]
         },
+
 
         {
             date: '15.09.2026',
             weekday: 'Вторник',
-            groups: ['МН-4-25-01', 'МН-4-25-02'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Менеджмент',
-                    type: 'Лекция',
-                    room: 'Ауд. 301',
-                    teacher: 'Иванов И.И.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Маркетинг',
-                    type: 'Практика',
-                    room: 'Ауд. 204',
-                    teacher: 'Петрова А.А.'
+                    time: '18:30–21:20',
+                    subject: 'Управление программами и портфелями проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
                 }
             ]
         },
+
 
         {
             date: '17.09.2026',
             weekday: 'Четверг',
-            groups: ['МН-4-25-01'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Экономика',
-                    type: 'Лекция',
-                    room: 'Ауд. 302',
-                    teacher: 'Смирнов А.С.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Управление персоналом',
-                    type: 'Практика',
-                    room: 'Ауд. 207',
-                    teacher: 'Кузнецова Е.В.'
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
                 }
             ]
         },
+
 
         {
             date: '22.09.2026',
             weekday: 'Вторник',
-            groups: ['МН-4-25-01', 'МН-4-25-02'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Менеджмент',
-                    type: 'Практика',
-                    room: 'Ауд. 301',
-                    teacher: 'Иванов И.И.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Маркетинг',
-                    type: 'Лекция',
-                    room: 'Ауд. 204',
-                    teacher: 'Петрова А.А.'
+                    time: '18:30–21:20',
+                    subject: 'Управление бизнес-процессами',
+                    type: 'ПЗ',
+                    room: 'СДО РАНхИГС',
+                    teacher: 'Золотухин В.А.'
                 }
             ]
         },
+
+
+        /*
+         * Иностранный язык:
+         * дата 23.09 здесь не используется,
+         * поскольку по запросу пользователя для него
+         * берём расписание группы МН-4-25-02.
+         */
+        {
+            date: '30.09.2026',
+            weekday: 'Среда',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Иностранный язык профессиональных коммуникаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Санжарова О.Н.'
+                }
+            ]
+        },
+
 
         {
             date: '24.09.2026',
             weekday: 'Четверг',
-            groups: ['МН-4-25-01'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Экономика',
-                    type: 'Практика',
-                    room: 'Ауд. 302',
-                    teacher: 'Смирнов А.С.'
-                },
-                {
-                    time: '10:45–12:15',
-                    subject: 'Управление персоналом',
-                    type: 'Лекция',
-                    room: 'Ауд. 207',
-                    teacher: 'Кузнецова Е.В.'
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
                 }
             ]
         },
 
+
         {
             date: '29.09.2026',
             weekday: 'Вторник',
-            groups: ['МН-4-25-01', 'МН-4-25-02'],
+
             items: [
                 {
-                    time: '09:00–10:30',
-                    subject: 'Менеджмент',
-                    type: 'Лекция',
-                    room: 'Ауд. 301',
-                    teacher: 'Иванов И.И.'
-                },
+                    time: '18:30–21:20',
+                    subject: 'Управление бизнес-процессами',
+                    type: 'ПЗ',
+                    room: 'СДО РАНхиГС',
+                    teacher: 'Золотухин В.А.'
+                }
+            ]
+        },
+
+
+        /* =========================
+           ОКТЯБРЬ 2026
+        ========================= */
+
+        {
+            date: '01.10.2026',
+            weekday: 'Четверг',
+
+            items: [
                 {
-                    time: '10:45–12:15',
-                    subject: 'Маркетинг',
-                    type: 'Практика',
-                    room: 'Ауд. 204',
-                    teacher: 'Петрова А.А.'
+                    time: '18:30–21:20',
+                    subject: 'Развитие компетенций руководителя проекта и проектных команд',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Кучина О.В.'
+                }
+            ]
+        },
+
+
+        {
+            date: '06.10.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Управление бизнес-процессами',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Золотухин В.А.'
+                }
+            ]
+        },
+
+
+        {
+            date: '07.10.2026',
+            weekday: 'Среда',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Иностранный язык профессиональных коммуникаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Санжарова О.Н.'
+                }
+            ]
+        },
+
+
+        {
+            date: '08.10.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
+
+        {
+            date: '13.10.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Управление программами и портфелями проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
+                }
+            ]
+        },
+
+
+        {
+            date: '15.10.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Развитие компетенций руководителя проекта и проектных команд',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Кучина О.В.'
+                }
+            ]
+        },
+
+
+        {
+            date: '17.10.2026',
+            weekday: 'Суббота',
+
+            items: [
+                {
+                    time: '15:00–17:50',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
+
+        {
+            date: '20.10.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
+
+        {
+            date: '21.10.2026',
+            weekday: 'Среда',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Иностранный язык профессиональных коммуникаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Санжарова О.Н.'
+                }
+            ]
+        },
+
+
+        {
+            date: '22.10.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Развитие компетенций руководителя проекта и проектных команд',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Кучина О.В.'
+                }
+            ]
+        },
+
+
+        {
+            date: '24.10.2026',
+            weekday: 'Суббота',
+
+            items: [
+                {
+                    time: '15:00–17:50',
+                    subject: 'Управление бизнес-процессами',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Золотухин В.А.'
+                }
+            ]
+        },
+
+
+        {
+            date: '27.10.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Управление программами и портфелями проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
+                }
+            ]
+        },
+
+
+        {
+            date: '28.10.2026',
+            weekday: 'Среда',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Иностранный язык профессиональных коммуникаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Санжарова О.Н.'
+                }
+            ]
+        },
+
+
+        {
+            date: '29.10.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Развитие компетенций руководителя проекта и проектных команд',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Кучина О.В.'
+                }
+            ]
+        },
+
+
+        {
+            date: '31.10.2026',
+            weekday: 'Суббота',
+
+            items: [
+                {
+                    time: '15:00–17:50',
+                    subject: 'Методы реализации научно-исследовательских проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Золотухин В.А.'
+                }
+            ]
+        },
+
+
+        /* =========================
+           НОЯБРЬ 2026
+        ========================= */
+
+        {
+            date: '03.11.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
+
+        {
+            date: '05.11.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Развитие компетенций руководителя проекта и проектных команд',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Кучина О.В.'
+                }
+            ]
+        },
+
+
+        {
+            date: '10.11.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Управление программами и портфелями проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
+                }
+            ]
+        },
+
+
+        {
+            date: '11.11.2026',
+            weekday: 'Среда',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Иностранный язык профессиональных коммуникаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Санжарова О.Н.'
+                }
+            ]
+        },
+
+
+        {
+            date: '12.11.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'Л',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
+
+        {
+            date: '17.11.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
+
+        /*
+         * Для иностранного языка используется МН-4-25-02:
+         * 18.11.2026
+         */
+        {
+            date: '18.11.2026',
+            weekday: 'Среда',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Иностранный язык профессиональных коммуникаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Санжарова О.Н.'
+                }
+            ]
+        },
+
+
+        {
+            date: '19.11.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Развитие компетенций руководителя проекта и проектных команд',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Кучина О.В.'
+                }
+            ]
+        },
+
+
+        {
+            date: '24.11.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Управление программами и портфелями проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
+                }
+            ]
+        },
+
+
+        {
+            date: '26.11.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Проектное управление устойчивым развитием организаций',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Ю.Е.'
+                }
+            ]
+        },
+
+
+        /* =========================
+           ДЕКАБРЬ 2026
+        ========================= */
+
+        {
+            date: '01.12.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Развитие компетенций руководителя проекта и проектных команд',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Кучина О.В.'
+                }
+            ]
+        },
+
+
+        {
+            date: '03.12.2026',
+            weekday: 'Четверг',
+
+            items: [
+                {
+                    time: '18:30–21:20',
+                    subject: 'Управление программами и портфелями проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Суслов Е.Ю.'
+                }
+            ]
+        },
+
+
+        {
+            date: '08.12.2026',
+            weekday: 'Вторник',
+
+            items: [
+                {
+                    time: '18:30–19:50',
+                    subject: 'Методы реализации научно-исследовательских проектов',
+                    type: 'ПЗ',
+                    room: 'СДО РАНХиГС',
+                    teacher: 'Золотухин В.А.'
                 }
             ]
         }
+
     ];
 
+
+    /* =========================================================
+       ASSIGNMENTS
+    ========================================================= */
 
     const assignmentsData = [
         {
             id: 1,
             title: 'Доклад по менеджменту',
-            description: 'Подготовить доклад по выбранной теме.',
+            description:
+                'Подготовить доклад по выбранной теме.',
             deadline: '15.09.2026',
             icon: '📘'
         },
+
         {
             id: 2,
             title: 'Практическое задание по маркетингу',
-            description: 'Анализ маркетинговой стратегии компании.',
+            description:
+                'Анализ маркетинговой стратегии компании.',
             deadline: '20.09.2026',
             icon: '📊'
         },
+
         {
             id: 3,
             title: 'Контрольная по экономике',
-            description: 'Подготовка к контрольной работе.',
+            description:
+                'Подготовка к контрольной работе.',
             deadline: '24.09.2026',
             icon: '📈'
         },
+
         {
             id: 4,
             title: 'Презентация по управлению персоналом',
-            description: 'Подготовить презентацию к практическому занятию.',
+            description:
+                'Подготовить презентацию к практическому занятию.',
             deadline: '28.09.2026',
             icon: '💼'
         }
     ];
 
 
+    /* =========================================================
+       TOPICS
+    ========================================================= */
+
     const topicsData = [
+
         {
             id: 1,
-            title: 'Современные методы управления персоналом',
-            description: 'Основные подходы к управлению сотрудниками.',
+            title:
+                'Современные методы управления персоналом',
+            description:
+                'Основные подходы к управлению сотрудниками.',
             deadline: '15.09.2026'
         },
+
         {
             id: 2,
-            title: 'Цифровой маркетинг',
-            description: 'Инструменты продвижения компаний в цифровой среде.',
+            title:
+                'Цифровой маркетинг',
+            description:
+                'Инструменты продвижения компаний в цифровой среде.',
             deadline: '15.09.2026'
         },
+
         {
             id: 3,
-            title: 'Лидерство в современной организации',
-            description: 'Роль лидера и основные модели лидерства.',
+            title:
+                'Лидерство в современной организации',
+            description:
+                'Роль лидера и основные модели лидерства.',
             deadline: '15.09.2026'
         },
+
         {
             id: 4,
-            title: 'Корпоративная культура',
-            description: 'Формирование и развитие корпоративной культуры.',
+            title:
+                'Корпоративная культура',
+            description:
+                'Формирование и развитие корпоративной культуры.',
             deadline: '15.09.2026'
         },
+
         {
             id: 5,
-            title: 'Управление конфликтами',
-            description: 'Причины конфликтов и способы их разрешения.',
+            title:
+                'Управление конфликтами',
+            description:
+                'Причины конфликтов и способы их разрешения.',
             deadline: '15.09.2026'
         },
+
         {
             id: 6,
-            title: 'Стратегическое планирование',
-            description: 'Методы формирования стратегии организации.',
+            title:
+                'Стратегическое планирование',
+            description:
+                'Методы формирования стратегии организации.',
             deadline: '15.09.2026'
         },
+
         {
             id: 7,
-            title: 'Мотивация сотрудников',
-            description: 'Материальные и нематериальные способы мотивации.',
+            title:
+                'Мотивация сотрудников',
+            description:
+                'Материальные и нематериальные способы мотивации.',
             deadline: '15.09.2026'
         },
+
         {
             id: 8,
-            title: 'Брендинг компании',
-            description: 'Создание и развитие сильного бренда.',
+            title:
+                'Брендинг компании',
+            description:
+                'Создание и развитие сильного бренда.',
             deadline: '15.09.2026'
         },
+
         {
             id: 9,
-            title: 'Экономическая эффективность',
-            description: 'Показатели эффективности деятельности компании.',
+            title:
+                'Экономическая эффективность',
+            description:
+                'Показатели эффективности деятельности компании.',
             deadline: '15.09.2026'
         },
+
         {
             id: 10,
-            title: 'Командная работа',
-            description: 'Формирование эффективных рабочих команд.',
+            title:
+                'Командная работа',
+            description:
+                'Формирование эффективных рабочих команд.',
             deadline: '15.09.2026'
         }
+
     ];
 
 
@@ -1893,9 +3050,13 @@
     ========================================================= */
 
     let bookings = [];
+
     let myBookings = [];
+
     let notificationSettings = {};
+
     let isRegistered = false;
+
     let userData = null;
 
 
@@ -1904,7 +3065,11 @@
     ========================================================= */
 
     function escapeHtml(value) {
-        if (value === null || value === undefined) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
             return '';
         }
 
@@ -1918,7 +3083,9 @@
 
 
     function parseDate(dateString) {
-        const parts = dateString.split('.');
+
+        const parts =
+            dateString.split('.');
 
         return new Date(
             Number(parts[2]),
@@ -1929,7 +3096,9 @@
 
 
     function getToday() {
-        const today = new Date();
+
+        const today =
+            new Date();
 
         return new Date(
             today.getFullYear(),
@@ -1939,21 +3108,35 @@
     }
 
 
-    function showStatus(message, duration = 2500) {
-        const status = document.getElementById('status');
+    function showStatus(
+        message,
+        duration = 2500
+    ) {
+
+        const status =
+            document.getElementById('status');
 
         if (!status) {
             return;
         }
 
-        status.textContent = message;
+        status.textContent =
+            message;
+
         status.classList.add('show');
 
-        clearTimeout(window.statusTimer);
+        clearTimeout(
+            window.statusTimer
+        );
 
-        window.statusTimer = setTimeout(() => {
-            status.classList.remove('show');
-        }, duration);
+        window.statusTimer =
+            setTimeout(() => {
+
+                status.classList.remove(
+                    'show'
+                );
+
+            }, duration);
     }
 
 
@@ -1962,7 +3145,9 @@
     ========================================================= */
 
     function saveData() {
+
         try {
+
             localStorage.setItem(
                 'studentHelperBookings',
                 JSON.stringify(bookings)
@@ -1975,63 +3160,122 @@
 
             localStorage.setItem(
                 'studentHelperNotifications',
-                JSON.stringify(notificationSettings)
+                JSON.stringify(
+                    notificationSettings
+                )
             );
 
             localStorage.setItem(
                 'studentHelperRegistered',
-                JSON.stringify(isRegistered)
+                JSON.stringify(
+                    isRegistered
+                )
             );
 
             localStorage.setItem(
                 'studentHelperUserData',
-                JSON.stringify(userData)
+                JSON.stringify(
+                    userData
+                )
             );
+
         } catch (error) {
-            console.log('LocalStorage error:', error);
+
+            console.log(
+                'LocalStorage error:',
+                error
+            );
+
         }
     }
 
 
     function loadData() {
+
         try {
+
             const savedBookings =
-                localStorage.getItem('studentHelperBookings');
+                localStorage.getItem(
+                    'studentHelperBookings'
+                );
 
             const savedMyBookings =
-                localStorage.getItem('studentHelperMyBookings');
+                localStorage.getItem(
+                    'studentHelperMyBookings'
+                );
 
             const savedNotifications =
-                localStorage.getItem('studentHelperNotifications');
+                localStorage.getItem(
+                    'studentHelperNotifications'
+                );
 
             const savedRegistered =
-                localStorage.getItem('studentHelperRegistered');
+                localStorage.getItem(
+                    'studentHelperRegistered'
+                );
 
             const savedUserData =
-                localStorage.getItem('studentHelperUserData');
+                localStorage.getItem(
+                    'studentHelperUserData'
+                );
+
 
             if (savedBookings) {
-                bookings = JSON.parse(savedBookings);
+
+                bookings =
+                    JSON.parse(
+                        savedBookings
+                    );
+
             }
+
 
             if (savedMyBookings) {
-                myBookings = JSON.parse(savedMyBookings);
+
+                myBookings =
+                    JSON.parse(
+                        savedMyBookings
+                    );
+
             }
+
 
             if (savedNotifications) {
+
                 notificationSettings =
-                    JSON.parse(savedNotifications);
+                    JSON.parse(
+                        savedNotifications
+                    );
+
             }
+
 
             if (savedRegistered) {
-                isRegistered = JSON.parse(savedRegistered);
+
+                isRegistered =
+                    JSON.parse(
+                        savedRegistered
+                    );
+
             }
 
+
             if (savedUserData) {
-                userData = JSON.parse(savedUserData);
+
+                userData =
+                    JSON.parse(
+                        savedUserData
+                    );
+
             }
+
         } catch (error) {
-            console.log('LocalStorage load error:', error);
+
+            console.log(
+                'LocalStorage load error:',
+                error
+            );
+
         }
     }
 
@@ -2041,58 +3285,100 @@
     ========================================================= */
 
     function checkRegistrationStatus() {
+
         loadData();
 
-        const params = new URLSearchParams(
-            window.location.search
-        );
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
 
         const registeredParam =
             params.get('registered');
 
-        if (registeredParam === 'true') {
+
+        if (
+            registeredParam === 'true'
+        ) {
+
             isRegistered = true;
+
         }
+
 
         if (
             tg &&
             tg.initDataUnsafe &&
             tg.initDataUnsafe.user
         ) {
-            const user = tg.initDataUnsafe.user;
+
+            const user =
+                tg.initDataUnsafe.user;
+
 
             if (!userData) {
+
                 userData = {
+
                     id: user.id,
-                    first_name: user.first_name || '',
-                    last_name: user.last_name || '',
-                    username: user.username || '',
-                    group: 'МН-4-25-01'
+
+                    first_name:
+                        user.first_name || '',
+
+                    last_name:
+                        user.last_name || '',
+
+                    username:
+                        user.username || '',
+
+                    group:
+                        'МН-4-25-01'
+
                 };
+
             }
+
         }
+
 
         saveData();
 
         renderCabinet();
+
+        renderSchedule();
     }
 
 
     function autoRegisterUser() {
+
         if (
             tg &&
             tg.initDataUnsafe &&
             tg.initDataUnsafe.user
         ) {
-            const user = tg.initDataUnsafe.user;
+
+            const user =
+                tg.initDataUnsafe.user;
+
 
             userData = {
+
                 id: user.id,
-                first_name: user.first_name || '',
-                last_name: user.last_name || '',
-                username: user.username || '',
-                group: 'МН-4-25-01'
+
+                first_name:
+                    user.first_name || '',
+
+                last_name:
+                    user.last_name || '',
+
+                username:
+                    user.username || '',
+
+                group:
+                    'МН-4-25-01'
+
             };
+
 
             isRegistered = true;
 
@@ -2100,33 +3386,57 @@
 
             renderCabinet();
 
-            showStatus('Регистрация выполнена');
+            renderSchedule();
+
+            showStatus(
+                'Регистрация выполнена'
+            );
         }
     }
 
 
     function showRegistrationForm() {
+
         const container =
-            document.getElementById('cabinetContainer');
+            document.getElementById(
+                'cabinetContainer'
+            );
 
         if (!container) {
             return;
         }
 
+
         container.innerHTML = `
+
             <div class="profile-card">
 
                 <div class="profile-header">
-                    <div class="avatar">🎓</div>
+
+                    <div class="avatar">
+                        🎓
+                    </div>
 
                     <div>
-                        <h2>Регистрация</h2>
-                        <p>Заполните данные студента</p>
+
+                        <h2>
+                            Регистрация
+                        </h2>
+
+                        <p>
+                            Заполните данные студента
+                        </p>
+
                     </div>
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>Имя</label>
+
+                    <label>
+                        Имя
+                    </label>
 
                     <input
                         id="regFirstName"
@@ -2134,10 +3444,15 @@
                         type="text"
                         placeholder="Введите имя"
                     >
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>Фамилия</label>
+
+                    <label>
+                        Фамилия
+                    </label>
 
                     <input
                         id="regLastName"
@@ -2145,15 +3460,21 @@
                         type="text"
                         placeholder="Введите фамилию"
                     >
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>Учебная группа</label>
+
+                    <label>
+                        Учебная группа
+                    </label>
 
                     <select
                         id="regGroup"
                         class="form-control"
                     >
+
                         <option value="МН-4-25-01">
                             МН-4-25-01
                         </option>
@@ -2161,8 +3482,11 @@
                         <option value="МН-4-25-02">
                             МН-4-25-02
                         </option>
+
                     </select>
+
                 </div>
+
 
                 <div class="actions">
 
@@ -2181,37 +3505,82 @@
 
 
     function registerUser() {
+
         const firstName =
-            document.getElementById('regFirstName')?.value.trim();
+            document
+                .getElementById(
+                    'regFirstName'
+                )
+                ?.value
+                .trim();
+
 
         const lastName =
-            document.getElementById('regLastName')?.value.trim();
+            document
+                .getElementById(
+                    'regLastName'
+                )
+                ?.value
+                .trim();
+
 
         const group =
-            document.getElementById('regGroup')?.value;
+            document
+                .getElementById(
+                    'regGroup'
+                )
+                ?.value;
 
-        if (!firstName || !lastName) {
-            showStatus('Заполните имя и фамилию');
+
+        if (
+            !firstName ||
+            !lastName
+        ) {
+
+            showStatus(
+                'Заполните имя и фамилию'
+            );
+
             return;
         }
 
+
         let telegramUser = null;
+
 
         if (
             tg &&
             tg.initDataUnsafe &&
             tg.initDataUnsafe.user
         ) {
-            telegramUser = tg.initDataUnsafe.user;
+
+            telegramUser =
+                tg.initDataUnsafe.user;
+
         }
 
+
         userData = {
-            id: telegramUser?.id || Date.now(),
-            first_name: firstName,
-            last_name: lastName,
-            username: telegramUser?.username || '',
-            group: group
+
+            id:
+                telegramUser?.id ||
+                Date.now(),
+
+            first_name:
+                firstName,
+
+            last_name:
+                lastName,
+
+            username:
+                telegramUser?.username ||
+                '',
+
+            group:
+                group
+
         };
+
 
         isRegistered = true;
 
@@ -2219,95 +3588,164 @@
 
         renderCabinet();
 
+        renderSchedule();
+
+
         if (tg) {
+
             try {
+
                 tg.sendData(
                     JSON.stringify({
+
                         type: 'register',
-                        user: userData
+
+                        user:
+                            userData
+
                     })
                 );
 
                 tg.MainButton.hide();
+
             } catch (error) {
+
                 console.log(error);
+
             }
         }
 
-        showStatus('Профиль сохранён');
+
+        showStatus(
+            'Профиль сохранён'
+        );
     }
 
 
     function showUserInfo() {
+
         renderCabinet();
+
     }
 
 
     function editProfile() {
+
         if (!userData) {
+
             showRegistrationForm();
+
             return;
         }
 
+
         const container =
-            document.getElementById('cabinetContainer');
+            document.getElementById(
+                'cabinetContainer'
+            );
+
 
         container.innerHTML = `
+
             <div class="profile-card">
 
                 <div class="profile-header">
-                    <div class="avatar">👤</div>
+
+                    <div class="avatar">
+                        👤
+                    </div>
 
                     <div>
-                        <h2>Редактирование профиля</h2>
-                        <p>Измените личные данные</p>
+
+                        <h2>
+                            Редактирование профиля
+                        </h2>
+
+                        <p>
+                            Измените личные данные
+                        </p>
+
                     </div>
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>Имя</label>
+
+                    <label>
+                        Имя
+                    </label>
 
                     <input
                         id="regFirstName"
                         class="form-control"
                         type="text"
-                        value="${escapeHtml(userData.first_name || '')}"
+                        value="${escapeHtml(
+                            userData.first_name || ''
+                        )}"
                     >
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>Фамилия</label>
+
+                    <label>
+                        Фамилия
+                    </label>
 
                     <input
                         id="regLastName"
                         class="form-control"
                         type="text"
-                        value="${escapeHtml(userData.last_name || '')}"
+                        value="${escapeHtml(
+                            userData.last_name || ''
+                        )}"
                     >
+
                 </div>
 
+
                 <div class="form-group">
-                    <label>Учебная группа</label>
+
+                    <label>
+                        Учебная группа
+                    </label>
 
                     <select
                         id="regGroup"
                         class="form-control"
                     >
+
                         <option
                             value="МН-4-25-01"
-                            ${userData.group === 'МН-4-25-01' ? 'selected' : ''}
+                            ${
+                                userData.group ===
+                                'МН-4-25-01'
+                                    ? 'selected'
+                                    : ''
+                            }
                         >
                             МН-4-25-01
                         </option>
 
+
                         <option
                             value="МН-4-25-02"
-                            ${userData.group === 'МН-4-25-02' ? 'selected' : ''}
+                            ${
+                                userData.group ===
+                                'МН-4-25-02'
+                                    ? 'selected'
+                                    : ''
+                            }
                         >
                             МН-4-25-02
                         </option>
+
                     </select>
+
                 </div>
+
 
                 <div class="actions">
 
@@ -2317,6 +3755,7 @@
                     >
                         💾 Сохранить
                     </button>
+
 
                     <button
                         class="btn btn-secondary"
@@ -2333,22 +3772,39 @@
 
 
     function renderCabinet() {
+
         const container =
-            document.getElementById('cabinetContainer');
+            document.getElementById(
+                'cabinetContainer'
+            );
+
 
         if (!container) {
             return;
         }
 
-        if (!isRegistered || !userData) {
+
+        if (
+            !isRegistered ||
+            !userData
+        ) {
+
             showRegistrationForm();
+
             return;
         }
 
+
         const fullName =
-            `${userData.first_name || ''} ${userData.last_name || ''}`.trim();
+            `${
+                userData.first_name || ''
+            } ${
+                userData.last_name || ''
+            }`.trim();
+
 
         container.innerHTML = `
+
             <div class="profile-card">
 
                 <div class="profile-header">
@@ -2358,52 +3814,94 @@
                     </div>
 
                     <div>
-                        <h2>${escapeHtml(fullName || 'Студент')}</h2>
+
+                        <h2>
+                            ${escapeHtml(
+                                fullName ||
+                                'Студент'
+                            )}
+                        </h2>
 
                         <p>
-                            ${escapeHtml(userData.group || 'Группа не указана')}
+                            ${escapeHtml(
+                                userData.group ||
+                                'Группа не указана'
+                            )}
                         </p>
+
                     </div>
 
                 </div>
+
 
                 <div class="form-group">
-                    <label>Имя</label>
+
+                    <label>
+                        Имя
+                    </label>
 
                     <div class="form-control">
-                        ${escapeHtml(userData.first_name || '—')}
+                        ${escapeHtml(
+                            userData.first_name ||
+                            '—'
+                        )}
                     </div>
+
                 </div>
+
 
                 <div class="form-group">
-                    <label>Фамилия</label>
+
+                    <label>
+                        Фамилия
+                    </label>
 
                     <div class="form-control">
-                        ${escapeHtml(userData.last_name || '—')}
+                        ${escapeHtml(
+                            userData.last_name ||
+                            '—'
+                        )}
                     </div>
+
                 </div>
+
 
                 <div class="form-group">
-                    <label>Группа</label>
+
+                    <label>
+                        Группа
+                    </label>
 
                     <div class="form-control">
-                        ${escapeHtml(userData.group || '—')}
+                        ${escapeHtml(
+                            userData.group ||
+                            '—'
+                        )}
                     </div>
+
                 </div>
+
 
                 ${
                     userData.username
                         ? `
                             <div class="form-group">
-                                <label>Telegram</label>
+
+                                <label>
+                                    Telegram
+                                </label>
 
                                 <div class="form-control">
-                                    @${escapeHtml(userData.username)}
+                                    @${escapeHtml(
+                                        userData.username
+                                    )}
                                 </div>
+
                             </div>
                         `
                         : ''
                 }
+
 
                 <div class="actions">
 
@@ -2422,7 +3920,11 @@
 
 
     function loadUsersList() {
-        showStatus('Список студентов доступен администратору');
+
+        showStatus(
+            'Список студентов доступен администратору'
+        );
+
     }
 
 
@@ -2430,53 +3932,96 @@
        SCHEDULE
     ========================================================= */
 
-    function renderSchedule(filter = 'all') {
+    function renderSchedule(
+        filter = 'all'
+    ) {
+
         const container =
-            document.getElementById('scheduleContainer');
+            document.getElementById(
+                'scheduleContainer'
+            );
+
 
         if (!container) {
             return;
         }
 
-        const today = getToday();
 
-        const group =
-            userData?.group || 'МН-4-25-01';
+        const today =
+            getToday();
 
-        const filtered = scheduleData.filter(item => {
 
-            const hasGroup =
-                item.groups.includes(group) ||
-                item.groups.includes('МН-4-25-01/02');
+        const filtered =
+            scheduleData.filter(
+                item => {
 
-            if (!hasGroup) {
-                return false;
-            }
+                    const date =
+                        parseDate(
+                            item.date
+                        );
 
-            const date = parseDate(item.date);
 
-            if (filter === 'today') {
-                return date.getTime() === today.getTime();
-            }
+                    if (
+                        filter === 'today'
+                    ) {
 
-            if (filter === 'completed') {
-                return date < today;
-            }
+                        return (
+                            date.getTime() ===
+                            today.getTime()
+                        );
 
-            if (filter === 'upcoming') {
-                return date >= today;
-            }
+                    }
 
-            return true;
-        });
+
+                    if (
+                        filter === 'completed'
+                    ) {
+
+                        return (
+                            date < today
+                        );
+
+                    }
+
+
+                    if (
+                        filter === 'upcoming'
+                    ) {
+
+                        return (
+                            date >= today
+                        );
+
+                    }
+
+
+                    return true;
+
+                }
+            );
+
 
         if (!filtered.length) {
+
             container.innerHTML = `
+
                 <div class="empty-state">
-                    <div class="icon">📅</div>
-                    <strong>Занятий не найдено</strong>
-                    <span>Для выбранного фильтра нет занятий.</span>
+
+                    <div class="icon">
+                        📅
+                    </div>
+
+                    <strong>
+                        Занятий не найдено
+                    </strong>
+
+                    <span>
+                        Для выбранного фильтра
+                        нет занятий.
+                    </span>
+
                 </div>
+
             `;
 
             updateScheduleStats();
@@ -2484,154 +4029,294 @@
             return;
         }
 
-        container.innerHTML = filtered.map(item => {
 
-            const date = parseDate(item.date);
+        container.innerHTML =
+            filtered.map(
+                item => {
 
-            let statusClass = 'upcoming';
-            let statusText = 'Предстоящее';
+                    const date =
+                        parseDate(
+                            item.date
+                        );
 
-            if (date < today) {
-                statusClass = 'completed';
-                statusText = 'Завершено';
-            } else if (date.getTime() === today.getTime()) {
-                statusClass = 'today';
-                statusText = 'Сегодня';
-            }
 
-            return `
-                <div class="schedule-card ${statusClass}">
+                    let statusClass =
+                        'upcoming';
 
-                    <div class="schedule-header">
+                    let statusText =
+                        'Предстоящее';
 
-                        <div class="schedule-date">
 
-                            <div class="date">
-                                ${escapeHtml(item.date)}
-                            </div>
+                    if (
+                        date < today
+                    ) {
 
-                            <div class="weekday">
-                                ${escapeHtml(item.weekday)}
-                            </div>
+                        statusClass =
+                            'completed';
 
-                        </div>
+                        statusText =
+                            'Завершено';
 
-                        <span class="status ${statusClass}">
-                            ${statusText}
-                        </span>
+                    } else if (
+                        date.getTime() ===
+                        today.getTime()
+                    ) {
 
-                    </div>
+                        statusClass =
+                            'today';
 
-                    ${item.items.map(lesson => `
-                        <div class="schedule-item">
+                        statusText =
+                            'Сегодня';
 
-                            <div class="schedule-time">
-                                ${escapeHtml(lesson.time)}
-                            </div>
+                    }
 
-                            <div class="schedule-main">
 
-                                <strong>
-                                    ${escapeHtml(lesson.subject)}
-                                </strong>
+                    return `
 
-                                <span>
-                                    ${escapeHtml(lesson.type)}
-                                    ·
-                                    ${escapeHtml(lesson.room)}
+                        <div
+                            class="
+                                schedule-card
+                                ${statusClass}
+                            "
+                        >
+
+                            <div
+                                class="schedule-header"
+                            >
+
+                                <div
+                                    class="schedule-date"
+                                >
+
+                                    <div class="date">
+                                        ${escapeHtml(
+                                            item.date
+                                        )}
+                                    </div>
+
+                                    <div class="weekday">
+                                        ${escapeHtml(
+                                            item.weekday
+                                        )}
+                                    </div>
+
+                                </div>
+
+
+                                <span
+                                    class="
+                                        status
+                                        ${statusClass}
+                                    "
+                                >
+                                    ${statusText}
                                 </span>
 
                             </div>
 
-                            <div class="schedule-teacher">
-                                ${escapeHtml(lesson.teacher)}
-                            </div>
+
+                            ${
+                                item.items
+                                    .map(
+                                        lesson => `
+
+                                            <div
+                                                class="
+                                                    schedule-item
+                                                "
+                                            >
+
+                                                <div
+                                                    class="
+                                                        schedule-time
+                                                    "
+                                                >
+                                                    ${escapeHtml(
+                                                        lesson.time
+                                                    )}
+                                                </div>
+
+
+                                                <div
+                                                    class="
+                                                        schedule-main
+                                                    "
+                                                >
+
+                                                    <strong>
+                                                        ${escapeHtml(
+                                                            lesson.subject
+                                                        )}
+                                                    </strong>
+
+                                                    <span>
+                                                        ${escapeHtml(
+                                                            lesson.type
+                                                        )}
+                                                        ·
+                                                        ${escapeHtml(
+                                                            lesson.room
+                                                        )}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div
+                                                    class="
+                                                        schedule-teacher
+                                                    "
+                                                >
+                                                    ${escapeHtml(
+                                                        lesson.teacher
+                                                    )}
+                                                </div>
+
+                                            </div>
+
+                                        `
+                                    )
+                                    .join('')
+                            }
 
                         </div>
-                    `).join('')}
 
-                </div>
-            `;
-        }).join('');
+                    `;
+
+                }
+            ).join('');
+
 
         updateScheduleStats();
+
     }
 
 
     function updateScheduleStats() {
-        const today = getToday();
 
-        const group =
-            userData?.group || 'МН-4-25-01';
+        const today =
+            getToday();
 
-        const relevant = scheduleData.filter(item =>
-            item.groups.includes(group) ||
-            item.groups.includes('МН-4-25-01/02')
-        );
 
-        const total = relevant.length;
+        const total =
+            scheduleData.length;
 
-        const done = relevant.filter(item =>
-            parseDate(item.date) < today
-        ).length;
 
-        const left = total - done;
+        const done =
+            scheduleData.filter(
+                item =>
+                    parseDate(
+                        item.date
+                    ) < today
+            ).length;
+
+
+        const left =
+            total - done;
+
 
         const totalEl =
-            document.getElementById('scheduleTotal');
+            document.getElementById(
+                'scheduleTotal'
+            );
+
 
         const doneEl =
-            document.getElementById('scheduleDone');
+            document.getElementById(
+                'scheduleDone'
+            );
+
 
         const leftEl =
-            document.getElementById('scheduleLeft');
+            document.getElementById(
+                'scheduleLeft'
+            );
+
 
         if (totalEl) {
-            totalEl.textContent = total;
+
+            totalEl.textContent =
+                total;
+
         }
+
 
         if (doneEl) {
-            doneEl.textContent = done;
+
+            doneEl.textContent =
+                done;
+
         }
 
+
         if (leftEl) {
-            leftEl.textContent = left;
+
+            leftEl.textContent =
+                left;
+
         }
+
 
         const progress =
             total > 0
-                ? Math.round((done / total) * 100)
+                ? Math.round(
+                    (done / total) * 100
+                )
                 : 0;
 
+
         const progressEl =
-            document.getElementById('scheduleProgress');
+            document.getElementById(
+                'scheduleProgress'
+            );
+
 
         if (progressEl) {
-            progressEl.style.width = `${progress}%`;
+
+            progressEl.style.width =
+                `${progress}%`;
+
         }
     }
 
 
     function setupFilters() {
+
         const buttons =
-            document.querySelectorAll('.filter-btn');
+            document.querySelectorAll(
+                '.filter-btn'
+            );
 
-        buttons.forEach(button => {
 
-            button.addEventListener('click', () => {
+        buttons.forEach(
+            button => {
 
-                buttons.forEach(btn =>
-                    btn.classList.remove('active')
+                button.addEventListener(
+                    'click',
+                    () => {
+
+                        buttons.forEach(
+                            btn =>
+                                btn.classList.remove(
+                                    'active'
+                                )
+                        );
+
+
+                        button.classList.add(
+                            'active'
+                        );
+
+
+                        renderSchedule(
+                            button.dataset.filter
+                        );
+
+                    }
                 );
 
-                button.classList.add('active');
-
-                renderSchedule(
-                    button.dataset.filter
-                );
-            });
-
-        });
+            }
+        );
     }
 
 
@@ -2640,152 +4325,272 @@
     ========================================================= */
 
     function renderTopics() {
+
         const container =
-            document.getElementById('topicsContainer');
+            document.getElementById(
+                'topicsContainer'
+            );
+
 
         if (!container) {
             return;
         }
 
-        container.innerHTML = topicsData.map(topic => {
 
-            const booked =
-                myBookings.some(
-                    booking => booking.id === topic.id
-                );
+        container.innerHTML =
+            topicsData
+                .map(
+                    topic => {
 
-            return `
-                <div class="topic-card">
+                        const booked =
+                            myBookings.some(
+                                booking =>
+                                    booking.id ===
+                                    topic.id
+                            );
 
-                    <h3>
-                        ${escapeHtml(topic.title)}
-                    </h3>
 
-                    <p>
-                        ${escapeHtml(topic.description)}
-                    </p>
+                        return `
 
-                    <div class="topic-meta">
+                            <div
+                                class="topic-card"
+                            >
 
-                        <span>
-                            ⏳ До ${escapeHtml(topic.deadline)}
-                        </span>
+                                <h3>
+                                    ${escapeHtml(
+                                        topic.title
+                                    )}
+                                </h3>
 
-                        <button
-                            class="btn ${
-                                booked
-                                    ? 'btn-secondary'
-                                    : 'btn-primary'
-                            }"
-                            onclick="handleTopicBooking(${topic.id})"
-                            ${booked ? 'disabled' : ''}
-                        >
-                            ${
-                                booked
-                                    ? '✓ Забронировано'
-                                    : 'Забронировать'
-                            }
-                        </button>
 
-                    </div>
+                                <p>
+                                    ${escapeHtml(
+                                        topic.description
+                                    )}
+                                </p>
 
-                </div>
-            `;
-        }).join('');
+
+                                <div
+                                    class="topic-meta"
+                                >
+
+                                    <span>
+                                        ⏳ До
+                                        ${escapeHtml(
+                                            topic.deadline
+                                        )}
+                                    </span>
+
+
+                                    <button
+                                        class="
+                                            btn
+                                            ${
+                                                booked
+                                                    ? 'btn-secondary'
+                                                    : 'btn-primary'
+                                            }
+                                        "
+                                        onclick="
+                                            handleTopicBooking(
+                                                ${topic.id}
+                                            )
+                                        "
+                                        ${
+                                            booked
+                                                ? 'disabled'
+                                                : ''
+                                        }
+                                    >
+                                        ${
+                                            booked
+                                                ? '✓ Забронировано'
+                                                : 'Забронировать'
+                                        }
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join('');
     }
 
 
-    function handleTopicBooking(topicId) {
+    function handleTopicBooking(
+        topicId
+    ) {
+
         if (!isRegistered) {
-            showStatus('Сначала зарегистрируйтесь');
+
+            showStatus(
+                'Сначала зарегистрируйтесь'
+            );
+
+
             switchTab(
                 'cabinet',
-                document.querySelectorAll('.tab')[2]
+                document.querySelectorAll(
+                    '.tab'
+                )[2]
             );
+
+
             return;
         }
 
+
         const topic =
             topicsData.find(
-                item => item.id === topicId
+                item =>
+                    item.id ===
+                    topicId
             );
+
 
         if (!topic) {
             return;
         }
 
+
         const alreadyBooked =
             myBookings.some(
-                booking => booking.id === topicId
+                booking =>
+                    booking.id ===
+                    topicId
             );
 
+
         if (alreadyBooked) {
-            showStatus('Тема уже забронирована');
+
+            showStatus(
+                'Тема уже забронирована'
+            );
+
             return;
         }
 
+
         const booking = {
+
             ...topic,
-            bookedAt: new Date().toISOString()
+
+            bookedAt:
+                new Date().toISOString()
+
         };
 
-        myBookings.push(booking);
-        bookings.push(booking);
+
+        myBookings.push(
+            booking
+        );
+
+
+        bookings.push(
+            booking
+        );
+
 
         saveData();
 
         renderTopics();
+
         renderMyBookings();
 
+
         if (tg) {
+
             try {
+
                 tg.sendData(
                     JSON.stringify({
-                        type: 'topic_booking',
-                        topic: booking,
-                        user: userData
+
+                        type:
+                            'topic_booking',
+
+                        topic:
+                            booking,
+
+                        user:
+                            userData
+
                     })
                 );
+
             } catch (error) {
+
                 console.log(error);
+
             }
         }
 
-        showStatus('Тема успешно забронирована');
+
+        showStatus(
+            'Тема успешно забронирована'
+        );
     }
 
 
     function renderMyBookings() {
+
         const container =
-            document.getElementById('myBookingsContainer');
+            document.getElementById(
+                'myBookingsContainer'
+            );
+
 
         const countEl =
-            document.getElementById('myBookingsCount');
+            document.getElementById(
+                'myBookingsCount'
+            );
+
 
         const progressEl =
-            document.getElementById('myProgress');
+            document.getElementById(
+                'myProgress'
+            );
+
 
         if (countEl) {
-            countEl.textContent = myBookings.length;
+
+            countEl.textContent =
+                myBookings.length;
+
         }
+
 
         const progress =
             topicsData.length > 0
                 ? Math.round(
-                    (myBookings.length / topicsData.length) * 100
+                    (
+                        myBookings.length /
+                        topicsData.length
+                    ) * 100
                 )
                 : 0;
 
+
         if (progressEl) {
-            progressEl.textContent = `${progress}%`;
+
+            progressEl.textContent =
+                `${progress}%`;
+
         }
+
 
         if (!container) {
             return;
         }
 
+
         if (!myBookings.length) {
+
             container.innerHTML = `
+
                 <div class="empty-state">
 
                     <div class="icon">
@@ -2793,107 +4598,188 @@
                     </div>
 
                     <strong>
-                        Пока нет забронированных тем
+                        Пока нет
+                        забронированных тем
                     </strong>
 
                     <span>
-                        Выберите тему выше, чтобы она появилась здесь.
+                        Выберите тему выше,
+                        чтобы она появилась здесь.
                     </span>
 
                 </div>
+
             `;
 
             return;
         }
 
-        container.innerHTML = myBookings.map(
-            booking => `
-                <div class="booking-item">
 
-                    <div class="booking-info">
+        container.innerHTML =
+            myBookings
+                .map(
+                    booking => `
 
-                        <strong>
-                            ${escapeHtml(booking.title)}
-                        </strong>
-
-                        <span>
-                            Дедлайн:
-                            ${escapeHtml(booking.deadline)}
-                        </span>
-
-                    </div>
-
-                    <div class="booking-actions">
-
-                        <button
-                            class="btn btn-danger"
-                            onclick="cancelBooking(${booking.id})"
+                        <div
+                            class="booking-item"
                         >
-                            Отменить
-                        </button>
 
-                    </div>
+                            <div
+                                class="booking-info"
+                            >
 
-                </div>
-            `
-        ).join('');
+                                <strong>
+                                    ${escapeHtml(
+                                        booking.title
+                                    )}
+                                </strong>
+
+                                <span>
+                                    Дедлайн:
+                                    ${escapeHtml(
+                                        booking.deadline
+                                    )}
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="booking-actions"
+                            >
+
+                                <button
+                                    class="
+                                        btn
+                                        btn-danger
+                                    "
+                                    onclick="
+                                        cancelBooking(
+                                            ${booking.id}
+                                        )
+                                    "
+                                >
+                                    Отменить
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `
+                )
+                .join('');
     }
 
 
-    function cancelBooking(topicId) {
+    function cancelBooking(
+        topicId
+    ) {
+
         myBookings =
             myBookings.filter(
-                booking => booking.id !== topicId
+                booking =>
+                    booking.id !==
+                    topicId
             );
+
 
         bookings =
             bookings.filter(
-                booking => booking.id !== topicId
+                booking =>
+                    booking.id !==
+                    topicId
             );
+
 
         saveData();
 
         renderTopics();
+
         renderMyBookings();
 
-        showStatus('Бронирование отменено');
+        showStatus(
+            'Бронирование отменено'
+        );
     }
 
 
     function exportBookings() {
+
         if (!myBookings.length) {
-            showStatus('Нет бронирований для экспорта');
+
+            showStatus(
+                'Нет бронирований для экспорта'
+            );
+
             return;
         }
 
-        const text = myBookings
-            .map(
-                (item, index) =>
-                    `${index + 1}. ${item.title} — дедлайн ${item.deadline}`
-            )
-            .join('\n');
+
+        const text =
+            myBookings
+                .map(
+                    (item, index) =>
+                        `${
+                            index + 1
+                        }. ${
+                            item.title
+                        } — дедлайн ${
+                            item.deadline
+                        }`
+                )
+                .join('\n');
+
 
         const blob =
-            new Blob([text], {
-                type: 'text/plain;charset=utf-8'
-            });
+            new Blob(
+                [text],
+                {
+                    type:
+                        'text/plain;charset=utf-8'
+                }
+            );
+
 
         const url =
-            URL.createObjectURL(blob);
+            URL.createObjectURL(
+                blob
+            );
+
 
         const link =
-            document.createElement('a');
+            document.createElement(
+                'a'
+            );
 
-        link.href = url;
-        link.download = 'my-bookings.txt';
 
-        document.body.appendChild(link);
+        link.href =
+            url;
+
+
+        link.download =
+            'my-bookings.txt';
+
+
+        document.body.appendChild(
+            link
+        );
+
+
         link.click();
+
+
         link.remove();
 
-        URL.revokeObjectURL(url);
 
-        showStatus('Файл подготовлен');
+        URL.revokeObjectURL(
+            url
+        );
+
+
+        showStatus(
+            'Файл подготовлен'
+        );
     }
 
 
@@ -2902,109 +4788,171 @@
     ========================================================= */
 
     function renderNotifications() {
+
         const container =
-            document.getElementById('notificationsContainer');
+            document.getElementById(
+                'notificationsContainer'
+            );
+
 
         if (!container) {
             return;
         }
 
+
         const notifications = [
+
             {
                 id: 'schedule',
                 icon: '📅',
-                title: 'Изменения расписания',
-                description: 'Уведомлять об изменениях занятий'
+                title:
+                    'Изменения расписания',
+                description:
+                    'Уведомлять об изменениях занятий'
             },
+
             {
                 id: 'assignments',
                 icon: '📚',
                 title: 'Дедлайны',
-                description: 'Напоминать о предстоящих заданиях'
+                description:
+                    'Напоминать о предстоящих заданиях'
             },
+
             {
                 id: 'topics',
                 icon: '🎤',
                 title: 'Доклады',
-                description: 'Уведомления по бронированию тем'
+                description:
+                    'Уведомления по бронированию тем'
             },
+
             {
                 id: 'queue',
                 icon: '🕐',
                 title: 'Очередь',
-                description: 'Изменения позиции в очереди'
+                description:
+                    'Изменения позиции в очереди'
             }
+
         ];
 
+
         container.innerHTML =
-            notifications.map(notification => {
+            notifications
+                .map(
+                    notification => {
 
-                const checked =
-                    !!notificationSettings[notification.id];
+                        const checked =
+                            !!notificationSettings[
+                                notification.id
+                            ];
 
-                return `
-                    <div class="notification-item">
 
-                        <div class="notification-icon">
-                            ${notification.icon}
-                        </div>
+                        return `
 
-                        <div class="notification-info">
-
-                            <strong>
-                                ${notification.title}
-                            </strong>
-
-                            <span>
-                                ${notification.description}
-                            </span>
-
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                type="checkbox"
-                                ${
-                                    checked
-                                        ? 'checked'
-                                        : ''
-                                }
-                                onchange="toggleNotif(
-                                    '${notification.id}',
-                                    this.checked
-                                )"
+                            <div
+                                class="
+                                    notification-item
+                                "
                             >
 
-                            <span class="slider"></span>
+                                <div
+                                    class="
+                                        notification-icon
+                                    "
+                                >
+                                    ${notification.icon}
+                                </div>
 
-                        </label>
 
-                    </div>
-                `;
-            }).join('');
+                                <div
+                                    class="
+                                        notification-info
+                                    "
+                                >
+
+                                    <strong>
+                                        ${notification.title}
+                                    </strong>
+
+                                    <span>
+                                        ${notification.description}
+                                    </span>
+
+                                </div>
+
+
+                                <label
+                                    class="switch"
+                                >
+
+                                    <input
+                                        type="checkbox"
+                                        ${
+                                            checked
+                                                ? 'checked'
+                                                : ''
+                                        }
+                                        onchange="
+                                            toggleNotif(
+                                                '${notification.id}',
+                                                this.checked
+                                            )
+                                        "
+                                    >
+
+                                    <span
+                                        class="slider"
+                                    ></span>
+
+                                </label>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join('');
+
 
         const enabled =
-            Object.values(notificationSettings)
-                .filter(Boolean)
-                .length;
+            Object.values(
+                notificationSettings
+            )
+            .filter(Boolean)
+            .length;
+
 
         const notifOn =
-            document.getElementById('notifOn');
+            document.getElementById(
+                'notifOn'
+            );
+
 
         if (notifOn) {
+
             notifOn.textContent =
                 `${enabled} включено`;
+
         }
     }
 
 
-    function toggleNotif(id, enabled) {
-        notificationSettings[id] = enabled;
+    function toggleNotif(
+        id,
+        enabled
+    ) {
+
+        notificationSettings[id] =
+            enabled;
+
 
         saveData();
 
         renderNotifications();
+
 
         showStatus(
             enabled
@@ -3019,79 +4967,128 @@
     ========================================================= */
 
     function renderQueue() {
+
         const container =
-            document.getElementById('queueContainer');
+            document.getElementById(
+                'queueContainer'
+            );
+
 
         if (!container) {
             return;
         }
 
+
         const booked =
             bookings.length;
 
+
         const total = 10;
-        const free = Math.max(total - booked, 0);
+
+
+        const free =
+            Math.max(
+                total - booked,
+                0
+            );
+
 
         container.innerHTML = `
+
             <div class="queue-card">
 
                 <div class="queue-main">
 
                     <div>
-                        <div class="queue-number">
+
+                        <div
+                            class="queue-number"
+                        >
                             ${booked}
                         </div>
 
-                        <div class="queue-label">
-                            человек сейчас в очереди
+                        <div
+                            class="queue-label"
+                        >
+                            человек сейчас
+                            в очереди
                         </div>
+
                     </div>
 
-                    <div style="font-size: 36px;">
+
+                    <div
+                        style="
+                            font-size: 36px;
+                        "
+                    >
                         🕐
                     </div>
 
                 </div>
 
+
                 <div class="queue-stats">
 
                     <div class="queue-stat">
-                        <strong id="queueTotal">
+
+                        <strong
+                            id="queueTotal"
+                        >
                             ${total}
                         </strong>
 
                         <span>
                             Всего мест
                         </span>
+
                     </div>
 
+
                     <div class="queue-stat">
-                        <strong id="queueBooked">
+
+                        <strong
+                            id="queueBooked"
+                        >
                             ${booked}
                         </strong>
 
                         <span>
                             Занято
                         </span>
+
                     </div>
 
+
                     <div class="queue-stat">
-                        <strong id="queueFree">
+
+                        <strong
+                            id="queueFree"
+                        >
                             ${free}
                         </strong>
 
                         <span>
                             Свободно
                         </span>
+
                     </div>
 
                 </div>
 
+
                 <div class="actions">
 
                     <button
-                        class="btn btn-primary"
-                        onclick="showStatus('Вы добавлены в очередь')"
+                        class="
+                            btn
+                            btn-primary
+                        "
+                        onclick="
+                            showStatus(
+                                'Вы добавлены в очередь'
+                            )
+                        "
                     >
                         ➕ Встать в очередь
                     </button>
@@ -3099,6 +5096,7 @@
                 </div>
 
             </div>
+
         `;
     }
 
@@ -3108,77 +5106,184 @@
     ========================================================= */
 
     function downloadSchedule() {
+
         const element =
-            document.getElementById('scheduleContainer');
+            document.getElementById(
+                'scheduleContainer'
+            );
+
 
         if (!element) {
             return;
         }
 
-        if (typeof html2pdf === 'undefined') {
-            showStatus('Не удалось загрузить PDF-модуль');
+
+        if (
+            typeof html2pdf ===
+            'undefined'
+        ) {
+
+            showStatus(
+                'Не удалось загрузить PDF-модуль'
+            );
+
             return;
         }
 
-        showStatus('Подготавливаем PDF...', 1500);
+
+        showStatus(
+            'Подготавливаем PDF...',
+            1500
+        );
+
 
         const clone =
-            element.cloneNode(true);
+            element.cloneNode(
+                true
+            );
 
-        clone.style.background = '#ffffff';
-        clone.style.color = '#172033';
-        clone.style.padding = '20px';
 
-        clone.querySelectorAll('.schedule-card')
-            .forEach(card => {
-                card.style.background = '#ffffff';
-                card.style.color = '#172033';
-                card.style.boxShadow = 'none';
-            });
+        clone.style.background =
+            '#ffffff';
+
+
+        clone.style.color =
+            '#172033';
+
+
+        clone.style.padding =
+            '20px';
+
+
+        clone
+            .querySelectorAll(
+                '.schedule-card'
+            )
+            .forEach(
+                card => {
+
+                    card.style.background =
+                        '#ffffff';
+
+                    card.style.color =
+                        '#172033';
+
+                    card.style.boxShadow =
+                        'none';
+
+                }
+            );
+
 
         const wrapper =
-            document.createElement('div');
+            document.createElement(
+                'div'
+            );
 
-        wrapper.style.position = 'fixed';
-        wrapper.style.left = '-100000px';
-        wrapper.style.top = '0';
-        wrapper.style.width = '900px';
-        wrapper.style.background = '#ffffff';
 
-        wrapper.appendChild(clone);
-        document.body.appendChild(wrapper);
+        wrapper.style.position =
+            'fixed';
+
+
+        wrapper.style.left =
+            '-100000px';
+
+
+        wrapper.style.top =
+            '0';
+
+
+        wrapper.style.width =
+            '900px';
+
+
+        wrapper.style.background =
+            '#ffffff';
+
+
+        wrapper.appendChild(
+            clone
+        );
+
+
+        document.body.appendChild(
+            wrapper
+        );
+
 
         const options = {
+
             margin: 10,
-            filename: 'raspisanie.pdf',
+
+            filename:
+                'raspisanie.pdf',
+
             image: {
+
                 type: 'jpeg',
+
                 quality: 0.95
+
             },
+
             html2canvas: {
+
                 scale: 2,
-                backgroundColor: '#ffffff'
+
+                backgroundColor:
+                    '#ffffff'
+
             },
+
             jsPDF: {
+
                 unit: 'mm',
+
                 format: 'a4',
-                orientation: 'portrait'
+
+                orientation:
+                    'portrait'
+
             }
+
         };
 
+
         html2pdf()
+
             .set(options)
+
             .from(clone)
+
             .save()
-            .then(() => {
-                wrapper.remove();
-                showStatus('PDF готов');
-            })
-            .catch(error => {
-                wrapper.remove();
-                console.error(error);
-                showStatus('Ошибка создания PDF');
-            });
+
+            .then(
+                () => {
+
+                    wrapper.remove();
+
+                    showStatus(
+                        'PDF готов'
+                    );
+
+                }
+            )
+
+            .catch(
+                error => {
+
+                    wrapper.remove();
+
+                    console.error(
+                        error
+                    );
+
+                    showStatus(
+                        'Ошибка создания PDF'
+                    );
+
+                }
+            );
     }
 
 
@@ -3186,54 +5291,124 @@
        TABS
     ========================================================= */
 
-    function switchTab(tabId, button) {
-        document
-            .querySelectorAll('.tab-content')
-            .forEach(content => {
-                content.classList.remove('active');
-            });
+    function switchTab(
+        tabId,
+        button
+    ) {
 
         document
-            .querySelectorAll('.tab')
-            .forEach(tab => {
-                tab.classList.remove('active');
-            });
+            .querySelectorAll(
+                '.tab-content'
+            )
+            .forEach(
+                content => {
+
+                    content.classList.remove(
+                        'active'
+                    );
+
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                '.tab'
+            )
+            .forEach(
+                tab => {
+
+                    tab.classList.remove(
+                        'active'
+                    );
+
+                }
+            );
+
 
         const content =
-            document.getElementById(tabId);
+            document.getElementById(
+                tabId
+            );
+
 
         if (content) {
-            content.classList.add('active');
+
+            content.classList.add(
+                'active'
+            );
+
         }
+
 
         if (button) {
-            button.classList.add('active');
+
+            button.classList.add(
+                'active'
+            );
+
         }
 
-        if (tabId === 'schedule') {
+
+        if (
+            tabId ===
+            'schedule'
+        ) {
+
             renderSchedule();
+
         }
 
-        if (tabId === 'topics') {
+
+        if (
+            tabId ===
+            'topics'
+        ) {
+
             renderTopics();
+
             renderMyBookings();
+
         }
 
-        if (tabId === 'cabinet') {
+
+        if (
+            tabId ===
+            'cabinet'
+        ) {
+
             renderCabinet();
+
         }
 
-        if (tabId === 'notifications') {
+
+        if (
+            tabId ===
+            'notifications'
+        ) {
+
             renderNotifications();
+
         }
 
-        if (tabId === 'queue') {
+
+        if (
+            tabId ===
+            'queue'
+        ) {
+
             renderQueue();
+
         }
+
 
         window.scrollTo({
+
             top: 0,
-            behavior: 'smooth'
+
+            behavior:
+                'smooth'
+
         });
     }
 
@@ -3242,41 +5417,57 @@
        START
     ========================================================= */
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener(
+        'DOMContentLoaded',
+        () => {
 
-        loadData();
+            loadData();
 
-        renderSchedule();
+            renderSchedule();
 
-        setupFilters();
+            setupFilters();
 
-        renderTopics();
+            renderTopics();
 
-        renderMyBookings();
+            renderMyBookings();
 
-        renderNotifications();
+            renderNotifications();
 
-        renderQueue();
+            renderQueue();
 
-        checkRegistrationStatus();
+            checkRegistrationStatus();
 
-        /*
-         * Telegram BackButton
-         */
-        if (tg && tg.BackButton) {
 
-            tg.BackButton.show();
+            if (
+                tg &&
+                tg.BackButton
+            ) {
 
-            tg.BackButton.onClick(() => {
-                try {
-                    tg.close();
-                } catch (error) {
-                    console.log(error);
-                }
-            });
+                tg.BackButton.show();
+
+
+                tg.BackButton.onClick(
+                    () => {
+
+                        try {
+
+                            tg.close();
+
+                        } catch (error) {
+
+                            console.log(
+                                error
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
         }
-
-    });
+    );
 
 </script>
 
