@@ -8,7 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== RESET & БАЗА ===== */
         * {
             margin: 0;
             padding: 0;
@@ -133,9 +132,6 @@
             text-align: center;
             transition: var(--transition);
         }
-        .stat-card:hover {
-            transform: translateY(-2px);
-        }
         .stat-card .number {
             font-size: 28px;
             font-weight: 700;
@@ -161,10 +157,6 @@
             border-radius: var(--radius);
             padding: 16px 18px;
             margin-bottom: 12px;
-            transition: var(--transition);
-        }
-        .schedule-card:hover {
-            transform: translateY(-1px);
         }
         .schedule-card .day {
             font-weight: 600;
@@ -300,6 +292,62 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow);
         }
+        .topic-btn.my-booking {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        .topic-btn.my-booking::after {
+            content: " ✅ Моё";
+            display: block;
+            font-size: 10px;
+            color: #4CAF50;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* ===== ОЧЕРЕДЬ ===== */
+        .student-queue {
+            background: var(--tg-theme-secondary-bg-color);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-top: 16px;
+        }
+        .student-queue h4 {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .student-queue .queue-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 13px;
+        }
+        .student-queue .queue-item:last-child {
+            border-bottom: none;
+        }
+        .student-queue .queue-item .num {
+            color: var(--tg-theme-hint-color);
+            font-weight: 500;
+            min-width: 28px;
+        }
+        .student-queue .queue-item .name {
+            flex: 1;
+        }
+        .student-queue .queue-item .topic-name {
+            color: var(--tg-theme-hint-color);
+            font-size: 12px;
+        }
+        .student-queue .empty-queue {
+            color: var(--tg-theme-hint-color);
+            font-size: 13px;
+            text-align: center;
+            padding: 12px 0;
+        }
 
         /* ===== ЛИЧНЫЙ КАБИНЕТ ===== */
         .booking-item {
@@ -310,7 +358,6 @@
             background: var(--tg-theme-secondary-bg-color);
             border-radius: var(--radius-sm);
             margin-bottom: 8px;
-            transition: var(--transition);
         }
         .booking-item .topic {
             font-weight: 500;
@@ -337,7 +384,6 @@
             font-size: 13px;
             padding: 4px 8px;
             border-radius: 6px;
-            transition: var(--transition);
         }
         .booking-item .cancel-btn:hover {
             background: rgba(244, 67, 54, 0.1);
@@ -352,13 +398,10 @@
             border-radius: var(--radius-sm);
             margin-bottom: 8px;
             gap: 12px;
-            transition: var(--transition);
         }
-        .notif-item .time {
-            font-weight: 600;
-            font-size: 13px;
-            color: #0088cc;
-            min-width: 62px;
+        .notif-item .icon {
+            font-size: 20px;
+            flex-shrink: 0;
         }
         .notif-item .text {
             flex: 1;
@@ -488,7 +531,42 @@
             width: 0%;
         }
 
-        /* ===== АДАПТИВ ===== */
+        /* ===== ФОРМА РЕГИСТРАЦИИ ===== */
+        .reg-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--tg-theme-secondary-bg-color);
+            background: var(--tg-theme-secondary-bg-color);
+            color: var(--tg-theme-text-color);
+            font-size: 16px;
+            font-family: inherit;
+        }
+        .reg-input:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color);
+        }
+        .reg-label {
+            display: block;
+            font-size: 13px;
+            color: var(--tg-theme-hint-color);
+            margin-bottom: 4px;
+        }
+        .reg-select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--tg-theme-secondary-bg-color);
+            background: var(--tg-theme-secondary-bg-color);
+            color: var(--tg-theme-text-color);
+            font-size: 16px;
+            font-family: inherit;
+        }
+        .reg-select:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color);
+        }
+
         @media (max-width: 420px) {
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
@@ -524,6 +602,7 @@
         <button class="tab-btn" onclick="switchTab('topics')">📖 Доклады</button>
         <button class="tab-btn" onclick="switchTab('cabinet')">👤 Кабинет</button>
         <button class="tab-btn" onclick="switchTab('notifications')">🔔 Уведомления</button>
+        <button class="tab-btn" onclick="switchTab('queue')">📋 Очередь</button>
     </div>
 
     <!-- ============================================================ -->
@@ -531,7 +610,6 @@
     <!-- ============================================================ -->
     <div id="tab-schedule" class="tab-content active">
 
-        <!-- ИНФОГРАФИКА -->
         <div class="stats-grid" id="scheduleStats">
             <div class="stat-card">
                 <span class="number blue" id="totalClasses">0</span>
@@ -547,7 +625,6 @@
             </div>
         </div>
 
-        <!-- ФИЛЬТРЫ -->
         <div class="filter-wrap" id="filterWrap">
             <button class="filter-btn active" data-filter="all">Все</button>
             <button class="filter-btn" data-filter="Управление программами и портфелями проектов">📊 Проекты</button>
@@ -556,10 +633,8 @@
             <button class="filter-btn" data-filter="Иностранный язык профессиональных коммуникаций">🌍 Язык</button>
         </div>
 
-        <!-- РАСПИСАНИЕ -->
         <div id="scheduleContainer"></div>
 
-        <!-- ПРОГРЕСС -->
         <div class="info-block">
             <strong>📊 Прогресс семестра</strong>
             <div class="progress-wrap">
@@ -576,7 +651,6 @@
     <!-- ============================================================ -->
     <div id="tab-topics" class="tab-content">
 
-        <!-- ИНФОГРАФИКА -->
         <div class="stats-grid">
             <div class="stat-card">
                 <span class="number purple" id="totalTopics">10</span>
@@ -605,24 +679,55 @@
     <!-- ============================================================ -->
     <div id="tab-cabinet" class="tab-content">
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="number blue" id="myBookingsCount">0</span>
-                <span class="label">Мои брони</span>
-            </div>
-            <div class="stat-card">
-                <span class="number green" id="myTopicsTotal">10</span>
-                <span class="label">Всего тем</span>
-            </div>
-            <div class="stat-card">
-                <span class="number orange" id="myProgress">0%</span>
-                <span class="label">Прогресс</span>
-            </div>
+        <div id="registrationStatus" class="info-block" style="border-left-color: #FF9800; margin-bottom: 16px;">
+            <strong id="regStatusTitle">🔑 Статус регистрации</strong>
+            <p id="regStatusText">Загрузка...</p>
         </div>
+
+        <div id="registrationForm" style="display: none;">
+            <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">📝 Заполните данные для регистрации</h3>
+            
+            <div style="margin-bottom: 12px;">
+                <label class="reg-label">Имя *</label>
+                <input type="text" id="regFirstName" placeholder="Введите ваше имя" class="reg-input">
+            </div>
+            
+            <div style="margin-bottom: 12px;">
+                <label class="reg-label">Фамилия *</label>
+                <input type="text" id="regLastName" placeholder="Введите вашу фамилию" class="reg-input">
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <label class="reg-label">Группа *</label>
+                <select id="regGroup" class="reg-select">
+                    <option value="МН-4-25-01">МН-4-25-01</option>
+                    <option value="МН-4-25-02">МН-4-25-02</option>
+                </select>
+            </div>
+            
+            <button class="btn-primary" onclick="registerUser()">📝 Зарегистрироваться</button>
+        </div>
+
+        <div id="userInfoCard" style="display: none;">
+            <div class="info-block" style="border-left-color: #4CAF50;">
+                <strong>👤 Мои данные</strong>
+                <p id="userInfoText">Загрузка...</p>
+            </div>
+            <button class="btn-outline" onclick="editProfile()">✏️ Редактировать профиль</button>
+        </div>
+
+        <hr style="border:1px solid var(--tg-theme-secondary-bg-color);margin:20px 0;">
 
         <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">📋 Мои бронирования</h3>
         <div id="myBookingsList">
             <div class="booking-item" style="opacity:0.5;font-size:14px;">У вас пока нет бронирований</div>
+        </div>
+
+        <hr style="border:1px solid var(--tg-theme-secondary-bg-color);margin:20px 0;">
+
+        <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">👥 Участники группы</h3>
+        <div id="usersList">
+            <div class="booking-item" style="opacity:0.5;font-size:14px;">Загрузка...</div>
         </div>
 
         <button class="btn-outline" onclick="exportBookings()">📤 Экспорт броней</button>
@@ -636,7 +741,7 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <span class="number blue" id="notifTotal">0</span>
-                <span class="label">Всего предметов</span>
+                <span class="label">Всего заданий</span>
             </div>
             <div class="stat-card">
                 <span class="number green" id="notifOn">0</span>
@@ -649,14 +754,49 @@
         </div>
 
         <p style="font-size:14px;color:var(--tg-theme-hint-color);margin-bottom:14px;">
-            🔔 Включите напоминания — они придут за 1 час до пары.
+            📌 Включите уведомления о сроках сдачи заданий по предметам.
         </p>
 
         <div id="notificationsList"></div>
 
         <div class="info-block">
             <strong>⏰ Как это работает</strong>
-            <p>Бот проверит расписание и отправит вам уведомление за 60 минут до начала занятия. Чтобы получать уведомления, бот должен быть запущен.</p>
+            <p>Бот проверит задания и отправит вам уведомление за 1 день до дедлайна.</p>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== ВКЛАДКА 5: ОЧЕРЕДЬ ===== -->
+    <!-- ============================================================ -->
+    <div id="tab-queue" class="tab-content">
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="number blue" id="queueTotal">0</span>
+                <span class="label">Всего студентов</span>
+            </div>
+            <div class="stat-card">
+                <span class="number green" id="queueBooked">0</span>
+                <span class="label">С темами</span>
+            </div>
+            <div class="stat-card">
+                <span class="number orange" id="queueFree">0</span>
+                <span class="label">Свободно тем</span>
+            </div>
+        </div>
+
+        <h3 style="font-weight:600;font-size:16px;margin-bottom:12px;">📋 Очередь на доклады</h3>
+        <p style="font-size:14px;color:var(--tg-theme-hint-color);margin-bottom:14px;">
+            Список студентов, забронировавших темы. Помогает отслеживать очередь во время пары.
+        </p>
+
+        <div id="queueContainer">
+            <div class="student-queue">
+                <h4>👥 Список студентов <span id="queueCount">0 чел.</span></h4>
+                <div id="queueList">
+                    <div class="empty-queue">Пока никто не забронировал тему</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -664,7 +804,6 @@
     <!-- ===== SCRIPT ===== -->
     <!-- ============================================================ -->
     <script>
-        // --- TELEGRAM ---
         let tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -677,7 +816,7 @@
         let statusDiv = document.getElementById('status');
         let currentFilter = 'all';
 
-        // --- ДАННЫЕ ---
+        // ===== ДАННЫЕ =====
         const scheduleData = [
             { date: '01.09', day: 'Вт', groups: 'МН-4-25-01', time: '20:00-21:20', subject: 'Научно-исследовательская работа (П)', teacher: 'доц. Суслов Е.Ю.', type: 'ПЗ' },
             { date: '01.09', day: 'Вт', groups: 'МН-4-25-02', time: '20:00-21:20', subject: 'Научно-исследовательская работа (П)', teacher: 'доц. Кучина О.В.', type: 'ПЗ' },
@@ -694,12 +833,18 @@
             { date: '17.09', day: 'Чт', groups: 'МН-4-25-02', time: '18:30-21:20', subject: 'Управление бизнес-процессами', teacher: 'доц. Золотухин В.А.', type: 'ПЗ' },
             { date: '22.09', day: 'Вт', groups: 'МН-4-25-01', time: '18:30-21:20', subject: 'Управление бизнес-процессами', teacher: 'доц. Золотухин В.А.', type: 'ПЗ' },
             { date: '22.09', day: 'Вт', groups: 'МН-4-25-02', time: '18:30-21:20', subject: 'Проектное управление устойчивым развитием организаций', teacher: 'проф. Суслов Ю.Е.', type: 'ПЗ' },
-            { date: '23.09', day: 'Ср', groups: 'МН-4-25-01', time: '18:30-21:20', subject: 'Иностранный язык профессиональных коммуникаций', teacher: 'доц. Санжарова О.Н.', type: 'ПЗ' },
             { date: '24.09', day: 'Чт', groups: 'МН-4-25-01', time: '18:30-21:20', subject: 'Проектное управление устойчивым развитием организаций', teacher: 'проф. Суслов Ю.Е.', type: 'ПЗ' },
             { date: '24.09', day: 'Чт', groups: 'МН-4-25-02', time: '18:30-21:20', subject: 'Управление бизнес-процессами', teacher: 'доц. Золотухин В.А.', type: 'ПЗ' },
             { date: '29.09', day: 'Вт', groups: 'МН-4-25-01', time: '18:30-21:20', subject: 'Управление бизнес-процессами', teacher: 'доц. Золотухин В.А.', type: 'ПЗ' },
             { date: '29.09', day: 'Вт', groups: 'МН-4-25-02', time: '18:30-21:20', subject: 'Проектное управление устойчивым развитием организаций', teacher: 'проф. Суслов Ю.Е.', type: 'ПЗ' },
             { date: '30.09', day: 'Ср', groups: 'МН-4-25-02', time: '18:30-21:20', subject: 'Иностранный язык профессиональных коммуникаций', teacher: 'доц. Санжарова О.Н.', type: 'ПЗ' },
+        ];
+
+        const assignmentsData = [
+            { subject: 'Управление программами и портфелями проектов', deadline: '15.09', task: 'Подготовить доклад по выбранной теме', icon: '📊' },
+            { subject: 'Проектное управление устойчивым развитием организаций', deadline: '20.09', task: 'Сдать кейс-стади по устойчивому развитию', icon: '🌱' },
+            { subject: 'Управление бизнес-процессами', deadline: '25.09', task: 'Разработать модель бизнес-процесса', icon: '🔄' },
+            { subject: 'Иностранный язык профессиональных коммуникаций', deadline: '30.09', task: 'Подготовить презентацию на английском', icon: '🌍' },
         ];
 
         const topicsData = [
@@ -715,14 +860,114 @@
             { id: 10, title: 'Человеческий фактор в стратегии', icon: '👥' }
         ];
 
-        // --- СОСТОЯНИЕ ---
+        // ===== СОСТОЯНИЕ =====
         let bookings = [];
         let myBookings = [];
         let notificationSettings = {};
+        let isRegistered = false;
+        let userData = null;
 
-        // ============================================================
-        // РАСПИСАНИЕ
-        // ============================================================
+        // ===== РЕГИСТРАЦИЯ =====
+        function checkRegistrationStatus() {
+            const saved = localStorage.getItem('userRegistered');
+            if (saved === 'true') {
+                const savedData = JSON.parse(localStorage.getItem('userData') || '{}');
+                if (savedData.first_name) {
+                    isRegistered = true;
+                    userData = savedData;
+                    showUserInfo();
+                    return;
+                }
+            }
+            showRegistrationForm();
+        }
+
+        function showRegistrationForm() {
+            document.getElementById('registrationStatus').style.display = 'block';
+            document.getElementById('regStatusTitle').textContent = '🔑 Требуется регистрация';
+            document.getElementById('regStatusText').textContent = 'Заполните форму ниже, чтобы зарегистрироваться в системе.';
+            document.getElementById('registrationForm').style.display = 'block';
+            document.getElementById('userInfoCard').style.display = 'none';
+        }
+
+        function showUserInfo() {
+            document.getElementById('registrationStatus').style.display = 'block';
+            document.getElementById('regStatusTitle').textContent = '✅ Вы зарегистрированы';
+            document.getElementById('regStatusText').textContent = `Добро пожаловать, ${userData.first_name} ${userData.last_name}!`;
+            document.getElementById('registrationForm').style.display = 'none';
+            document.getElementById('userInfoCard').style.display = 'block';
+            document.getElementById('userInfoText').textContent = 
+                `👤 ${userData.first_name} ${userData.last_name}\n👥 Группа: ${userData.group_name}`;
+        }
+
+        function registerUser() {
+            const firstName = document.getElementById('regFirstName').value.trim();
+            const lastName = document.getElementById('regLastName').value.trim();
+            const groupName = document.getElementById('regGroup').value;
+
+            if (!firstName || !lastName) {
+                showStatus('error', '❌ Пожалуйста, заполните все поля');
+                return;
+            }
+
+            const data = {
+                action: 'register_user',
+                first_name: firstName,
+                last_name: lastName,
+                group_name: groupName,
+                user_id: user ? user.id : 0
+            };
+
+            tg.MainButton.text = '✅ Подтвердить регистрацию';
+            tg.MainButton.show();
+            tg.MainButton.onClick(() => {
+                tg.sendData(JSON.stringify(data));
+                tg.MainButton.hide();
+
+                localStorage.setItem('userRegistered', 'true');
+                localStorage.setItem('userData', JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    group_name: groupName
+                }));
+
+                isRegistered = true;
+                userData = { first_name: firstName, last_name: lastName, group_name: groupName };
+                showUserInfo();
+                showStatus('success', '✅ Регистрация успешно завершена!');
+                loadUsersList();
+            });
+        }
+
+        function editProfile() {
+            document.getElementById('registrationForm').style.display = 'block';
+            document.getElementById('userInfoCard').style.display = 'none';
+            document.getElementById('regStatusTitle').textContent = '✏️ Редактирование профиля';
+            document.getElementById('regStatusText').textContent = 'Обновите свои данные.';
+            
+            if (userData) {
+                document.getElementById('regFirstName').value = userData.first_name || '';
+                document.getElementById('regLastName').value = userData.last_name || '';
+                document.getElementById('regGroup').value = userData.group_name || 'МН-4-25-01';
+            }
+        }
+
+        function loadUsersList() {
+            const data = {
+                action: 'get_users_list',
+                user_id: user ? user.id : 0
+            };
+            tg.sendData(JSON.stringify(data));
+            
+            const container = document.getElementById('usersList');
+            container.innerHTML = `
+                <div class="booking-item">
+                    <span>📋 Загрузка списка...</span>
+                </div>
+            `;
+        }
+
+        // ===== РАСПИСАНИЕ =====
         function renderSchedule(filter = 'all') {
             const container = document.getElementById('scheduleContainer');
             container.innerHTML = '';
@@ -797,9 +1042,7 @@
             document.getElementById('progressText').textContent = progress + '% семестра пройдено';
         }
 
-        // ============================================================
-        // ФИЛЬТРЫ
-        // ============================================================
+        // ===== ФИЛЬТРЫ =====
         function setupFilters() {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -811,9 +1054,7 @@
             });
         }
 
-        // ============================================================
-        // ТЕМЫ ДОКЛАДОВ
-        // ============================================================
+        // ===== ТЕМЫ ДОКЛАДОВ =====
         function renderTopics() {
             const grid = document.getElementById('topicsGrid');
             grid.innerHTML = '';
@@ -822,16 +1063,12 @@
                 const isBooked = bookings.some(b => b.topic === topic.title);
                 const isMy = myBookings.some(b => b.topic === topic.title);
                 const btn = document.createElement('button');
-                btn.className = `topic-btn${isBooked ? ' booked' : ''}`;
+                btn.className = `topic-btn${isBooked ? ' booked' : ''}${isMy && isBooked ? ' my-booking' : ''}`;
                 btn.setAttribute('data-topic', topic.title);
                 btn.innerHTML = `<span class="icon">${topic.icon}</span>${topic.title}`;
 
                 if (!isBooked) {
                     btn.addEventListener('click', () => handleTopicBooking(topic.title));
-                } else if (isMy) {
-                    btn.style.borderColor = '#4CAF50';
-                    btn.style.opacity = '0.85';
-                    btn.innerHTML += ' ✅';
                 }
                 grid.appendChild(btn);
             });
@@ -868,13 +1105,12 @@
                 renderTopics();
                 renderMyBookings();
                 renderNotifications();
+                renderQueue();
                 showStatus('success', `✅ Доклад "${topic}" забронирован!`);
             });
         }
 
-        // ============================================================
-        // ЛИЧНЫЙ КАБИНЕТ
-        // ============================================================
+        // ===== ЛИЧНЫЙ КАБИНЕТ =====
         function renderMyBookings() {
             const list = document.getElementById('myBookingsList');
             list.innerHTML = '';
@@ -908,6 +1144,7 @@
             renderMyBookings();
             renderTopics();
             renderNotifications();
+            renderQueue();
             showStatus('info', '❌ Бронирование отменено');
         }
 
@@ -930,38 +1167,25 @@
             showStatus('success', '✅ Файл скачан');
         }
 
-        // ============================================================
-        // УВЕДОМЛЕНИЯ
-        // ============================================================
+        // ===== УВЕДОМЛЕНИЯ =====
         function renderNotifications() {
             const container = document.getElementById('notificationsList');
             container.innerHTML = '';
 
-            const subjects = [...new Set(scheduleData
-                .filter(item => item.subject !== 'Научно-исследовательская работа (П)')
-                .map(item => item.subject)
-            )];
-
-            subjects.forEach(subject => {
-                const nextClass = scheduleData
-                    .filter(item => item.subject === subject && (item.groups.includes('МН-4-25-01') || item.groups.includes('МН-4-25-01/02')))
-                    .sort((a, b) => a.date.localeCompare(b.date))[0];
-
-                if (!nextClass) return;
-
-                const isEnabled = notificationSettings[subject] !== undefined ? notificationSettings[subject] : true;
+            assignmentsData.forEach(assignment => {
+                const isEnabled = notificationSettings[assignment.subject] !== undefined ? notificationSettings[assignment.subject] : true;
 
                 const div = document.createElement('div');
                 div.className = 'notif-item';
                 div.innerHTML = `
-                    <span class="time">${nextClass.time}</span>
-                    <span class="text">${subject}<small>${nextClass.date} · ${nextClass.teacher}</small></span>
-                    <div class="toggle${isEnabled ? ' active' : ''}" onclick="toggleNotif('${subject}')"></div>
+                    <span class="icon">${assignment.icon}</span>
+                    <span class="text">${assignment.subject}<small>📅 Дедлайн: ${assignment.deadline} · ${assignment.task}</small></span>
+                    <div class="toggle${isEnabled ? ' active' : ''}" onclick="toggleNotif('${assignment.subject}')"></div>
                 `;
                 container.appendChild(div);
             });
 
-            document.getElementById('notifTotal').textContent = subjects.length;
+            document.getElementById('notifTotal').textContent = assignmentsData.length;
             const on = Object.values(notificationSettings).filter(v => v === true).length;
             const off = Object.values(notificationSettings).filter(v => v === false).length;
             document.getElementById('notifOn').textContent = on;
@@ -976,7 +1200,8 @@
                 action: 'update_notifications',
                 subject: subject,
                 enabled: notificationSettings[subject],
-                user_id: user ? user.id : 0
+                user_id: user ? user.id : 0,
+                type: 'assignment'
             };
             tg.sendData(JSON.stringify(data));
 
@@ -984,9 +1209,35 @@
             showStatus('info', `🔔 Уведомления для "${subject}" ${status}`);
         }
 
-        // ============================================================
-        // СКАЧИВАНИЕ PDF
-        // ============================================================
+        // ===== ОЧЕРЕДЬ =====
+        function renderQueue() {
+            const list = document.getElementById('queueList');
+            list.innerHTML = '';
+
+            if (bookings.length === 0) {
+                list.innerHTML = '<div class="empty-queue">Пока никто не забронировал тему</div>';
+                document.getElementById('queueCount').textContent = '0 чел.';
+                return;
+            }
+
+            bookings.forEach((b, index) => {
+                const div = document.createElement('div');
+                div.className = 'queue-item';
+                div.innerHTML = `
+                    <span class="num">${index + 1}.</span>
+                    <span class="name">${b.user}</span>
+                    <span class="topic-name">${b.topic}</span>
+                `;
+                list.appendChild(div);
+            });
+
+            document.getElementById('queueCount').textContent = `${bookings.length} чел.`;
+            document.getElementById('queueTotal').textContent = bookings.length;
+            document.getElementById('queueBooked').textContent = bookings.length;
+            document.getElementById('queueFree').textContent = topicsData.length - bookings.length;
+        }
+
+        // ===== СКАЧИВАНИЕ PDF =====
         function downloadSchedule() {
             const el = document.getElementById('scheduleContainer');
             const status = document.getElementById('status');
@@ -1031,9 +1282,7 @@
                 });
         }
 
-        // ============================================================
-        // ВСПОМОГАТЕЛЬНЫЕ
-        // ============================================================
+        // ===== ВСПОМОГАТЕЛЬНЫЕ =====
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -1048,14 +1297,14 @@
             setTimeout(() => statusDiv.classList.remove('show'), 4000);
         }
 
-        // ============================================================
-        // ЗАПУСК
-        // ============================================================
+        // ===== ЗАПУСК =====
         renderSchedule();
         setupFilters();
         renderTopics();
         renderMyBookings();
         renderNotifications();
+        renderQueue();
+        checkRegistrationStatus();
 
         tg.BackButton.show();
         tg.BackButton.onClick(() => tg.close());
